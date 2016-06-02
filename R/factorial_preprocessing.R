@@ -40,7 +40,7 @@ factorial_preprocessing <- function(text){
                 removeNumbers = choices$removeNumbers[i],
                 toLower = choices$lowercase[i],
                 stem = choices$stem[i],
-                ignoredFreatures = quanteda::stopwords())
+                ignoredFeatures = quanteda::stopwords())
         } else {
             # generate dfm
             current_dfm <- quanteda::dfm(
