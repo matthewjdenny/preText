@@ -30,6 +30,7 @@ factorial_preprocessing <- function(text){
 
     # loop over different preprocessing decisions
     for (i in 1:nrow(choices)) {
+        cat("Currently working on combination",i,"of",nrow(choices),"\n")
         # need a conditional for removing stopwords
         if (choices$removeStopwords[i]) {
             # generate dfm
@@ -37,16 +38,16 @@ factorial_preprocessing <- function(text){
                 text,
                 removePunct = choices$removePunctuation[i],
                 removeNumbers = choices$removeNumbers[i],
-                tolower = choices$lowercase[i],
+                toLower = choices$lowercase[i],
                 stem = choices$stem[i],
-                ignoredFreatures=stopwords())
+                ignoredFreatures = quanteda::stopwords())
         } else {
             # generate dfm
             current_dfm <- quanteda::dfm(
                 text,
                 removePunct = choices$removePunctuation[i],
                 removeNumbers = choices$removeNumbers[i],
-                tolower = choices$lowercase[i],
+                toLower = choices$lowercase[i],
                 stem = choices$stem[i])
         }
 
