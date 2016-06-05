@@ -5,11 +5,22 @@
 \title{A function to perform factorial preprocessing of a corpus of texts
 into document-frequency matrices.}
 \usage{
-factorial_preprocessing(text)
+factorial_preprocessing(text, use_ngrams = TRUE,
+  filter_infrequent_terms = TRUE, infrequent_term_threshold = 0.01)
 }
 \arguments{
 \item{text}{A vector of strings (one per document) or Quanteda corpus object
 from which we wish to form a document-term matrix.}
+
+\item{use_ngrams}{Option to extract 1,2, and 3-grams from the text as another
+potential preprocessing step. Defualts to TRUE.}
+
+\item{filter_infrequent_terms}{Option to remove all terms appearing in less
+than 1 percent of documents as a preprocessing decision. Defaults to TRUE.}
+
+\item{infrequent_term_threshold}{A proportion threshold at which infrequent
+terms are to be filtered. Defaults to 0.01 (terms that appear in less than
+1 percent of documents).}
 }
 \value{
 A list object containing permutations of the document-term matrix.
