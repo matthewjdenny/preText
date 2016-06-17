@@ -2,4 +2,6 @@
 
 export(factorial_preprocessing)
 export(remove_infrequent_terms)
+export(temporal_filter)
+export(wordfish_comparison)
 import(quanteda)
