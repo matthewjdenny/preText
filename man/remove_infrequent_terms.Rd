@@ -4,13 +4,18 @@
 \alias{remove_infrequent_terms}
 \title{Remove sparse terms from quanteda dfm.}
 \usage{
-remove_infrequent_terms(dfm_object, proportion_threshold = 0.01)
+remove_infrequent_terms(dfm_object, proportion_threshold = 0.01,
+  indices = NULL)
 }
 \arguments{
 \item{dfm_object}{A quanteda dfm() object.}
 
 \item{proportion_threshold}{proportion of documents a term must be included in
 to be included in the dfm.}
+
+\item{indices}{Defaults to NULL. If not NULL, then it must be a numeric
+vector specifying the column indices of terms the user would like to remove.
+Useful for removing specific terms.}
 }
 \value{
 A reduced dfm.
