@@ -29,24 +29,29 @@ temporal_filter <- function(dfm_object,
     # determine the number of years a term must appear in to be kept
     threshold <- ceiling(proportion_threshold * num_years)
 
+    cat("threshold",threshold,"\n")
     # loop over years
     for(i in 1:num_years) {
         inds <- which(years == unique_years[i])
-        temp <- temp_dfm[inds,]
-        counts <- colSums(temp)
+        if(length(inds) > 0) {
+            temp <- temp_dfm[inds,]
+            counts <- colSums(temp)
 
-        # figure out which counts are greater than 0 and set them to 1
-        gz <- which(counts > 0 )
-        if (length(gz) > 0) {
-            counts[gz] <- 1
+            # figure out which counts are greater than 0 and set them to 1
+            gz <- which(counts > 0 )
+            if (length(gz) > 0) {
+                counts[gz] <- 1
+            }
+
+            #store
+            year_counts[i,] <- counts
         }
-
-        #store
-        year_counts[i,] <- counts
     }
 
     # get column sums
     year_totals <- colSums(year_counts)
+
+    cat("year total sum",sum(year_totals),"\n")
 
     # determine which column
     remove <- as.numeric(which(year_totals < threshold))
