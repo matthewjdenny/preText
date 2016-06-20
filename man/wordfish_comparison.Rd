@@ -5,7 +5,7 @@
 \title{Wordfish Comparison.}
 \usage{
 wordfish_comparison(dfm_object_list, years, anchors = c(1, 24),
-  proportion_threshold = 1)
+  proportion_threshold = 1, document_inidices = NULL)
 }
 \arguments{
 \item{dfm_object_list}{A list of quanteda dfm() objects.}
@@ -17,6 +17,9 @@ estimates. Defaults to c(1,24) which should work for the UK parlaiment docs.}
 
 \item{proportion_threshold}{proportion of years a term must be included in
 to be included in the Wordfish analysis.}
+
+\item{document_inidices}{An option vector of row indicies to be used. Useful
+for using a subset of the data for analysis.}
 }
 \value{
 A result list object

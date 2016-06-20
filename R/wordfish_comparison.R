@@ -8,12 +8,15 @@
 #' estimates. Defaults to c(1,24) which should work for the UK parlaiment docs.
 #' @param proportion_threshold proportion of years a term must be included in
 #' to be included in the Wordfish analysis.
+#' @param document_inidices An option vector of row indicies to be used. Useful
+#' for using a subset of the data for analysis.
 #' @return A result list object
 #' @export
 wordfish_comparison <- function(dfm_object_list,
                             years,
                             anchors = c(1,24),
-                            proportion_threshold = 1){
+                            proportion_threshold = 1,
+                            document_inidices = NULL){
 
     # get the number of dfms
     num_dfms <- length(dfm_object_list)
@@ -26,11 +29,30 @@ wordfish_comparison <- function(dfm_object_list,
         cat("Currently working on dfm",i,"of",num_dfms,"\n")
         ptm <- proc.time()
         # apply temporal filter
-        dfm <- temporal_filter(dfm_object_list[[i]],
-                               years,
+        cur_dfm <- dfm_object_list[[i]]
+
+        if (!is.null(document_inidices)) {
+            cur_dfm <- cur_dfm[document_inidices,]
+            doc_counts <- quanteda::colSums(cur_dfm)
+            rm_words <- which(doc_counts == 0)
+            if(length(rm_words) > 0) {
+                cur_dfm <- cur_dfm[,-rm_words]
+            }
+            reduced_years <- years[document_inidices]
+        } else {
+            reduced_years <- years
+        }
+
+        print(cur_dfm)
+
+        dfm <- temporal_filter(cur_dfm,
+                               reduced_years,
                                proportion_threshold = proportion_threshold)
+
+        print(dfm)
+
         # run wordfish
-        result <- quanteda::textmodel_wordfish(dfm,dir = c(1,24))
+        result <- quanteda::textmodel_wordfish(dfm,dir = anchors)
 
         # create a summary data frame
         tp <- data.frame(document = dfm@Dimnames$docs[order(result@theta)],
