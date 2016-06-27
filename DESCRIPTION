@@ -9,7 +9,11 @@ Maintainer: Matthew J. Denny <mdenny@psu.edu>
 Description: This package will eventually provide a number of functions to asses the effects of different text preprocessing decisions on the inferences drawn from the resulting document-term matrices they generate. 
 License: GPL-3
 Imports:
-    quanteda
+    quanteda,
+	gridExtra,
+	ggplot2,
+	vegan,
+	grid
 Depends:
     R (>= 3.3.0)
 RoxygenNote: 5.0.1
