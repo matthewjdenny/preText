@@ -13,7 +13,8 @@ Imports:
 	gridExtra,
 	ggplot2,
 	vegan,
-	grid
+	grid,
+	parallel
 Depends:
     R (>= 3.3.0)
 RoxygenNote: 5.0.1
