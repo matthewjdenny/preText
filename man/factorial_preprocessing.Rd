@@ -6,7 +6,8 @@
 into document-frequency matrices.}
 \usage{
 factorial_preprocessing(text, use_ngrams = TRUE,
-  filter_infrequent_terms = TRUE, infrequent_term_threshold = 0.01)
+  filter_infrequent_terms = TRUE, infrequent_term_threshold = 0.01,
+  parallel = FALSE, cores = 1)
 }
 \arguments{
 \item{text}{A vector of strings (one per document) or Quanteda corpus object
@@ -21,6 +22,12 @@ than 1 percent of documents as a preprocessing decision. Defaults to TRUE.}
 \item{infrequent_term_threshold}{A proportion threshold at which infrequent
 terms are to be filtered. Defaults to 0.01 (terms that appear in less than
 1 percent of documents).}
+
+\item{parallel}{Logical indicating whether factorial prerpocessing shoudl be
+performed in parallel. Defualts to FALSE.}
+
+\item{cores}{Defualts to 1, can be set to any number less than or equal to
+the number of cores on one's computer.}
 }
 \value{
 A list object containing permutations of the document-term matrix.
