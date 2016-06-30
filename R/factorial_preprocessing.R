@@ -85,6 +85,7 @@ factorial_preprocessing <- function(text,
             cl = cl,
             x = 1:nrow(choices),
             fun = parallel_preprocess,
+            choices = choices,
             text = text,
             infrequent_term_threshold = infrequent_term_threshold)
         # stop the cluster when we are done
