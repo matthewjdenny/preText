@@ -1,8 +1,14 @@
 parallel_preprocess <- function(i,
                                 choices,
                                 text,
-                                infrequent_term_threshold){
+                                infrequent_term_threshold,
+                                intermediate_directory){
+
+    setwd(intermediate_directory)
+
     cat("Currently working on combination",i,"of",nrow(choices),"\n")
+    ptm <- proc.time()
+
     # need a conditional for removing stopwords
     if (choices$removeStopwords[i]) {
         # generate dfm
@@ -51,6 +57,11 @@ parallel_preprocess <- function(i,
             proportion_threshold = infrequent_term_threshold)
     }
 
+    t2 <- proc.time() - ptm
+    ret <- paste("Complete in:",t2[[3]],"seconds")
+
     # store the current dfm
-    return(current_dfm)
+    save(current_dfm, file = paste("intermediate_dfm_",i,".Rdata",sep = ""))
+
+    return(ret)
 }
