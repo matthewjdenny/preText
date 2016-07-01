@@ -12,10 +12,20 @@
 #' @param infrequent_term_threshold A proportion threshold at which infrequent
 #' terms are to be filtered. Defaults to 0.01 (terms that appear in less than
 #' 1 percent of documents).
-#' @param parallel Logical indicating whether factorial prerpocessing shoudl be
+#' @param parallel Logical indicating whether factorial prerpocessing should be
 #' performed in parallel. Defualts to FALSE.
 #' @param cores Defualts to 1, can be set to any number less than or equal to
 #' the number of cores on one's computer.
+#' @param intermediate_directory Optional path to a directory where each dfm
+#' will be saved as an intermediate step. The file names will follow the
+#' convention intermediate_dfm_i.Rdata, where i is the index of the combination
+#' of preprocessing choices. The function will then attempt to read all of the
+#' dfm's back into a list if return_results = TRUE (by default), or simply end
+#' the function call if return_results = FALSE. This can be a useful option if
+#' the user is preprocessing a corpus that would make a dfm list that was
+#' impractical to work with due to its size.
+#' @param return_results Defaults to TRUE, can be set to FALSE to prevent an
+#' overly large dfm list from being created.
 #' @return A list object containing permutations of the document-term matrix.
 #' @export
 factorial_preprocessing <- function(text,
@@ -23,7 +33,21 @@ factorial_preprocessing <- function(text,
                                     filter_infrequent_terms = TRUE,
                                     infrequent_term_threshold = 0.01,
                                     parallel = FALSE,
-                                    cores = 1){
+                                    cores = 1,
+                                    intermediate_directory = NULL,
+                                    return_results = TRUE){
+
+    # set some intermediate variables
+    intermediate_dfm <- NULL
+    cur_directory <- getwd()
+
+    # set working directory if given
+    if (!is.null(intermediate_directory)) {
+        setwd(intermediate_directory)
+    } else {
+        intermediate_directory <- cur_directory
+    }
+
     # check to see if input is a corpus object. If it is, extract the texts
     if (class(text)[1] == "corpus") {
         text <- quanteda::texts(text)
@@ -87,7 +111,8 @@ factorial_preprocessing <- function(text,
             fun = parallel_preprocess,
             choices = choices,
             text = text,
-            infrequent_term_threshold = infrequent_term_threshold)
+            infrequent_term_threshold = infrequent_term_threshold,
+            intermediate_directory = intermediate_directory)
         # stop the cluster when we are done
         parallel::stopCluster(cl)
     } else {
@@ -147,11 +172,23 @@ factorial_preprocessing <- function(text,
         }
     }
 
-
+    # if we are returning results and using parallel, then read in the
+    # intermediate dfm's
+    if (return_results & parallel) {
+        dfm_list <- vector(mode = "list", length = nrow(choices))
+        for (i in 1:length(dfm_list)) {
+            load(paste("intermediate_dfm_",i,".Rdata",sep = ""))
+            dfm_list <- current_dfm
+        }
+    }
     # combine metadata and dfm list and return
     return_list <- list(choices = choices,
                         dfm_list = dfm_list)
 
+    # reset the directory
+    setwd(cur_directory)
+
+    # return results
     return(return_list)
 }
 

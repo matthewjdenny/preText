@@ -7,7 +7,8 @@ into document-frequency matrices.}
 \usage{
 factorial_preprocessing(text, use_ngrams = TRUE,
   filter_infrequent_terms = TRUE, infrequent_term_threshold = 0.01,
-  parallel = FALSE, cores = 1)
+  parallel = FALSE, cores = 1, intermediate_directory = NULL,
+  return_results = TRUE)
 }
 \arguments{
 \item{text}{A vector of strings (one per document) or Quanteda corpus object
@@ -23,11 +24,23 @@ than 1 percent of documents as a preprocessing decision. Defaults to TRUE.}
 terms are to be filtered. Defaults to 0.01 (terms that appear in less than
 1 percent of documents).}
 
-\item{parallel}{Logical indicating whether factorial prerpocessing shoudl be
+\item{parallel}{Logical indicating whether factorial prerpocessing should be
 performed in parallel. Defualts to FALSE.}
 
 \item{cores}{Defualts to 1, can be set to any number less than or equal to
 the number of cores on one's computer.}
+
+\item{intermediate_directory}{Optional path to a directory where each dfm
+will be saved as an intermediate step. The file names will follow the
+convention intermediate_dfm_i.Rdata, where i is the index of the combination
+of preprocessing choices. The function will then attempt to read all of the
+dfm's back into a list if return_results = TRUE (by default), or simply end
+the function call if return_results = FALSE. This can be a useful option if
+the user is preprocessing a corpus that would make a dfm list that was
+impractical to work with due to its size.}
+
+\item{return_results}{Defaults to TRUE, can be set to FALSE to prevent an
+overly large dfm list from being created.}
 }
 \value{
 A list object containing permutations of the document-term matrix.

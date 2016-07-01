@@ -3,6 +3,7 @@
 export(document_position_plots)
 export(factorial_preprocessing)
 export(mantel_comparison)
+export(optimal_k_comparison)
 export(remove_infrequent_terms)
 export(scaling_comparison)
 export(temporal_filter)
