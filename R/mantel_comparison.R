@@ -34,6 +34,10 @@ mantel_comparison <- function(distance_matrices,
                                   "99th_pct_null_stat",
                                   "difference")
 
+    # set default names
+    rownames(result_summary) <- as.character(1:(num_dms*(num_dms - 1)/2))
+    names(result_list) <- as.character(1:(num_dms*(num_dms - 1)))
+
     if (!is.null(names)) {
         colnames(mantel_matrix) <- rownames(mantel_matrix) <- names
     }
