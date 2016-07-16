@@ -8,7 +8,7 @@ into document-frequency matrices.}
 factorial_preprocessing(text, use_ngrams = TRUE,
   filter_infrequent_terms = TRUE, infrequent_term_threshold = 0.01,
   parallel = FALSE, cores = 1, intermediate_directory = NULL,
-  return_results = TRUE)
+  parameterization_range = NULL, return_results = TRUE)
 }
 \arguments{
 \item{text}{A vector of strings (one per document) or Quanteda corpus object
@@ -38,6 +38,10 @@ dfm's back into a list if return_results = TRUE (by default), or simply end
 the function call if return_results = FALSE. This can be a useful option if
 the user is preprocessing a corpus that would make a dfm list that was
 impractical to work with due to its size.}
+
+\item{parameterization_range}{Defaults to NULL, but can be set to a numeric
+vector of indexes relating to preprocessing decisions. This can be used to
+restart large analyses after power failure.}
 
 \item{return_results}{Defaults to TRUE, can be set to FALSE to prevent an
 overly large dfm list from being created.}

@@ -24,6 +24,9 @@
 #' the function call if return_results = FALSE. This can be a useful option if
 #' the user is preprocessing a corpus that would make a dfm list that was
 #' impractical to work with due to its size.
+#' @param parameterization_range Defaults to NULL, but can be set to a numeric
+#' vector of indexes relating to preprocessing decisions. This can be used to
+#' restart large analyses after power failure.
 #' @param return_results Defaults to TRUE, can be set to FALSE to prevent an
 #' overly large dfm list from being created.
 #' @return A list object containing permutations of the document-term matrix.
@@ -35,6 +38,7 @@ factorial_preprocessing <- function(text,
                                     parallel = FALSE,
                                     cores = 1,
                                     intermediate_directory = NULL,
+                                    parameterization_range = NULL,
                                     return_results = TRUE){
 
     # set some intermediate variables
@@ -100,14 +104,21 @@ factorial_preprocessing <- function(text,
     # create a list object in which to store the different dfm's
     dfm_list <- vector(mode = "list", length = nrow(choices))
 
+    # row range to work on.
+    rows_to_preprocess <- 1:nrow(choices)
+    if(!is.null(parameterization_range)){
+        rows_to_preprocess <- parameterization_range
+    }
+
     if (parallel) {
-        cat("Preprocessing documents",nrow(choices),"different ways on",
+        cat("Preprocessing documents",length(rows_to_preprocess),
+            "different ways on",
             cores,"cores. This may take a while...\n")
         cl <- parallel::makeCluster(getOption("cl.cores", cores))
 
         dfm_list <- parallel::clusterApplyLB(
             cl = cl,
-            x = 1:nrow(choices),
+            x = rows_to_preprocess,
             fun = parallel_preprocess,
             choices = choices,
             text = text,
@@ -117,7 +128,7 @@ factorial_preprocessing <- function(text,
         parallel::stopCluster(cl)
     } else {
         # loop over different preprocessing decisions
-        for (i in 1:nrow(choices)) {
+        for (i in rows_to_preprocess) {
             cat("Currently working on combination",i,"of",nrow(choices),"\n")
             # need a conditional for removing stopwords
             if (choices$removeStopwords[i]) {
