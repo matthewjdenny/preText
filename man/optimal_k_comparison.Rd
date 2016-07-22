@@ -4,14 +4,28 @@
 \alias{optimal_k_comparison}
 \title{Optimal Topic Model k Comparison}
 \usage{
-optimal_k_comparison(dfm_object_list, interval = c(2, 500), names = NULL,
-  parallel = FALSE, cores = 1)
+optimal_k_comparison(cross_validation_train_document_indicies,
+  cross_validation_test_document_indicies, dfm_object_list = NULL,
+  topics = c(2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100), names = NULL,
+  parallel = FALSE, cores = 1, intermediate_file_directory = NULL,
+  intermediate_file_names = NULL)
 }
 \arguments{
-\item{dfm_object_list}{A list of quanteda dfm() objects.}
+\item{cross_validation_train_document_indicies}{A list of numeric vectors
+where the length of the list is equal to the number of splits to be used
+for cross validation, and each vector contains the numeric indices of
+documents to be used for taining.}
 
-\item{interval}{The maximum and minimum number of topics to be searched over
-defaults to 2 for minimum and 500 for maximum.}
+\item{cross_validation_test_document_indicies}{A list of numeric vectors
+where the length of the list is equal to the number of splits to be used
+for cross validation, and each vector contains the numeric indices of
+documents to be used for testing.}
+
+\item{dfm_object_list}{An optional list of quanteda dfm() objects. If none
+are provided, then intermediate files will be used.}
+
+\item{topics}{A numeric vector containing the numbers of topics to search
+over. Defaults to `c(2,5,10,20,30,40,50,60,70,80,90,100)`.}
 
 \item{names}{optinal names for each dfm to make downstream interpretation
 easier. Defaults to NULL.}
@@ -21,6 +35,12 @@ performed in parallel. Defualts to FALSE.}
 
 \item{cores}{Defualts to 1, can be set to any number less than or equal to
 the number of cores on one's computer.}
+
+\item{intermediate_file_directory}{Optional directory containing Rdata files
+for each of the factorial preprocessing combinations.}
+
+\item{intermediate_file_names}{Optional vector of file names for intermediate
+Rdata files -- one per combination.}
 }
 \value{
 A vector containing the optiaml k for each dfm.
