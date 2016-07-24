@@ -51,7 +51,8 @@ find_optimal_number_of_topics <- function(
     #                              interval = interval,
     #                              maximum = FALSE)
 
-    return(list(cv_perplexities = cv_perplexities,
+    ret <- list(cv_perplexities = cv_perplexities,
                 average_perplexities = average_perplexities,
-                optimal_k = optimal_k))
+                optimal_k = optimal_k)
+    return(list(results = ret))
 }

@@ -2,7 +2,7 @@ get_perplexities <- function(topics,
                              cur_dfm,
                              test_dfm){
 
-    # now calculate perplexities
+    #now calculate perplexities
     perplexities <- rep(0,length(topics))
     for (i in 1:length(topics)){
         cat("fitting model with",topics[i],"topics...\n")
