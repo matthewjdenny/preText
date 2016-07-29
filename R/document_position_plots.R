@@ -18,6 +18,8 @@ document_position_plots <- function(positions_list,
                                     colors = NULL,
                                     decision_colors = NULL){
 
+    Dim_1 <- Dim_2 <- NULL
+
     UMASS_BLUE <- rgb(51,51,153,195,maxColorValue = 255)
     UMASS_RED <- rgb(153,0,51,195,maxColorValue = 255)
     UMASS_GREEN <- rgb(0,102,102,195,maxColorValue = 255)
