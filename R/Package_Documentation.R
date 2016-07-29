@@ -10,3 +10,9 @@ NULL
 
 #' @import quanteda
 NULL
+
+#' @importFrom grDevices rgb
+NULL
+
+#' @importFrom stats quantile
+NULL
