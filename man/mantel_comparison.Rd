@@ -4,15 +4,19 @@
 \alias{mantel_comparison}
 \title{Ensemble Mantel Tests}
 \usage{
-mantel_comparison(distance_matrices, names = NULL, permutations = 999)
+mantel_comparison(distance_matrices, names = NULL, permutations = 1000,
+  base_dfm_index = 128)
 }
 \arguments{
-\item{distance_matrices}{A list of document similarity matrices.}
+\item{distance_matrices}{A list of document distance matrices.}
 
 \item{names}{Optional argument giving names for each preprocessing step.}
 
 \item{permutations}{the number of permutations to be used in each Mantel
-test. Defaults to 999.}
+test. Defaults to 1000.}
+
+\item{base_dfm_index}{Which dfm should be used as a base case for comparing
+r statistics with bootstrapped confidence intervals.}
 }
 \value{
 A result list object where the first entry is a matrix summarizing

@@ -3,10 +3,12 @@
 #' distance matrices for a list of distance matrices (one per preprocessing
 #' method) supplied by the scaling_comparison() function.
 #'
-#' @param distance_matrices A list of document similarity matrices.
+#' @param distance_matrices A list of document distance matrices.
 #' @param names Optional argument giving names for each preprocessing step.
 #' @param permutations the number of permutations to be used in each Mantel
-#' test. Defaults to 999.
+#' test. Defaults to 1000.
+#' @param base_dfm_index Which dfm should be used as a base case for comparing
+#' r statistics with bootstrapped confidence intervals.
 #' @return A result list object where the first entry is a matrix summarizing
 #' mantel test statististics. The fourth column of this matrix records the
 #' difference between the test statistic and the 99th percentile of the null
@@ -17,7 +19,8 @@
 #' @export
 mantel_comparison <- function(distance_matrices,
                               names = NULL,
-                              permutations = 999){
+                              permutations = 1000,
+                              base_dfm_index = 128){
 
     # get the number of distance matrices
     num_dms <- length(distance_matrices)
@@ -25,14 +28,15 @@ mantel_comparison <- function(distance_matrices,
     # ceate data structures to store information
     result_list <- vector(mode = "list", length = num_dms*(num_dms - 1))
     mantel_matrix <- matrix(0, nrow = num_dms, ncol = num_dms)
-    result_summary <- matrix(0, nrow = num_dms*(num_dms - 1)/2,ncol = 4)
+    result_summary <- matrix(0, nrow = num_dms*(num_dms - 1)/2,ncol = 5)
     summary_counter <- 1
     list_counter <- 1
 
     colnames(result_summary) <- c("statistic",
-                                  "p_value",
-                                  "99th_pct_null_stat",
-                                  "difference")
+                                  "p_value_one_tail",
+                                  "p_value_two_tail",
+                                  "lower_limit",
+                                  "upper_limit")
 
     # set default names
     rownames(result_summary) <- as.character(1:(num_dms*(num_dms - 1)/2))
@@ -51,15 +55,15 @@ mantel_comparison <- function(distance_matrices,
         # now loop over all of the others
         for (j in 1:num_dms) {
             if (i != j){
-                result <- vegan::mantel(distance_matrices[[i]],
-                                        distance_matrices[[j]],
-                                        permutations = permutations)
+                test_against <- distance_matrices[[j]]
+                result <- ecodist::mantel(cur_dm ~ test_against,
+                                          nperm = permutations)
                 if (j > i) {
-                    result_summary[summary_counter,1] <- result$statistic
-                    result_summary[summary_counter,2] <- result$signif
-                    result_summary[summary_counter,3] <- as.numeric(quantile(result$perm,.99))
-                    result_summary[summary_counter,4] <- as.numeric(result$statistic -
-                        quantile(result$perm,.99))
+                    result_summary[summary_counter,1] <- as.numeric(result[1])
+                    result_summary[summary_counter,2] <- as.numeric(result[2])
+                    result_summary[summary_counter,3] <- as.numeric(result[4])
+                    result_summary[summary_counter,4] <- as.numeric(result[5])
+                    result_summary[summary_counter,5] <- as.numeric(result[6])
 
                     # give things the right row names if they were provided
                     if (!is.null(names)) {
@@ -69,8 +73,7 @@ mantel_comparison <- function(distance_matrices,
 
                     summary_counter <- summary_counter + 1
                 }
-                mantel_matrix[i,j] <- as.numeric(result$statistic -
-                                                     quantile(result$perm,.99))
+                mantel_matrix[i,j] <- as.numeric(result[1])
 
                 result_list[[list_counter]] <- result
 
@@ -88,8 +91,46 @@ mantel_comparison <- function(distance_matrices,
         cat("Complete in:",t2[[3]],"seconds...\n")
     }
 
+    cat("Currently calculating mantel distance confidence intevals\n")
+    ptm <- proc.time()
+
+    summary_counter <- 1
+    result_summary2 <- matrix(0, nrow = (num_dms - 1),ncol = 3)
+    rownames(result_summary2) <- as.character(1:(num_dms - 1))
+    colnames(result_summary2) <- c("statistic",
+                                  "lower_limit",
+                                  "upper_limit")
+    anchor_dfm <- distance_matrices[[base_dfm_index]]
+    for (i in 1:num_dms) {
+
+        # get the current focal distance matrix
+        cur_dm <- distance_matrices[[i]]
+
+        if (i != base_dfm_index) {
+            result <- ecodist::mantel(anchor_dfm ~ cur_dm,
+                                      nperm = permutations)
+
+            result_summary2[summary_counter,1] <- as.numeric(result[1])
+            result_summary2[summary_counter,2] <- as.numeric(result[5])
+            result_summary2[summary_counter,3] <- as.numeric(result[6])
+
+            # give things the right row names if they were provided
+            if (!is.null(names)) {
+                rownames(result_summary2)[summary_counter] <-
+                    paste(names[i],"<->",names[base_dfm_index], sep = "")
+            }
+
+            summary_counter <- summary_counter + 1
+        }
+
+
+    }
+
+    t2 <- proc.time() - ptm
+    cat("Complete in:",t2[[3]],"seconds...\n")
+
     return(list(summary = result_summary,
-                mantel_difference_matrix = mantel_matrix,
+                difference_from_base = result_summary2,
                 raw_results = result_list))
 
 }
