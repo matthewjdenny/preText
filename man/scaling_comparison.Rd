@@ -5,7 +5,7 @@
 \title{Scaling Comparison.}
 \usage{
 scaling_comparison(dfm_object_list, dimensions = 2,
-  similarity_method = "cosine")
+  distance_method = "cosine")
 }
 \arguments{
 \item{dfm_object_list}{A list of quanteda dfm() objects.}
@@ -13,8 +13,8 @@ scaling_comparison(dfm_object_list, dimensions = 2,
 \item{dimensions}{THe number of dimensions to be used by the multidimensional
 scaling algorithm. Defualts to 2.}
 
-\item{similarity_method}{The method that should be used for calculating
-document similarities. Defualts to "cosine".}
+\item{distance_method}{The method that should be used for calculating
+document distances. Defualts to "cosine".}
 }
 \value{
 A result list object.
