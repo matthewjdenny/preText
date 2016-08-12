@@ -4,8 +4,7 @@
 \alias{mantel_comparison}
 \title{Ensemble Mantel Tests}
 \usage{
-mantel_comparison(distance_matrices, names = NULL, permutations = 1000,
-  base_dfm_index = 128)
+mantel_comparison(distance_matrices, names = NULL, permutations = 1000)
 }
 \arguments{
 \item{distance_matrices}{A list of document distance matrices.}
@@ -14,17 +13,10 @@ mantel_comparison(distance_matrices, names = NULL, permutations = 1000,
 
 \item{permutations}{the number of permutations to be used in each Mantel
 test. Defaults to 1000.}
-
-\item{base_dfm_index}{Which dfm should be used as a base case for comparing
-r statistics with bootstrapped confidence intervals.}
 }
 \value{
 A result list object where the first entry is a matrix summarizing
-mantel test statististics. The fourth column of this matrix records the
-difference between the test statistic and the 99th percentile of the null
-distribution, and is preferred for comparing between runs. A positive value
-indicates significance at atleast the 0.01 level, while a negative value
-indciates insignificance. The second object in the list is a matrix of the
+mantel test statististics. The second object in the list is a matrix of the
 values described above. The third object is a list of all raw mantel results.
 }
 \description{

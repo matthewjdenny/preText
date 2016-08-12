@@ -7,20 +7,13 @@
 #' @param names Optional argument giving names for each preprocessing step.
 #' @param permutations the number of permutations to be used in each Mantel
 #' test. Defaults to 1000.
-#' @param base_dfm_index Which dfm should be used as a base case for comparing
-#' r statistics with bootstrapped confidence intervals.
 #' @return A result list object where the first entry is a matrix summarizing
-#' mantel test statististics. The fourth column of this matrix records the
-#' difference between the test statistic and the 99th percentile of the null
-#' distribution, and is preferred for comparing between runs. A positive value
-#' indicates significance at atleast the 0.01 level, while a negative value
-#' indciates insignificance. The second object in the list is a matrix of the
+#' mantel test statististics. The second object in the list is a matrix of the
 #' values described above. The third object is a list of all raw mantel results.
 #' @export
 mantel_comparison <- function(distance_matrices,
                               names = NULL,
-                              permutations = 1000,
-                              base_dfm_index = 128){
+                              permutations = 1000){
 
     # get the number of distance matrices
     num_dms <- length(distance_matrices)
@@ -58,6 +51,8 @@ mantel_comparison <- function(distance_matrices,
                 test_against <- distance_matrices[[j]]
                 result <- ecodist::mantel(cur_dm ~ test_against,
                                           nperm = permutations)
+
+                mantel_matrix[i,j] <- as.numeric(result[1])
                 if (j > i) {
                     result_summary[summary_counter,1] <- as.numeric(result[1])
                     result_summary[summary_counter,2] <- as.numeric(result[2])
@@ -91,46 +86,8 @@ mantel_comparison <- function(distance_matrices,
         cat("Complete in:",t2[[3]],"seconds...\n")
     }
 
-    cat("Currently calculating mantel distance confidence intevals\n")
-    ptm <- proc.time()
-
-    summary_counter <- 1
-    result_summary2 <- matrix(0, nrow = (num_dms - 1),ncol = 3)
-    rownames(result_summary2) <- as.character(1:(num_dms - 1))
-    colnames(result_summary2) <- c("statistic",
-                                  "lower_limit",
-                                  "upper_limit")
-    anchor_dfm <- distance_matrices[[base_dfm_index]]
-    for (i in 1:num_dms) {
-
-        # get the current focal distance matrix
-        cur_dm <- distance_matrices[[i]]
-
-        if (i != base_dfm_index) {
-            result <- ecodist::mantel(anchor_dfm ~ cur_dm,
-                                      nperm = permutations)
-
-            result_summary2[summary_counter,1] <- as.numeric(result[1])
-            result_summary2[summary_counter,2] <- as.numeric(result[5])
-            result_summary2[summary_counter,3] <- as.numeric(result[6])
-
-            # give things the right row names if they were provided
-            if (!is.null(names)) {
-                rownames(result_summary2)[summary_counter] <-
-                    paste(names[i],"<->",names[base_dfm_index], sep = "")
-            }
-
-            summary_counter <- summary_counter + 1
-        }
-
-
-    }
-
-    t2 <- proc.time() - ptm
-    cat("Complete in:",t2[[3]],"seconds...\n")
-
     return(list(summary = result_summary,
-                difference_from_base = result_summary2,
+                mantel_matrix = mantel_matrix,
                 raw_results = result_list))
 
 }
