@@ -6,10 +6,10 @@
 #' function.
 #' @param labels A character vector with labels for each dfm, based on
 #' preprocessing choices.
-#' @param dimensions THe number of dimensions to be used by the multidimensional
+#' @param dimensions The number of dimensions to be used by the multidimensional
 #' scaling algorithm. Defualts to 2.
-#' @param similarity_method The method that should be used for calculating
-#' document similarities. Defualts to "cosine".
+#' @param distance_method The method that should be used for calculating
+#' document distances. Defualts to "cosine".
 #' @param method Should the raw distances or scaled document positions be used
 #' for scaling? can be one of c("distances","positions"), defaults to
 #' "distances".
@@ -20,21 +20,22 @@
 dfm_scaling_test <- function(scaling_results,
                              labels,
                              dimensions = 2,
-                             similarity_method = "cosine",
+                             distance_method = "cosine",
                              method = c("distances","positions"),
                              return_positions = FALSE){
 
     method <- method[1]
 
+    similarities <- NULL
     if (method == "distances") {
         # extract similarity matrix list
-        sim_mat_list <- scaling_results$similarity_matrices
+        dist_mat_list <- scaling_results$distance_matrices
 
         # get the number of dfms
-        num_dfms <- length(sim_mat_list)
+        num_dfms <- length(dist_mat_list)
 
-        ncols <- (length(lower.tri(sim_mat_list[[1]])) -
-                      nrow(sim_mat_list[[1]]))/2
+        ncols <- (length(lower.tri(dist_mat_list[[1]])) -
+                      nrow(dist_mat_list[[1]]))/2
         # ceate data structures to store information
         document_distances <- matrix(0,
                                      ncol = ncols,
@@ -42,8 +43,8 @@ dfm_scaling_test <- function(scaling_results,
 
         # populate the distance comparison matrix
         for (i in 1:num_dfms) {
-            document_distances[i,] <- sim_mat_list[[i]][
-                lower.tri(sim_mat_list[[i]])]
+            document_distances[i,] <- dist_mat_list[[i]][
+                lower.tri(dist_mat_list[[i]])]
         }
 
         # give descriptive row names
@@ -51,15 +52,16 @@ dfm_scaling_test <- function(scaling_results,
 
         document_distances <- apply(document_distances,2,rev)
         # now generate a distance matrix on this dataset
-        dfm_similarity <- proxy::simil(document_distances,
-                                       method = similarity_method,
+        dfm_distances <- proxy::dist(document_distances,
+                                       method = distance_method,
                                        diag = FALSE,
                                        by_rows = TRUE)
-        dfm_similarity <- as.matrix(dfm_similarity)
+        dfm_distances <- as.matrix(dfm_distances)
 
         # now scale this distance
-        pos <- stats::cmdscale(dfm_similarity, k = dimensions)
+        pos <- stats::cmdscale(dfm_distances, k = dimensions)
         rownames(pos)[1] <- " "
+        dists <- dfm_distances
     } else {
         # now do the same thing but on the procrustes transformed scaled document
         # positions
@@ -89,15 +91,16 @@ dfm_scaling_test <- function(scaling_results,
         document_positions <- apply(document_positions,2,rev)
 
         # now generate a distance matrix on this dataset
-        dfm_similarity2 <- proxy::simil(document_positions,
-                                        method = similarity_method,
+        dfm_distances2 <- proxy::dist(document_positions,
+                                        method = distance_method,
                                         diag = FALSE,
                                         by_rows = TRUE)
-        dfm_similarity2 <- as.matrix(dfm_similarity2)
+        dfm_distances2 <- as.matrix(dfm_distances2)
 
         # now scale this distance
-        pos <- stats::cmdscale(dfm_similarity2, k = dimensions)
+        pos <- stats::cmdscale(dfm_distances2, k = dimensions)
         rownames(pos)[1] <- " "
+        dists <- dfm_distances2
     }
 
 
@@ -164,7 +167,8 @@ dfm_scaling_test <- function(scaling_results,
                            different_from_mean)
 
     if (return_positions) {
-        return(dfm_positions)
+        return(list(dfm_positions = dfm_positions,
+                    dfm_distances = dists))
     }
 }
 

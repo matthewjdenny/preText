@@ -6,7 +6,7 @@
 mean dfm.}
 \usage{
 dfm_scaling_test(scaling_results, labels, dimensions = 2,
-  similarity_method = "cosine", method = c("distances", "positions"),
+  distance_method = "cosine", method = c("distances", "positions"),
   return_positions = FALSE)
 }
 \arguments{
@@ -16,11 +16,11 @@ function.}
 \item{labels}{A character vector with labels for each dfm, based on
 preprocessing choices.}
 
-\item{dimensions}{THe number of dimensions to be used by the multidimensional
+\item{dimensions}{The number of dimensions to be used by the multidimensional
 scaling algorithm. Defualts to 2.}
 
-\item{similarity_method}{The method that should be used for calculating
-document similarities. Defualts to "cosine".}
+\item{distance_method}{The method that should be used for calculating
+document distances. Defualts to "cosine".}
 
 \item{method}{Should the raw distances or scaled document positions be used
 for scaling? can be one of c("distances","positions"), defaults to
