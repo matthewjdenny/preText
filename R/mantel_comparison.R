@@ -15,6 +15,7 @@ mantel_comparison <- function(distance_matrices,
                               names = NULL,
                               permutations = 1000){
 
+    cur_dm <- test_against <- NULL
     # get the number of distance matrices
     num_dms <- length(distance_matrices)
 
@@ -43,13 +44,14 @@ mantel_comparison <- function(distance_matrices,
         cat("Currently working on preprocessing choice",i,"of",num_dms,"\n")
         ptm <- proc.time()
         # get the current focal distance matrix
-        cur_dm <- distance_matrices[[i]]
+        cur_dm <<- distance_matrices[[i]]
 
         # now loop over all of the others
         for (j in 1:num_dms) {
             if (i != j){
-                test_against <- distance_matrices[[j]]
-                result <- ecodist::mantel(cur_dm ~ test_against,
+
+                test_against <<- distance_matrices[[j]]
+                result <- ecodist::mantel(formula = "cur_dm ~ test_against",
                                           nperm = permutations)
 
                 mantel_matrix[i,j] <- as.numeric(result[1])
