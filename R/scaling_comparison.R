@@ -28,7 +28,11 @@ scaling_comparison <- function(dfm_object_list,
         cur_dfm <- dfm_object_list[[i]]
 
         # calculate the document similarity matrix
-        simil <- quanteda::similarity(cur_dfm, method = distance_method)
+        if (distance_method == "cosine") {
+            simil <- quanteda::similarity(cur_dfm, method = distance_method)
+        } else {
+            simil <- proxy::simil(as.matrix(cur_dfm), method = distance_method)
+        }
         simil <- as.matrix(simil)
         distances2 <- proxy::pr_simil2dist(simil)
         distances <- as.matrix(distances2)
