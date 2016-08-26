@@ -2,6 +2,7 @@
 
 export(calculate_prediction_errors)
 export(dfm_scaling_test)
+export(distance_rank_test)
 export(document_position_plots)
 export(factorial_preprocessing)
 export(mantel_comparison)
