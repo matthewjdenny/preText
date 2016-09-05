@@ -192,7 +192,12 @@ distance_rank_test <- function(distance_matrices,
                       preprocessing_steps = labels[order(scores,decreasing = TRUE)],
                       stringsAsFactors = FALSE)
 
+    ret2 <- data.frame(difference = scores,
+                      preprocessing_steps = labels,
+                      stringsAsFactors = FALSE)
+
     return(list(dfm_level_results = ret,
+                dfm_level_results_unordered = ret2,
                 summary_data = summary_data))
 }
 # for testing
