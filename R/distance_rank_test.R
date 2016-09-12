@@ -164,7 +164,7 @@ distance_rank_test <- function(distance_matrices,
         ggplot2::coord_flip() +
         ggplot2::theme(legend.position = "none") +
         ggplot2::ylab("Relative Difference") +
-        ggplot2::ylab("Preprocessing Combination")
+        ggplot2::xlab("Preprocessing Combination")
 
     print(zp1)
 
