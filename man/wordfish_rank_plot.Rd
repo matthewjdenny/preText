@@ -6,7 +6,7 @@
 \usage{
 wordfish_rank_plot(wordfish_results, labels, invert = TRUE,
   ranking = c("Lab1983", "Lab1987", "Lab1992", "Lab1997", "Con1997",
-  "Con1992", "Con1987", "Con1983"), black_white = FALSE)
+  "Con1992", "Con1987", "Con1983"), black_white = FALSE, one_matrix = FALSE)
 }
 \arguments{
 \item{wordfish_results}{The output from the `wordfish_comparison()` function.}
@@ -22,6 +22,9 @@ names.}
 \item{black_white}{Logical, defualts to FALSE. If FALSE then results are
 displayed on a red-blue scale. IF TRUE, then mis-ordered documents are
 colored black.}
+
+\item{one_matrix}{Logical indicating whether results should be plotted as a
+one or two column matrix. Defaults to FALSE.}
 }
 \value{
 A plot.

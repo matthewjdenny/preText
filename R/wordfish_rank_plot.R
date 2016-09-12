@@ -10,6 +10,8 @@
 #' @param black_white Logical, defualts to FALSE. If FALSE then results are
 #' displayed on a red-blue scale. IF TRUE, then mis-ordered documents are
 #' colored black.
+#' @param one_matrix Logical indicating whether results should be plotted as a
+#' one or two column matrix. Defaults to FALSE.
 #' @return A plot.
 #' @export
 wordfish_rank_plot <- function(
@@ -18,7 +20,8 @@ wordfish_rank_plot <- function(
     invert = TRUE,
     ranking = c("Lab1983","Lab1987","Lab1992","Lab1997",
                 "Con1997","Con1992","Con1987","Con1983"),
-    black_white = FALSE) {
+    black_white = FALSE,
+    one_matrix = FALSE) {
 
     orders <- wordfish_results$results_by_dfm
 
@@ -51,7 +54,7 @@ wordfish_rank_plot <- function(
     for (i in 1:num_dfm) {
         cd <- 0
         for (j in 1:ncol(data)) {
-            print(abs(j - data[i,j]))
+            # print(abs(j - data[i,j]))
             cd <- cd + abs(j - data[i,j])
         }
         difference[i] <- cd
@@ -76,44 +79,67 @@ wordfish_rank_plot <- function(
 
     data1 <- data[1:(nrow(data)/2),]
     data2 <- data[(nrow(data)/2 + 1):nrow(data),]
+    data4 <- data
 
     data1 <- reshape2::melt(data1)
     data2 <- reshape2::melt(data2)
+    data4 <- reshape2::melt(data4)
 
     data1$labels <- factor(data1$labels, levels = rev(data1$labels))
     data2$labels <- factor(data2$labels, levels = rev(data2$labels))
+    data4$labels <- factor(data4$labels, levels = rev(data4$labels))
 
     #make the plot
     UMASS_BLUE <- rgb(51,51,153,255,maxColorValue = 255)
     UMASS_RED <- rgb(153,0,51,255,maxColorValue = 255)
 
-    p <- ggplot2::ggplot(data1, ggplot2::aes(variable, labels)) +
-        ggplot2::geom_tile(ggplot2::aes(fill = value), colour = "white") +
-        ggplot2::theme(legend.position = "none",
-                       axis.text.x = ggplot2::element_text(angle=45, vjust = 1.2,
-                                                           hjust = 1.2),
-                       plot.margin = unit(c(1,.6,0.1,0),"cm")) +
-        ggplot2::ylab("") + ggplot2::xlab("")
-    if (black_white) {
-        p <- p + ggplot2::scale_fill_gradient2(low = "white", high = "black")
+    if (!one_matrix) {
+        p <- ggplot2::ggplot(data1, ggplot2::aes(variable, labels)) +
+            ggplot2::geom_tile(ggplot2::aes(fill = value), colour = "gray50") +
+            ggplot2::theme(legend.position = "none",
+                           axis.text.x = ggplot2::element_text(angle=45, vjust = 1.2,
+                                                               hjust = 1.2),
+                           plot.margin = unit(c(1,.6,0.1,0),"cm")) +
+            ggplot2::ylab("") + ggplot2::xlab("")
+        if (black_white) {
+            p <- p + ggplot2::scale_fill_gradient2(low = "white", high = "black")
+        } else {
+            p <- p + ggplot2::scale_fill_gradient2(low = UMASS_RED, high = UMASS_BLUE)
+        }
+        p2 <- ggplot2::ggplot(data2, ggplot2::aes(variable, labels)) +
+            ggplot2::geom_tile(ggplot2::aes(fill = value), colour = "gray50") +
+            ggplot2::theme(legend.position = "none",
+                           axis.text.x = ggplot2::element_text(angle=45, vjust =1.2,
+                                                               hjust = 1.2),
+                           plot.margin = unit(c(1,1.2,0.1,-.6),"cm")) +
+            ggplot2::ylab("") + ggplot2::xlab("")
+        if (black_white) {
+            p2 <- p2 + ggplot2::scale_fill_gradient2(low = "white", high = "black")
+        } else {
+            p2 <- p2+ ggplot2::scale_fill_gradient2(low = UMASS_RED, high = UMASS_BLUE)
+        }
+
+        p <- cowplot::ggdraw(switch_axis_position(p , axis = 'x'))
+        p2 <- cowplot::ggdraw(switch_axis_position(p2 , axis = 'x'))
+
+        multiplot(p, p2, cols = 2)
     } else {
-        p <- p + ggplot2::scale_fill_gradient2(low = UMASS_RED, high = UMASS_BLUE)
-    }
-    p2 <- ggplot2::ggplot(data2, ggplot2::aes(variable, labels)) +
-        ggplot2::geom_tile(ggplot2::aes(fill = value), colour = "white") +
-        ggplot2::theme(legend.position = "none",
-                       axis.text.x = ggplot2::element_text(angle=45, vjust =1.2,
-                                                           hjust = 1.2),
-                       plot.margin = unit(c(1,1.2,0.1,-.6),"cm")) +
-        ggplot2::ylab("") + ggplot2::xlab("")
-    if (black_white) {
-        p2 <- p2 + ggplot2::scale_fill_gradient2(low = "white", high = "black")
-    } else {
-        p2 <- p2+ ggplot2::scale_fill_gradient2(low = UMASS_RED, high = UMASS_BLUE)
+        p <- ggplot2::ggplot(data4, ggplot2::aes(variable, labels)) +
+            ggplot2::geom_tile(ggplot2::aes(fill = value), colour = "gray50") +
+            ggplot2::theme(legend.position = "none",
+                           axis.text.x = ggplot2::element_text(angle=45, vjust = 1.2,
+                                                               hjust = 1.2),
+                           axis.text.y = ggplot2::element_blank(),
+                           axis.ticks.y = ggplot2::element_blank(),
+                           plot.margin = unit(c(1,1,0.1,0),"cm")) +
+            ggplot2::ylab("") + ggplot2::xlab("")
+        if (black_white) {
+            p <- p + ggplot2::scale_fill_gradient2(low = "white", high = "black")
+        } else {
+            p <- p + ggplot2::scale_fill_gradient2(low = UMASS_RED, high = UMASS_BLUE)
+        }
+        p <- cowplot::ggdraw(switch_axis_position(p , axis = 'x'))
+        print(p)
     }
 
-    p <- cowplot::ggdraw(switch_axis_position(p , axis = 'x'))
-    p2 <- cowplot::ggdraw(switch_axis_position(p2 , axis = 'x'))
-
-    multiplot(p, p2, cols = 2)
 }
