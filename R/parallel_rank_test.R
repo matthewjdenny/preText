@@ -5,7 +5,7 @@ parallel_rank_test <- function(x,
                                num_comparisons) {
 
     num_dms <- length(distance_matrices)
-
+    i <- x
     # figures out which entry in the distance matrix has the largest difference
     # from it to the base case entry.
     get_max_difference <- function (dist_matrix,
