@@ -1,4 +1,4 @@
-#' @title Plot of Wrodfish rankings of documents
+#' @title Plot of Wordfish rankings of documents
 #' @description Coloration by ground-truth ranking.
 #'
 #' @param wordfish_results The output from the `wordfish_comparison()` function.
@@ -12,6 +12,8 @@
 #' colored black.
 #' @param one_matrix Logical indicating whether results should be plotted as a
 #' one or two column matrix. Defaults to FALSE.
+#' @param return_deviations Return a dataset indicating the ordering deviations
+#' for each preprocessing combination. Defaults to FALSE.
 #' @return A plot.
 #' @export
 wordfish_rank_plot <- function(
@@ -21,7 +23,8 @@ wordfish_rank_plot <- function(
     ranking = c("Lab1983","Lab1987","Lab1992","Lab1997",
                 "Con1997","Con1992","Con1987","Con1983"),
     black_white = FALSE,
-    one_matrix = FALSE) {
+    one_matrix = FALSE,
+    return_deviations = FALSE) {
 
     orders <- wordfish_results$results_by_dfm
 
@@ -76,6 +79,9 @@ wordfish_rank_plot <- function(
         data <- data3[order(difference, decreasing = F),]
     }
 
+    deviation_data <- data.frame(preprocessing_combination = labels,
+                                 rank_deviation = difference,
+                                 stringsAsFactors = FALSE)
 
     data1 <- data[1:(nrow(data)/2),]
     data2 <- data[(nrow(data)/2 + 1):nrow(data),]
@@ -119,8 +125,8 @@ wordfish_rank_plot <- function(
             p2 <- p2+ ggplot2::scale_fill_gradient2(low = UMASS_RED, high = UMASS_BLUE)
         }
 
-        p <- cowplot::ggdraw(switch_axis_position(p , axis = 'x'))
-        p2 <- cowplot::ggdraw(switch_axis_position(p2 , axis = 'x'))
+        p <- cowplot::ggdraw(cowplot::switch_axis_position(p , axis = 'x'))
+        p2 <- cowplot::ggdraw(cowplot::switch_axis_position(p2 , axis = 'x'))
 
         multiplot(p, p2, cols = 2)
     } else {
@@ -138,8 +144,12 @@ wordfish_rank_plot <- function(
         } else {
             p <- p + ggplot2::scale_fill_gradient2(low = UMASS_RED, high = UMASS_BLUE)
         }
-        p <- cowplot::ggdraw(switch_axis_position(p , axis = 'x'))
+        p <- cowplot::ggdraw(cowplot::switch_axis_position(p , axis = 'x'))
         print(p)
     }
 
+    if (return_deviations) {
+        cat("Returing results...\n")
+        return(deviation_data)
+    }
 }

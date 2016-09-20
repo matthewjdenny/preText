@@ -6,7 +6,8 @@
 \usage{
 wordfish_rank_plot(wordfish_results, labels, invert = TRUE,
   ranking = c("Lab1983", "Lab1987", "Lab1992", "Lab1997", "Con1997",
-  "Con1992", "Con1987", "Con1983"), black_white = FALSE, one_matrix = FALSE)
+  "Con1992", "Con1987", "Con1983"), black_white = FALSE, one_matrix = FALSE,
+  return_deviations = FALSE)
 }
 \arguments{
 \item{wordfish_results}{The output from the `wordfish_comparison()` function.}
@@ -25,6 +26,9 @@ colored black.}
 
 \item{one_matrix}{Logical indicating whether results should be plotted as a
 one or two column matrix. Defaults to FALSE.}
+
+\item{return_deviations}{Return a dataset indicating the ordering deviations
+for each preprocessing combination. Defaults to FALSE.}
 }
 \value{
 A plot.
