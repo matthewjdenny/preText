@@ -2,6 +2,7 @@
 #' @description Plotting of key terms across preprocessing decisions.
 #'
 #' @param topic_key_term_results A data.frame.
+#' @param labs Labels for the preprocessing choices being used in the analysis.
 #' @param key_term_columns The columns containing key term results.
 #' @param custom_col_names Names for the key terms.
 #' @param custom_labels Labels for the provided key. Must be of length 12.
@@ -9,13 +10,15 @@
 #' a one column matrix. Defaults to FALSE.
 #' @param thresholds A numeric vector of length 11 with threshold for inclusion
 #' in various heat map categroies.
-#' @param labs Labels for the preprocessing choices being used in the analysis.
 #' @param heat_ramp Option to use heat ramp (yellow-red-purple) instead of a
 #' white tp blue ramp.
+#' @param return_data Logical indicating whether recaled data should be
+#' returned. Defaults to FALSE.
 #' @return A plot
 #' @export
 topic_key_term_plot <- function(
     topic_key_term_results,
+    labs,
     key_term_columns  = 2:6,
     custom_col_names = c("Iraq", "Terrorism", "Al Qaeda", "Insurance", "Stem Cell"),
     custom_labels = c("0%","<1%","1-2%","2-3%","3-4%","4-5%","5-6%","6-7%","7-8%",
@@ -23,8 +26,8 @@ topic_key_term_plot <- function(
     one_matrix = FALSE,
     thresholds = c(-0.0001,0,0.0099,0.0199,0.0299,0.0399,0.0499,0.0599,0.0699,
                    0.0799,0.0899,0.0999),
-    labs = labels[65:128],
-    heat_ramp = FALSE) {
+    heat_ramp = FALSE,
+    return_data = FALSE) {
 
     # gray - yellow - orange - red - purple
     # custom_ramp <- c("#4E4E4E",
@@ -58,6 +61,8 @@ topic_key_term_plot <- function(
     tktr <- topic_key_term_results[,key_term_columns]
     max_prop <- apply(tktr,2, max)
 
+    to_return <- tktr
+
     # categorize the data
     uniq <- unique(c(as.matrix(tktr[,1:5])))
     uniq <- uniq[order(uniq)]
@@ -84,6 +89,7 @@ topic_key_term_plot <- function(
     }
 
     tktr <- cbind(tktr, labs)
+    to_return <- cbind(to_return, labs)
     data <- tktr
 
     data1 <- data[1:(nrow(data)/2),]
@@ -140,5 +146,9 @@ topic_key_term_plot <- function(
 
         p <- cowplot::ggdraw(cowplot::switch_axis_position(p , axis = 'x'))
         print(p)
+    }
+
+    if (return_data) {
+        return(to_return)
     }
 }
