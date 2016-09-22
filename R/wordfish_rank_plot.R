@@ -54,12 +54,26 @@ wordfish_rank_plot <- function(
 
     # calcualte difference from correct ordering
     difference <- rep(0, num_dfm)
+    right_ends <- rep(0, num_dfm)
+    out_of_order <- rep(0, num_dfm)
     for (i in 1:num_dfm) {
         cd <- 0
+        cd2 <- 0
         for (j in 1:ncol(data)) {
             # print(abs(j - data[i,j]))
             cd <- cd + abs(j - data[i,j])
+            if(abs(j - data[i,j]) >0 ) {
+                cd2 <- cd2 + 1
+            }
         }
+        if (data[i,1] != 1) {
+            right_ends[i] <- right_ends[i] + 1
+        }
+        if (data[i,ncol(data)] != ncol(data)) {
+            right_ends[i] <- right_ends[i] + 1
+        }
+
+        out_of_order[i] <- cd2
         difference[i] <- cd
     }
 
@@ -81,6 +95,8 @@ wordfish_rank_plot <- function(
 
     deviation_data <- data.frame(preprocessing_combination = labels,
                                  rank_deviation = difference,
+                                 num_out_of_order = out_of_order,
+                                 wrong_ends = right_ends,
                                  stringsAsFactors = FALSE)
 
     data1 <- data[1:(nrow(data)/2),]

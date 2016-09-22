@@ -2,7 +2,7 @@
 % Please edit documentation in R/wordfish_rank_plot.R
 \name{wordfish_rank_plot}
 \alias{wordfish_rank_plot}
-\title{Plot of Wrodfish rankings of documents}
+\title{Plot of Wordfish rankings of documents}
 \usage{
 wordfish_rank_plot(wordfish_results, labels, invert = TRUE,
   ranking = c("Lab1983", "Lab1987", "Lab1992", "Lab1997", "Con1997",
