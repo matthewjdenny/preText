@@ -1,3 +1,16 @@
+#' @title Preprocessing Choice Regressions
+#' @description Assessing the effects of preprocessing decisions on an outcome
+#' variable.
+#'
+#' @param  A vector of length 128 (usually) containing a numeric outcome
+#' variable.
+#' @param choices A 128 x 7 data.frame produced by the factorial_preprocessing
+#' function.
+#' @param dataset The name to be given to the data we are analyzing.
+#' @param base_case_index An optional argument whic removes a base case row from
+#' the choices data before performing the regrerssion.
+#' @return A data.frame
+#' @export
 preprocessing_choice_regression <- function(Y,
                                             choices,
                                             dataset = "UK",
