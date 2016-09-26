@@ -21,4 +21,7 @@ Depends:
     R (>= 3.3.0)
 RoxygenNote: 5.0.1
 LazyData: TRUE
-Suggests: testthat
+Suggests: testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
