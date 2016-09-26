@@ -9,7 +9,8 @@ preprocessing_choice_regression(Y, choices, dataset = "UK",
 }
 \arguments{
 \item{Y}{A vector of length 128 (usually) containing a numeric outcome
-variable.}
+variable. This should be the preText (or other) score for a particular
+preprocessing specification.}
 
 \item{choices}{A 128 x 7 data.frame produced by the factorial_preprocessing
 function.}
