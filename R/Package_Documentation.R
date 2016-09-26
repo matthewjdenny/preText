@@ -11,8 +11,11 @@ NULL
 #' @import quanteda
 NULL
 
-#' @importFrom grDevices rgb
+#' @importFrom grDevices rgb gray
 NULL
 
-#' @importFrom stats quantile
+#' @importFrom stats quantile coef lm qnorm sd
+NULL
+
+#' @importFrom graphics lines plot text
 NULL
