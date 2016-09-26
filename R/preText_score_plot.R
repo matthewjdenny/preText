@@ -5,7 +5,7 @@
 #' `preText()` functions.
 #' @param display_raw_rankings Logical indicating whether raw ranking
 #' differences should be displayed (as opposed to relative differences).
-#' @param remove_label Option to remove preprocessing step labels. Defaults to
+#' @param remove_labels Option to remove preprocessing step labels. Defaults to
 #' FALSE.
 #' @param num_docs If display_raw_rankings = TRUE, the number of documents in
 #' the corpus.
@@ -17,6 +17,8 @@ preText_score_plot <- function(preText_results,
                                remove_labels = FALSE,
                                num_docs = NULL,
                                text_size = 1){
+
+    Coefficient_Type <- Variable <- Coefficient <- NULL
 
     if (display_raw_rankings) {
         multiplier <- (num_docs * (num_docs - 1))/2
