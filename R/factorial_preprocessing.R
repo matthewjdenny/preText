@@ -1,14 +1,12 @@
 #' @title A function to perform factorial preprocessing of a corpus of texts
-#' into document-frequency matrices.
+#' into quanteda document-frequency matrices.
 #' @description Preprocesses a corpus of texts into a document-frequency matrix
-#' in thirty-two different ways.
+#' in 128 different ways.
 #'
 #' @param text A vector of strings (one per document) or Quanteda corpus object
 #' from which we wish to form a document-term matrix.
 #' @param use_ngrams Option to extract 1,2, and 3-grams from the text as another
 #' potential preprocessing step. Defualts to TRUE.
-#' @param filter_infrequent_terms Option to remove all terms appearing in less
-#' than 1 percent of documents as a preprocessing decision. Defaults to TRUE.
 #' @param infrequent_term_threshold A proportion threshold at which infrequent
 #' terms are to be filtered. Defaults to 0.01 (terms that appear in less than
 #' 1 percent of documents).
@@ -29,20 +27,22 @@
 #' restart large analyses after power failure.
 #' @param return_results Defaults to TRUE, can be set to FALSE to prevent an
 #' overly large dfm list from being created.
+#' @param verbose Logical indicating whether more information should be printed
+#' to the screen to let the user know about progress in preprocessing. Defaults
+#' to TRUE.
 #' @return A list object containing permutations of the document-term matrix.
 #' @export
 factorial_preprocessing <- function(text,
                                     use_ngrams = TRUE,
-                                    filter_infrequent_terms = TRUE,
                                     infrequent_term_threshold = 0.01,
                                     parallel = FALSE,
                                     cores = 1,
                                     intermediate_directory = NULL,
                                     parameterization_range = NULL,
-                                    return_results = TRUE){
+                                    return_results = TRUE,
+                                    verbose = TRUE){
 
     # set some intermediate variables
-    intermediate_dfm <- NULL
     cur_directory <- getwd()
 
     # set working directory if given
@@ -64,40 +64,56 @@ factorial_preprocessing <- function(text,
 
     # create a data.frame with factorial combinations of all choices.
     if (use_ngrams) {
-        if (filter_infrequent_terms) {
-            choices <- data.frame(expand.grid(list(removePunctuation = c(TRUE,FALSE),
-                                                   removeNumbers = c(TRUE,FALSE),
-                                                   lowercase = c(TRUE,FALSE),
-                                                   stem = c(TRUE,FALSE),
-                                                   removeStopwords = c(TRUE,FALSE),
-                                                   infrequent_terms = c(TRUE, FALSE),
-                                                   use_ngrams = c(TRUE, FALSE))))
-        } else {
-            choices <- data.frame(expand.grid(list(removePunctuation = c(TRUE,FALSE),
-                                                   removeNumbers = c(TRUE,FALSE),
-                                                   lowercase = c(TRUE,FALSE),
-                                                   stem = c(TRUE,FALSE),
-                                                   removeStopwords = c(TRUE,FALSE),
-                                                   infrequent_terms = c(FALSE),
-                                                   use_ngrams = c(TRUE, FALSE))))
+        cat("Preprocessing",length(text),"documents 128 different ways...\n")
+        choices <- data.frame(expand.grid(list(removePunctuation = c(TRUE,FALSE),
+                                               removeNumbers = c(TRUE,FALSE),
+                                               lowercase = c(TRUE,FALSE),
+                                               stem = c(TRUE,FALSE),
+                                               removeStopwords = c(TRUE,FALSE),
+                                               infrequent_terms = c(TRUE, FALSE),
+                                               use_ngrams = c(TRUE, FALSE))))
+
+        labels <- rep("",128)
+        # indicators of different preprocessing steps
+        labs <- c("P","N","L","S","W","I","3")
+        for (i in 1:128) {
+            str <- ""
+            for (j in 1:7) {
+                if (choices[i,j]) {
+                    if (str == "") {
+                        str <- labs[j]
+                    } else {
+                        str <- paste(str,labs[j],sep = "-")
+                    }
+                }
+            }
+            labels[i] <- str
         }
     } else {
-        if (filter_infrequent_terms) {
-            choices <- data.frame(expand.grid(list(removePunctuation = c(TRUE,FALSE),
-                                                   removeNumbers = c(TRUE,FALSE),
-                                                   lowercase = c(TRUE,FALSE),
-                                                   stem = c(TRUE,FALSE),
-                                                   removeStopwords = c(TRUE,FALSE),
-                                                   infrequent_terms = c(TRUE, FALSE),
-                                                   use_ngrams = c(FALSE))))
-        } else {
-            choices <- data.frame(expand.grid(list(removePunctuation = c(TRUE,FALSE),
-                                                   removeNumbers = c(TRUE,FALSE),
-                                                   lowercase = c(TRUE,FALSE),
-                                                   stem = c(TRUE,FALSE),
-                                                   removeStopwords = c(TRUE,FALSE),
-                                                   infrequent_terms = c(FALSE),
-                                                   use_ngrams = c(FALSE))))
+        cat("Preprocessing",length(text),"documents 64 different ways...\n")
+        choices <- data.frame(expand.grid(list(removePunctuation = c(TRUE,FALSE),
+                                               removeNumbers = c(TRUE,FALSE),
+                                               lowercase = c(TRUE,FALSE),
+                                               stem = c(TRUE,FALSE),
+                                               removeStopwords = c(TRUE,FALSE),
+                                               infrequent_terms = c(TRUE, FALSE),
+                                               use_ngrams = c(FALSE))))
+
+        labels <- rep("",64)
+        # indicators of different preprocessing steps
+        labs <- c("P","N","L","S","W","I","3")
+        for (i in 1:64) {
+            str <- ""
+            for (j in 1:7) {
+                if (choices[i,j]) {
+                    if (str == "") {
+                        str <- labs[j]
+                    } else {
+                        str <- paste(str,labs[j],sep = "-")
+                    }
+                }
+            }
+            labels[i] <- str
         }
     }
 
@@ -129,7 +145,9 @@ factorial_preprocessing <- function(text,
     } else {
         # loop over different preprocessing decisions
         for (i in rows_to_preprocess) {
-            cat("Currently working on combination",i,"of",nrow(choices),"\n")
+            if (verbose) {
+                cat("Currently working on combination",i,"of",nrow(choices),"\n")
+            }
             # need a conditional for removing stopwords
             if (choices$removeStopwords[i]) {
                 # generate dfm
@@ -141,7 +159,8 @@ factorial_preprocessing <- function(text,
                         toLower = choices$lowercase[i],
                         stem = choices$stem[i],
                         ignoredFeatures = quanteda::stopwords(),
-                        ngrams = 1:3)
+                        ngrams = 1:3,
+                        verbose = verbose)
                 } else {
                     current_dfm <- quanteda::dfm(
                         text,
@@ -149,7 +168,8 @@ factorial_preprocessing <- function(text,
                         removeNumbers = choices$removeNumbers[i],
                         toLower = choices$lowercase[i],
                         stem = choices$stem[i],
-                        ignoredFeatures = quanteda::stopwords())
+                        ignoredFeatures = quanteda::stopwords(),
+                        verbose = verbose)
                 }
             } else {
                 # generate dfm
@@ -160,14 +180,16 @@ factorial_preprocessing <- function(text,
                         removeNumbers = choices$removeNumbers[i],
                         toLower = choices$lowercase[i],
                         stem = choices$stem[i],
-                        ngrams = 1:3)
+                        ngrams = 1:3,
+                        verbose = verbose)
                 } else {
                     current_dfm <- quanteda::dfm(
                         text,
                         removePunct = choices$removePunctuation[i],
                         removeNumbers = choices$removeNumbers[i],
                         toLower = choices$lowercase[i],
-                        stem = choices$stem[i])
+                        stem = choices$stem[i],
+                        verbose = verbose)
                 }
             }
 
@@ -175,7 +197,8 @@ factorial_preprocessing <- function(text,
             if (choices$infrequent_terms[i]) {
                 current_dfm <- remove_infrequent_terms(
                     dfm_object = current_dfm,
-                    proportion_threshold = infrequent_term_threshold)
+                    proportion_threshold = infrequent_term_threshold,
+                    verbose = verbose)
             }
 
             # store the current dfm
@@ -186,15 +209,21 @@ factorial_preprocessing <- function(text,
     # if we are returning results and using parallel, then read in the
     # intermediate dfm's
     if (return_results & parallel) {
+        cat("Preprocessing complete, loading in intermediate DFMs...\n")
         dfm_list <- vector(mode = "list", length = nrow(choices))
         for (i in 1:length(dfm_list)) {
             load(paste("intermediate_dfm_",i,".Rdata",sep = ""))
-            dfm_list <- current_dfm
+            dfm_list[[i]] <- current_dfm
         }
     }
+
+    names(dfm_list) <- labels
+    rownames(choices) <- labels
+
     # combine metadata and dfm list and return
     return_list <- list(choices = choices,
-                        dfm_list = dfm_list)
+                        dfm_list = dfm_list,
+                        labels = labels)
 
     # reset the directory
     setwd(cur_directory)

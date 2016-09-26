@@ -3,12 +3,12 @@
 \name{factorial_preprocessing}
 \alias{factorial_preprocessing}
 \title{A function to perform factorial preprocessing of a corpus of texts
-into document-frequency matrices.}
+into quanteda document-frequency matrices.}
 \usage{
 factorial_preprocessing(text, use_ngrams = TRUE,
-  filter_infrequent_terms = TRUE, infrequent_term_threshold = 0.01,
-  parallel = FALSE, cores = 1, intermediate_directory = NULL,
-  parameterization_range = NULL, return_results = TRUE)
+  infrequent_term_threshold = 0.01, parallel = FALSE, cores = 1,
+  intermediate_directory = NULL, parameterization_range = NULL,
+  return_results = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{text}{A vector of strings (one per document) or Quanteda corpus object
@@ -16,9 +16,6 @@ from which we wish to form a document-term matrix.}
 
 \item{use_ngrams}{Option to extract 1,2, and 3-grams from the text as another
 potential preprocessing step. Defualts to TRUE.}
-
-\item{filter_infrequent_terms}{Option to remove all terms appearing in less
-than 1 percent of documents as a preprocessing decision. Defaults to TRUE.}
 
 \item{infrequent_term_threshold}{A proportion threshold at which infrequent
 terms are to be filtered. Defaults to 0.01 (terms that appear in less than
@@ -45,12 +42,16 @@ restart large analyses after power failure.}
 
 \item{return_results}{Defaults to TRUE, can be set to FALSE to prevent an
 overly large dfm list from being created.}
+
+\item{verbose}{Logical indicating whether more information should be printed
+to the screen to let the user know about progress in preprocessing. Defaults
+to TRUE.}
 }
 \value{
 A list object containing permutations of the document-term matrix.
 }
 \description{
 Preprocesses a corpus of texts into a document-frequency matrix
-in thirty-two different ways.
+in 128 different ways.
 }
 
