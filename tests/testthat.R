@@ -1,4 +1,4 @@
 library(testthat)
-library(preptest)
+library(preText)
 
-test_check("preptest")
+test_check("preText")
