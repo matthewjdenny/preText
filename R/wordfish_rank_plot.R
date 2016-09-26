@@ -26,6 +26,8 @@ wordfish_rank_plot <- function(
     one_matrix = FALSE,
     return_deviations = FALSE) {
 
+    variable <- value <- NULL
+
     orders <- wordfish_results$results_by_dfm
 
     num_dfm <- length(orders)
@@ -121,7 +123,7 @@ wordfish_rank_plot <- function(
             ggplot2::theme(legend.position = "none",
                            axis.text.x = ggplot2::element_text(angle=45, vjust = 1.2,
                                                                hjust = 1.2),
-                           plot.margin = unit(c(1,.6,0.1,0),"cm")) +
+                           plot.margin = ggplot2::unit(c(1,.6,0.1,0),"cm")) +
             ggplot2::ylab("") + ggplot2::xlab("")
         if (black_white) {
             p <- p + ggplot2::scale_fill_gradient2(low = "white", high = "black")
@@ -133,7 +135,7 @@ wordfish_rank_plot <- function(
             ggplot2::theme(legend.position = "none",
                            axis.text.x = ggplot2::element_text(angle=45, vjust =1.2,
                                                                hjust = 1.2),
-                           plot.margin = unit(c(1,1.2,0.1,-.6),"cm")) +
+                           plot.margin = ggplot2::unit(c(1,1.2,0.1,-.6),"cm")) +
             ggplot2::ylab("") + ggplot2::xlab("")
         if (black_white) {
             p2 <- p2 + ggplot2::scale_fill_gradient2(low = "white", high = "black")
@@ -153,7 +155,7 @@ wordfish_rank_plot <- function(
                                                                hjust = 1.2),
                            axis.text.y = ggplot2::element_blank(),
                            axis.ticks.y = ggplot2::element_blank(),
-                           plot.margin = unit(c(1,1,0.1,0),"cm")) +
+                           plot.margin = ggplot2::unit(c(1,1,0.1,0),"cm")) +
             ggplot2::ylab("") + ggplot2::xlab("")
         if (black_white) {
             p <- p + ggplot2::scale_fill_gradient2(low = "white", high = "black")

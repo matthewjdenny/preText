@@ -29,6 +29,8 @@ topic_key_term_plot <- function(
     heat_ramp = FALSE,
     return_data = FALSE) {
 
+    variable <- value <- NULL
+
     # gray - yellow - orange - red - purple
     # custom_ramp <- c("#4E4E4E",
     #                  "#F6F28F",
@@ -113,7 +115,7 @@ topic_key_term_plot <- function(
     if (!one_matrix) {
         p <- ggplot2::ggplot(data1, ggplot2::aes(variable, labs)) +
             ggplot2::geom_tile(ggplot2::aes(fill = value), colour = "black") +
-            ggplot2::theme(plot.margin = unit(c(1,-.2,0.1,3.3),"cm"),
+            ggplot2::theme(plot.margin = ggplot2::unit(c(1,-.2,0.1,3.3),"cm"),
                            legend.position = "none") +
             ggplot2::ylab("") + ggplot2::xlab("")
 
@@ -123,7 +125,7 @@ topic_key_term_plot <- function(
 
         p2 <- ggplot2::ggplot(data2, ggplot2::aes(variable, labs)) +
             ggplot2::geom_tile(ggplot2::aes(fill = value), colour = "black") +
-            ggplot2::theme(plot.margin = unit(c(1,1,0.1,0),"cm")) +
+            ggplot2::theme(plot.margin = ggplot2::unit(c(1,1,0.1,0),"cm")) +
             ggplot2::ylab("") + ggplot2::xlab("")
 
         p2 <- p2 + ggplot2::scale_fill_manual("",
@@ -137,7 +139,7 @@ topic_key_term_plot <- function(
     } else {
         p <- ggplot2::ggplot(data, ggplot2::aes(variable, labs)) +
             ggplot2::geom_tile(ggplot2::aes(fill = value), colour = "black") +
-            ggplot2::theme(plot.margin = unit(c(1,1,0.1,0),"cm")) +
+            ggplot2::theme(plot.margin = ggplot2::unit(c(1,1,0.1,0),"cm")) +
             ggplot2::ylab("") + ggplot2::xlab("")
 
         p <- p + ggplot2::scale_fill_manual("",
