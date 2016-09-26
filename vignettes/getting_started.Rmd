@@ -1,0 +1,140 @@
+---
+title: "Getting Started With preText"
+author: "Matthew Denny"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{getting_started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This vignette is designed to introduce you to the **preText** R package. 
+
+The paper detailing the procedure can be found at the link below:
+
+* Matthew J. Denny, and Arthur Spirling (2016). "Assessing the Consequences of Text Preprocessing Decisions". [[Not Yet Available](www.mjdenny.com)]
+
+## Installation
+We are currently working on getting a version of the package up on CRAN. As soon
+as it is available, we will update the installation instructions.
+
+If you want to get the latest version from GitHub, start by checking out the 
+**Requirements for using C++ code with R** section in the following 
+tutorial: [Using C++ and R code Together with Rcpp](http://www.mjdenny.com/Rcpp_Intro.html). 
+You will likely need to install either `Xcode` or `Rtools` depending on whether 
+you are using a Mac or Windows machine before you can install the preText package 
+via GitHub, since it makes use of C++ code.
+
+```{r eval=FALSE} 
+install.packages("devtools")
+```    
+Now we can install from Github using the following line:
+```{r eval=FALSE} 
+devtools::install_github("matthewjdenny/preText")
+```
+Once the `GERGM` package is installed, you may access its functionality as you 
+would any other package by calling:
+```{r eval=FALSE} 
+library(preText)
+```
+If all went well, check out the `vignette("getting_started")` which will pull up 
+this vignette!
+
+## Basic Usage
+We begin by loading the package and some example data from the `quanteda` R 
+package. In this example, we will make use of 57 U.S. presidential inaugural 
+speeches. As a general rule, you will want to limit the number of documents used
+with `preText` to several hundred in most cases, in order to avoid extremely 
+long run times and/or high memory requirements. 
+```{r eval=TRUE, fig.width=6, fig.height=6, fig.align ='center'}     
+library(preText)
+library(quanteda)
+
+# load in U.S. presidential inaugural speeches from Quanteda example data.
+corp <- corpus(inaugTexts)
+# use first 10 documents for example
+documents <- texts(corp)[1:10]
+# take a look at the document names
+print(names(documents))
+```
+Having loaded in some data, we can now make use of the `factorial_preprocessing()` 
+function, which will preprocess the data 64 or 128 different ways (depending on
+whether n-grams are included). In this example, we are going to preprocess the 
+documents all 128 different ways. This should take between 5 and 10 minutes on 
+most modern laptops. Longer documents and larger numbers of documents will 
+significantly increase run time and memory usage. It is highly inadvisable to use 
+more than 500-1,000 under any circumstances and in the case where the user wishes 
+to preprocess more than a few hundred documents, they may want to explore the 
+`parallel` option. This can significantly speed up preprocessing, but will 
+require significantly more RAM on the computer being used. Here, we have 
+selected the `use_ngrams = TRUE` option, and set the document proportion 
+threshold at which to remove infrequent terms at 0.01 (the default value). In 
+order prevent spamming this vignette with output, we have elected to set the 
+`verbose` option to FALSE. In practice, it is better to keep `verbose = TRUE` to
+make it easier to evaluate the progress of preprocessing. 
+```{r eval=TRUE, fig.width=6, fig.height=6, fig.align ='center'}
+preprocessed_documents <- factorial_preprocessing(
+    documents,
+    use_ngrams = TRUE,
+    infrequent_term_threshold = 0.2,
+    verbose = TRUE)
+```
+ This function will output a list object with 
+three fields. The first of these is `$choices`, a data.frame containing indicators
+for each of the preprocessing steps used. The second is `$dfm_list`, which is a 
+list with 64 or 128 entries, each of which contains a `quanteda::dfm` object 
+preprocessed according to the specification in the corresponding row in `choices`.
+Each dfm in this list will be labeled to match the row names in choices, but you
+can also access these labels from the `$labels` field. We can look at the first 
+few rows of `choices` below:
+```{r eval=TRUE, fig.width=6, fig.height=6, fig.align ='center'}
+names(preprocessed_documents)
+head(preprocessed_documents$choices)
+```
+Now that we have our preprocessed documents, we can perform the preText 
+procedure on the factorial preprocessed corpus using the `preText()` function.
+It will be useful now to give a name to our data set using the `dataset_name`
+argument, as this will show up in some of the plots we generate with the output.
+The standard number of pairs to compare is 50 for reasonably sized corpora, but
+because we are only using 10 documents, the maximum number of pairwise document
+distances is only (10)*(10 - 1)/2 = 45, so we select 20 pairwise comparisons for
+purposes of illustration. This function will usually not take as long to run as 
+the `factorial_preprocessing()` function, but parallelization is also available 
+for this function if a speedup is desired. It is suggested that the user select
+`verbose = TRUE` in practice, but we set it to FALSE here to avoid cluttering 
+this vignette. This function should run in 10-30 seconds for this small corpora, 
+and in several hours to a day for most moderately sized corpora.
+```{r eval=TRUE, fig.width=6, fig.height=6, fig.align ='center'}
+preText_results <- preText(
+    preprocessed_documents,
+    dataset_name = "Inaugural Speeches",
+    distance_method = "cosine",
+    num_comparisons = 20,
+    verbose = FALSE)
+```
+The `preText()` function returns a list of result with four fields:
+
+* `$preText_scores`: A data.frame containing preText scores and preprocessing step labels for each preprocessing step as columns. Note that there is no preText score for the case of no prepprocessing steps. 
+* `$ranked_preText_scores`: A data.frame that is identical to `$preText_scores` except that it is ordered by the magnitude of the preText score
+* `$choices`: A data.frame containing binary indicators of which preprocessing 
+steps were applied to factorial preprocessed dfm. 
+* `$regression_results`: A data.frame containing regression results where indicators for each preprocessing decision are regressed on the preText score for that specification.
+
+We can now feed these results to two functions that will help us make better 
+sense of them. `preText_score_plot()` creates a dot plot of scores for each 
+preprocessing specification:
+```{r eval=TRUE, fig.width=6, fig.height=12, fig.align ='center'}
+preText_score_plot(preText_results)
+```
+Here, the least risky specifications have the lowest preText score and are 
+displayed at the top of the plot. We can also see the conditional effects of 
+each preprocessing step on the mean preText score for each specification that 
+included that step. Here again, a negative coefficient indicates that a step 
+tends to reduce the unusualness of the results, while a positive coefficient
+indicates that applying the step is likely to produce more unusual results for 
+that corpus.
+```{r eval=TRUE, fig.width=5, fig.height=3, fig.align ='center'}
+regression_coefficient_plot(preText_results,
+                            remove_intercept = TRUE)
+```
