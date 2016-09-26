@@ -8,11 +8,15 @@
 #' @param indices Defaults to NULL. If not NULL, then it must be a numeric
 #' vector specifying the column indices of terms the user would like to remove.
 #' Useful for removing specific terms.
+#' @param verbose Logical indicating whether more information should be printed
+#' to the screen to let the user know about progress in preprocessing. Defaults
+#' to TRUE.
 #' @return A reduced dfm.
 #' @export
 remove_infrequent_terms <- function(dfm_object,
                                     proportion_threshold = 0.01,
-                                    indices = NULL){
+                                    indices = NULL,
+                                    verbose = TRUE){
 
     if (is.null(indices)) {
         # determine the number of documents a term must appear in to be kept
@@ -29,11 +33,16 @@ remove_infrequent_terms <- function(dfm_object,
 
         # determine which column
         remove <- as.numeric(which(doc_counts < threshold))
-        cat("Removing",length(remove),"of",ncol(dfm_object),
-            "total terms that appeared in less than",threshold,"documents.\n")
+        if (verbose) {
+            cat("Removing",length(remove),"of",ncol(dfm_object),
+                "total terms that appeared in less than",threshold,"documents.\n")
+        }
+
     } else {
         remove <- indices
-        cat("Removing",length(remove),"of",ncol(dfm_object),".\n")
+        if (verbose) {
+            cat("Removing",length(remove),"of",ncol(dfm_object),".\n")
+        }
     }
 
     if (length(remove) > 0) {
