@@ -124,7 +124,7 @@ steps were applied to factorial preprocessed dfm.
 We can now feed these results to two functions that will help us make better 
 sense of them. `preText_score_plot()` creates a dot plot of scores for each 
 preprocessing specification:
-```{r eval=TRUE, fig.width=6, fig.height=12, fig.align ='center'}
+```{r eval=TRUE, fig.width=6, fig.height=16, fig.align ='center'}
 preText_score_plot(preText_results)
 ```
 Here, the least risky specifications have the lowest preText score and are 
