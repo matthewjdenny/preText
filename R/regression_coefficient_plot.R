@@ -2,7 +2,7 @@
 #' @description Easy plotting for multiple regression results on same axes.
 #'
 #' @param data A data.frame produced by the `preprocessing_choice_regression`
-#' function.
+#' function, or a list created by the `preText()` function.
 #' @param text_size The size of the text to be displayed. Defaults to 1.
 #' @param remove_intercept Logical indicating whwter intercept coefficiet sould
 #' be plotted. Defalts to FALSE.
@@ -14,6 +14,10 @@ regression_coefficient_plot <- function(data,
                                         text_size = 1,
                                         remove_intercept = FALSE,
                                         title = "") {
+
+    if (class(data) == "list") {
+        data <- data$regression_results
+    }
     #define colors
     Model <- Variable <- Coefficient <- SE  <- NULL
 
@@ -39,10 +43,10 @@ regression_coefficient_plot <- function(data,
         ggplot2::aes(y = Variable,
                      x = Coefficient),
         lwd = 2,
-        shape = 21, fill = "WHITE")
+        shape = 21, fill = "BLACK")
 
     zp1 <- zp1  + ggplot2::theme_bw() +
-        facet_grid(~ Model, scales = "free_x") +
+        ggplot2::facet_grid(~ Model, scales = "free_x") +
         ggplot2::theme(legend.position = "none",
                        axis.text.x=ggplot2::element_text(angle=-45, hjust=0),
                        axis.title.y=ggplot2::element_text(angle=-90, size=20, face="bold")) +

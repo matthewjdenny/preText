@@ -9,7 +9,7 @@ regression_coefficient_plot(data, text_size = 1, remove_intercept = FALSE,
 }
 \arguments{
 \item{data}{A data.frame produced by the `preprocessing_choice_regression`
-function.}
+function, or a list created by the `preText()` function.}
 
 \item{text_size}{The size of the text to be displayed. Defaults to 1.}
 
