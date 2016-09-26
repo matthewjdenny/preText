@@ -8,6 +8,9 @@ preprocessing_choice_regression(Y, choices, dataset = "UK",
   base_case_index = 128)
 }
 \arguments{
+\item{Y}{A vector of length 128 (usually) containing a numeric outcome
+variable.}
+
 \item{choices}{A 128 x 7 data.frame produced by the factorial_preprocessing
 function.}
 
@@ -15,9 +18,6 @@ function.}
 
 \item{base_case_index}{An optional argument whic removes a base case row from
 the choices data before performing the regrerssion.}
-
-\item{A}{vector of length 128 (usually) containing a numeric outcome
-variable.}
 }
 \value{
 A data.frame

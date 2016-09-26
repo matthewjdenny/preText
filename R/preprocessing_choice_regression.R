@@ -2,7 +2,7 @@
 #' @description Assessing the effects of preprocessing decisions on an outcome
 #' variable.
 #'
-#' @param  A vector of length 128 (usually) containing a numeric outcome
+#' @param Y A vector of length 128 (usually) containing a numeric outcome
 #' variable.
 #' @param choices A 128 x 7 data.frame produced by the factorial_preprocessing
 #' function.
