@@ -7,11 +7,15 @@
 #' scaling algorithm. Defualts to 2.
 #' @param distance_method The method that should be used for calculating
 #' document distances. Defualts to "cosine".
+#' @param verbose Logical indicating whether more information should be printed
+#' to the screen to let the user know about progress. Defaults
+#' to TRUE.
 #' @return A result list object.
 #' @export
 scaling_comparison <- function(dfm_object_list,
                                dimensions = 2,
-                               distance_method = "cosine"){
+                               distance_method = "cosine",
+                               verbose = TRUE){
 
     # get the number of dfms
     num_dfms <- length(dfm_object_list)
@@ -22,7 +26,9 @@ scaling_comparison <- function(dfm_object_list,
     scaled_positions <- vector(mode = "list", length = num_dfms)
 
     for (i in 1:num_dfms) {
-        cat("Currently working on dfm",i,"of",num_dfms,"\n")
+        if (verbose) {
+            cat("Currently working on dfm",i,"of",num_dfms,"\n")
+        }
         ptm <- proc.time()
         # apply temporal filter
         cur_dfm <- dfm_object_list[[i]]
@@ -46,7 +52,9 @@ scaling_comparison <- function(dfm_object_list,
         scaled_positions[[i]] <- pos
 
         t2 <- proc.time() - ptm
-        cat("Complete in:",t2[[3]],"seconds...\n")
+        if (verbose) {
+            cat("Complete in:",t2[[3]],"seconds...\n")
+        }
     }
 
     return(list(distance_matrices = distance_matrices,

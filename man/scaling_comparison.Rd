@@ -5,7 +5,7 @@
 \title{Scaling Comparison.}
 \usage{
 scaling_comparison(dfm_object_list, dimensions = 2,
-  distance_method = "cosine")
+  distance_method = "cosine", verbose = TRUE)
 }
 \arguments{
 \item{dfm_object_list}{A list of quanteda dfm() objects.}
@@ -15,6 +15,10 @@ scaling algorithm. Defualts to 2.}
 
 \item{distance_method}{The method that should be used for calculating
 document distances. Defualts to "cosine".}
+
+\item{verbose}{Logical indicating whether more information should be printed
+to the screen to let the user know about progress. Defaults
+to TRUE.}
 }
 \value{
 A result list object.
