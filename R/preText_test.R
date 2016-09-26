@@ -1,5 +1,5 @@
-#' @title Pairwise Document Distance Rank Test
-#' @description Document pair distance ranking test metrics.
+#' @title preText Test
+#' @description calcualtes preText scores for each preprocessing specification.
 #'
 #' @param distance_matrices A list of document distance matrices.
 #' @param choices A dataframe indicating whether a preprocessing step was
@@ -18,17 +18,20 @@
 #' performed in parallel. Defualts to FALSE.
 #' @param cores Defualts to 1, can be set to any number less than or equal to
 #' the number of cores on one's computer.
+#' @param verbose Logical indicating whether more information should be printed
+#' to the screen to let the user know about progress. Defaults to TRUE.
 #' @return A result list object.
 #' @export
-distance_rank_test <- function(distance_matrices,
-                               choices,
-                               labels = NULL,
-                               method = c("top", "distribution", "continuous"),
-                               baseline_index = 128,
-                               text_size = 1,
-                               num_comparisons = 50,
-                               parallel = FALSE,
-                               cores = 1){
+preText_test <- function(distance_matrices,
+                       choices,
+                       labels = NULL,
+                       method = c("top", "distribution", "continuous"),
+                       baseline_index = 128,
+                       text_size = 1,
+                       num_comparisons = 50,
+                       parallel = FALSE,
+                       cores = 1,
+                       verbose = TRUE){
 
     method <- method[1]
     num_dms <- length(distance_matrices)
@@ -75,6 +78,15 @@ distance_rank_test <- function(distance_matrices,
 
 
     baseline <- distance_matrices[[baseline_index]]
+
+
+    # make usre that we are not doing more comparisons than there are slots:
+    new <- nrow(baseline)*(nrow(baseline) - 1)
+    if (num_comparisons > new) {
+        cat("Reducing number of comparisons to",new, "from",num_comparisons,
+            "due to a lack of data for the requested number of comparisons.\n")
+        num_comparisons <- new
+    }
     scores <- rep(0,(num_dms - 1))
     score_SE <- rep(0,(num_dms - 1))
     score_counter <- 1
@@ -125,8 +137,10 @@ distance_rank_test <- function(distance_matrices,
             print(scores)
         } else {
             # populate the scores vector
-            for(i in 1:num_dms) {
-                cat("Currently working on DFM:",i,"of",num_dms,"\n")
+            for (i in 1:num_dms) {
+                if (verbose) {
+                    cat("Currently working on DFM:",i,"of",num_dms,"\n")
+                }
                 ptm <- proc.time()
                 # if we are not dealing with the baseline
                 if (i != baseline_index) {
@@ -149,14 +163,18 @@ distance_rank_test <- function(distance_matrices,
                         cur_scores[k] <- result$ave_diff
                         cur_score_SE[k] <- result$ave_diff_SE
                     }
-                    cat("\n")
+                    if (verbose) {
+                        cat("\n")
+                    }
                     scores[score_counter] <- mean(cur_scores)
                     score_SE[score_counter] <- mean(cur_score_SE)
                     score_counter <- score_counter + 1
                 }
                 t2 <- proc.time() - ptm
-                cat("Complete in:",t2[[3]],"seconds...\n")
 
+                if (verbose) {
+                    cat("Complete in:",t2[[3]],"seconds...\n")
+                }
             }
         }
     } else if (method == "continuous") {
@@ -168,35 +186,12 @@ distance_rank_test <- function(distance_matrices,
     labels <- labels[-baseline_index]
     data <- data.frame(Coefficient = scores[order(scores,decreasing = TRUE)],
                        SE = score_SE[order(scores,decreasing = TRUE)],
-                       Coefficient_Type = "Difference",
+                       Coefficient_Type = "preText Score",
                        Variable = labels[order(scores,decreasing = TRUE)],
                        stringsAsFactors = FALSE)
 
     data$Variable <- factor(data$Variable,
                             levels = data$Variable[1:nrow(data)])
-
-    UMASS_BLUE <- rgb(51,51,153,195,maxColorValue = 255)
-    UMASS_RED <- rgb(153,0,51,195,maxColorValue = 255)
-
-    zp1 <- ggplot2::ggplot(data, ggplot2::aes(colour = Coefficient_Type)) +
-        ggplot2::scale_color_manual(values = UMASS_BLUE) +
-        ggplot2::theme(axis.text = ggplot2::element_text(size = text_size))
-
-    zp1 <- zp1 + ggplot2::geom_hline(yintercept = 0,
-                                     colour = gray(1/2),
-                                     lty = 2)
-    zp1 <- zp1 + ggplot2::geom_point(ggplot2::aes(x = Variable,
-                                                y = Coefficient),
-                                     lwd = 1,
-                                     shape = 21,
-                                     fill = UMASS_BLUE)
-    zp1 <- zp1  + ggplot2::theme_bw() +
-        ggplot2::coord_flip() +
-        ggplot2::theme(legend.position = "none") +
-        ggplot2::ylab("Relative Difference") +
-        ggplot2::xlab("Preprocessing Combination")
-
-    print(zp1)
 
     ch <- choices[-baseline_index,]
     choice_diff <- rep(0,ncol(ch))
@@ -216,13 +211,11 @@ distance_rank_test <- function(distance_matrices,
                                negative_sd = neg_sd,
                                stringsAsFactors = FALSE)
 
-    print(summary_data)
-
-    ret <- data.frame(difference = scores[order(scores,decreasing = TRUE)],
+    ret <- data.frame(preText_score = scores[order(scores,decreasing = TRUE)],
                       preprocessing_steps = labels[order(scores,decreasing = TRUE)],
                       stringsAsFactors = FALSE)
 
-    ret2 <- data.frame(difference = scores,
+    ret2 <- data.frame(preText_score = scores,
                       preprocessing_steps = labels,
                       stringsAsFactors = FALSE)
 
