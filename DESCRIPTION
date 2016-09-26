@@ -1,12 +1,12 @@
 Package: preText
 Type: Package
 Title: Diagnostics to Asses The Effects of Text Preprocessing Decisions
-Version: 0.2.0
-Date: 2016-07-29
+Version: 0.3.1
+Date: 2016-09-25
 Author: Matthew J. Denny <mdenny@psu.edu>, Arthur Spirling
     <as9934@nyu.edu>,
 Maintainer: Matthew J. Denny <mdenny@psu.edu>
-Description: This package will eventually provide a number of functions to asses the effects of different text preprocessing decisions on the inferences drawn from the resulting document-term matrices they generate.
+Description: Functions to asses the effects of different text preprocessing decisions on the inferences drawn from the resulting document-term matrices they generate.
 License: GPL-3
 Imports:
     quanteda,
@@ -16,7 +16,10 @@ Imports:
 	grid,
 	parallel,
 	topicmodels,
-	cowplot
+	cowplot,
+	ecodist,
+	proxy,
+	reshape2
 Depends:
     R (>= 3.3.0)
 RoxygenNote: 5.0.1
