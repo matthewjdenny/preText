@@ -23,6 +23,7 @@ mantel_comparison_to_base <- function(distance_matrices,
                                       text_size = 1,
                                       return_values = FALSE){
 
+    Coefficient_Type <- Variable <- Coefficient <- SE <- NULL
     # get the number of distance matrices
     num_dms <- length(distance_matrices)
 
