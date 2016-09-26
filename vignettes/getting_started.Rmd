@@ -78,7 +78,7 @@ preprocessed_documents <- factorial_preprocessing(
     documents,
     use_ngrams = TRUE,
     infrequent_term_threshold = 0.2,
-    verbose = TRUE)
+    verbose = FALSE)
 ```
  This function will output a list object with 
 three fields. The first of these is `$choices`, a data.frame containing indicators
