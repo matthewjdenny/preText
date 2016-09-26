@@ -10,7 +10,6 @@
 calculate_prediction_errors <- function(positions_list,
                                         preprocessing_choices){
 
-
     # get the number of dfms
     num_dfms <- length(positions_list)
     num_steps <- ncol(preprocessing_choices)

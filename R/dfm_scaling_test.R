@@ -26,7 +26,6 @@ dfm_scaling_test <- function(scaling_results,
 
     method <- method[1]
 
-    similarities <- NULL
     if (method == "distances") {
         # extract similarity matrix list
         dist_mat_list <- scaling_results$distance_matrices
