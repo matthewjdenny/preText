@@ -1,4 +1,4 @@
-# preText -- Master: [![Travis-CI Build Status](https://travis-ci.org/matthewjdenny/preptest.svg?branch=master)](https://travis-ci.org/matthewjdenny/preptest) 
+# preText -- Master: [![Travis-CI Build Status](https://travis-ci.org/matthewjdenny/preptest.svg?branch=master)](https://travis-ci.org/matthewjdenny/preText) 
 An R package to assess the consequences of text preprocessing decisions, **[check out this vignette!](http://www.mjdenny.com/getting_started_with_preText.html)**
 
 **PLEASE REPORT ANY BUGS OR ERRORS TO <mdenny@psu.edu>**. 
