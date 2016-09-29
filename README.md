@@ -1,5 +1,5 @@
 # preText 
-An R package to assess the consequences of text preprocessing decisions.
+An R package to assess the consequences of text preprocessing decisions **[[getting started with preText vignette]](http://www.mjdenny.com/getting_started_with_preText.html)**.
 
 **PLEASE REPORT ANY BUGS OR ERRORS TO <mdenny@psu.edu>**. 
 
