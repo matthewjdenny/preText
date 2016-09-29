@@ -1,7 +1,7 @@
 # preText 
-An R package to assess the consequences of text preprocessing decisions **[[getting started with preText vignette]](http://www.mjdenny.com/getting_started_with_preText.html)**.
+An R package to assess the consequences of text preprocessing decisions.
 
-**PLEASE REPORT ANY BUGS OR ERRORS TO <mdenny@psu.edu>**. 
+ **[[getting started with preText vignette]](http://www.mjdenny.com/getting_started_with_preText.html)**.
 
 The paper detailing the procedure can be found at the link below:
 
@@ -34,3 +34,7 @@ If all went well, you should be able to replicate the steps in the `vignette("ge
 ## Basic Usage
 
 The basic functionality of this package is detailed in a vignette, which is  **[[available here]](http://www.mjdenny.com/getting_started_with_preText.html)**. Beyond this basic functionality the package includes a number of additional utility and analysis functions for exploring and comparing multiple document--term matrices. 
+
+## Bug Reporting
+
+**PLEASE REPORT ANY BUGS OR ERRORS TO <mdenny@psu.edu>**. 
