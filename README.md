@@ -1,5 +1,6 @@
-# preText -- Master: [![Travis-CI Build Status](https://travis-ci.org/matthewjdenny/preText.svg?branch=master)](https://travis-ci.org/matthewjdenny/preText) 
-An R package to assess the consequences of text preprocessing decisions, **[check out this vignette!](http://www.mjdenny.com/getting_started_with_preText.html)**
+# preText 
+[//]: # -- Master: [![Travis-CI Build Status](https://travis-ci.org/matthewjdenny/preText.svg?branch=master)](https://travis-ci.org/matthewjdenny/preText) 
+An R package to assess the consequences of text preprocessing decisions.
 
 **PLEASE REPORT ANY BUGS OR ERRORS TO <mdenny@psu.edu>**. 
 
@@ -30,5 +31,8 @@ would any other package by calling:
 
 	library(preText)
 
-If all went well, check out the `vignette("getting_started")` which will pull up 
-this vignette!
+If all went well, you should be able to replicate the steps in the `vignette("getting_started")`.
+
+## Basic Usage
+
+The basic functionality of this package is detailed in a vignette, which is  **[[available here]](http://www.mjdenny.com/getting_started_with_preText.html)**. Beyond this basic functionality the package includes a number of additional utility and analysis functions for exploring and comparing multiple document--term matrices. 
