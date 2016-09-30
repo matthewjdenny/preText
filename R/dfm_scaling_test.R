@@ -1,21 +1,22 @@
-#' @title comparison of dfms using scaling, with a test for difference from the
-#' mean dfm.
-#' @description Scale each dfm into a 2-d space and test for outliers.
+#' @title Comparison of dfms using N-dimensional scaling, with a test
+#' for difference from the mean dfm scaled position.
+#' @description Scale each dfm into a N-d space and test for outliers.
 #'
 #' @param scaling_results A list object produced by the `scaling_comparison()`
 #' function.
-#' @param labels A character vector with labels for each dfm, based on
-#' preprocessing choices.
+#' @param labels A character vector with labels for each dfm. This can be
+#' extracted from the `$labels` field of the output from the
+#' `factorial_preprocessing()` function.
 #' @param dimensions The number of dimensions to be used by the multidimensional
-#' scaling algorithm. Defualts to 2.
+#' scaling algorithm. Defaults to 2.
 #' @param distance_method The method that should be used for calculating
-#' document distances. Defualts to "cosine".
+#' distances between dfms. Defaults to "cosine".
 #' @param method Should the raw distances or scaled document positions be used
-#' for scaling? can be one of c("distances","positions"), defaults to
+#' for scaling? Can be one of c("distances","positions"), defaults to
 #' "distances".
 #' @param return_positions Logical indicating whether dfm positions should be
 #' returned as a data.frame. Defaults to FALSE
-#' @return A result list object or a plot, or both.
+#' @return A result list object, or a plot, or both.
 #' @export
 dfm_scaling_test <- function(scaling_results,
                              labels,
@@ -123,7 +124,7 @@ dfm_scaling_test <- function(scaling_results,
 
     distance_sd <- sd(euclidean_distance_from_mean)
 
-    significance_threshold <- 1.645 * distance_sd
+    significance_threshold <- 1.96 * distance_sd
 
     remove <- which(euclidean_distance_from_mean < significance_threshold)
 
