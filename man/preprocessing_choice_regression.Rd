@@ -12,13 +12,13 @@ preprocessing_choice_regression(Y, choices, dataset = "UK",
 variable. This should be the preText (or other) score for a particular
 preprocessing specification.}
 
-\item{choices}{A 128 x 7 data.frame produced by the factorial_preprocessing
-function.}
+\item{choices}{A 128 x 7 data.frame produced by the `factorial_preprocessing()`
+function and output in the `$choices` field.}
 
 \item{dataset}{The name to be given to the data we are analyzing.}
 
-\item{base_case_index}{An optional argument whic removes a base case row from
-the choices data before performing the regrerssion.}
+\item{base_case_index}{An optional argument which removes a base case row from
+the choices data before performing the regression.}
 }
 \value{
 A data.frame

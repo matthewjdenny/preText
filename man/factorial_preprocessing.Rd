@@ -11,20 +11,20 @@ factorial_preprocessing(text, use_ngrams = TRUE,
   return_results = TRUE, verbose = TRUE)
 }
 \arguments{
-\item{text}{A vector of strings (one per document) or Quanteda corpus object
+\item{text}{A vector of strings (one per document) or quanteda corpus object
 from which we wish to form a document-term matrix.}
 
 \item{use_ngrams}{Option to extract 1,2, and 3-grams from the text as another
-potential preprocessing step. Defualts to TRUE.}
+potential preprocessing step. Defaults to TRUE.}
 
 \item{infrequent_term_threshold}{A proportion threshold at which infrequent
 terms are to be filtered. Defaults to 0.01 (terms that appear in less than
 1 percent of documents).}
 
 \item{parallel}{Logical indicating whether factorial prerpocessing should be
-performed in parallel. Defualts to FALSE.}
+performed in parallel. Defaults to FALSE.}
 
-\item{cores}{Defualts to 1, can be set to any number less than or equal to
+\item{cores}{Defaults to 1, can be set to any number less than or equal to
 the number of cores on one's computer.}
 
 \item{intermediate_directory}{Optional path to a directory where each dfm

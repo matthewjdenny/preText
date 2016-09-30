@@ -2,13 +2,13 @@
 % Please edit documentation in R/remove_infrequent_terms.R
 \name{remove_infrequent_terms}
 \alias{remove_infrequent_terms}
-\title{Remove sparse terms from quanteda dfm.}
+\title{Remove infrequently occurring terms from quanteda dfm.}
 \usage{
 remove_infrequent_terms(dfm_object, proportion_threshold = 0.01,
   indices = NULL, verbose = TRUE)
 }
 \arguments{
-\item{dfm_object}{A quanteda dfm() object.}
+\item{dfm_object}{A quanteda dfm object.}
 
 \item{proportion_threshold}{proportion of documents a term must be included in
 to be included in the dfm.}
@@ -25,7 +25,7 @@ to TRUE.}
 A reduced dfm.
 }
 \description{
-Removes terms appearing in less than a specifiec percentage of
+Removes terms appearing in less than a specific proportion of
 documents in a corpus from a dfm.
 }
 

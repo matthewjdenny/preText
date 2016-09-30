@@ -8,18 +8,18 @@ years.}
 temporal_filter(dfm_object, years, proportion_threshold = 0.5)
 }
 \arguments{
-\item{dfm_object}{A quanteda dfm() object.}
+\item{dfm_object}{A quanteda dfm object.}
 
 \item{years}{A numeric vector giving the year for each document}
 
-\item{proportion_threshold}{proportion of years a term must be included in
+\item{proportion_threshold}{Proportion of years a term must be included in
 to be included in the dfm.}
 }
 \value{
 A reduced dfm.
 }
 \description{
-Removes terms appearing in less than a specifiec percentage of
+Removes terms appearing in less than a specific proportion of
 years in the data.
 }
 

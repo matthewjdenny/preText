@@ -8,15 +8,15 @@ regression_coefficient_plot(data, text_size = 1, remove_intercept = FALSE,
   title = "")
 }
 \arguments{
-\item{data}{A data.frame produced by the `preprocessing_choice_regression`
+\item{data}{A data.frame produced by the `preprocessing_choice_regression()`
 function, or a list created by the `preText()` function.}
 
 \item{text_size}{The size of the text to be displayed. Defaults to 1.}
 
-\item{remove_intercept}{Logical indicating whwter intercept coefficiet sould
-be plotted. Defalts to FALSE.}
+\item{remove_intercept}{Logical indicating whether intercept coefficient should
+be plotted. Defaults to FALSE.}
 
-\item{title}{The title the user wishes to give the lot, whic will be diplayed
+\item{title}{The title the user wishes to give the lot, which will be displayed
 instead of the axis title.}
 }
 \value{

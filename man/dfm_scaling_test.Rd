@@ -2,8 +2,8 @@
 % Please edit documentation in R/dfm_scaling_test.R
 \name{dfm_scaling_test}
 \alias{dfm_scaling_test}
-\title{comparison of dfms using scaling, with a test for difference from the
-mean dfm.}
+\title{Comparison of dfms using N-dimensional scaling, with a test
+for difference from the mean dfm scaled position.}
 \usage{
 dfm_scaling_test(scaling_results, labels, dimensions = 2,
   distance_method = "cosine", method = c("distances", "positions"),
@@ -13,26 +13,27 @@ dfm_scaling_test(scaling_results, labels, dimensions = 2,
 \item{scaling_results}{A list object produced by the `scaling_comparison()`
 function.}
 
-\item{labels}{A character vector with labels for each dfm, based on
-preprocessing choices.}
+\item{labels}{A character vector with labels for each dfm. This can be
+extracted from the `$labels` field of the output from the
+`factorial_preprocessing()` function.}
 
 \item{dimensions}{The number of dimensions to be used by the multidimensional
-scaling algorithm. Defualts to 2.}
+scaling algorithm. Defaults to 2.}
 
 \item{distance_method}{The method that should be used for calculating
-document distances. Defualts to "cosine".}
+distances between dfms. Defaults to "cosine".}
 
 \item{method}{Should the raw distances or scaled document positions be used
-for scaling? can be one of c("distances","positions"), defaults to
+for scaling? Can be one of c("distances","positions"), defaults to
 "distances".}
 
 \item{return_positions}{Logical indicating whether dfm positions should be
 returned as a data.frame. Defaults to FALSE}
 }
 \value{
-A result list object or a plot, or both.
+A result list object, or a plot, or both.
 }
 \description{
-Scale each dfm into a 2-d space and test for outliers.
+Scale each dfm into a N-d space and test for outliers.
 }
 

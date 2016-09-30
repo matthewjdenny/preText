@@ -9,29 +9,32 @@ mantel_comparison_to_base(distance_matrices, names = NULL,
   return_values = FALSE)
 }
 \arguments{
-\item{distance_matrices}{A list of document distance matrices.}
+\item{distance_matrices}{A list of document distance matrices from th3
+`$distance_matrices` field of the output from the `scaling_comparison()`
+function.}
 
 \item{names}{Optional argument giving names for each preprocessing step.}
 
-\item{permutations}{the number of permutations to be used in each Mantel
+\item{permutations}{The number of permutations to be used in each Mantel
 test. Defaults to 1000.}
 
 \item{base_dfm_index}{Which dfm should be used as a base case for comparing
 r statistics with bootstrapped confidence intervals.}
 
-\item{text_size}{THe cex for the x labels, defaults to 1.}
+\item{text_size}{The `cex` for the x-labels, defaults to 1.}
 
 \item{return_values}{Logical indicating whether test statistics and
-confidencebounds should be returned as a data.frame or not. Defaults to FALSE.}
+confidence bounds should be returned as a data.frame or not. Defaults to FALSE.}
 }
 \value{
 A data.frame with mantel statistics and 95 percent confidence
-intervals comparing all other preprocessing choices to base case and or a
+intervals comparing all other preprocessing choices to base case, and/or a
 plot of confidence intervals.
 }
 \description{
 Calculates Mantel test statistics for differences between
 distance matrices for a list of distance matrices (one per preprocessing
-method) supplied by the scaling_comparison() function and a base case.
+method) supplied by the scaling_comparison() function to a base case --
+(usually the no-preprocessing specification).
 }
 

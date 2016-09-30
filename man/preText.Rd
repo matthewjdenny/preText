@@ -4,7 +4,7 @@
 \name{preText}
 \alias{preText}
 \alias{preText-package}
-\title{preText: fucntions to asses the effects of text preprocessing decisions}
+\title{preText: functions to asses the effects of text preprocessing decisions}
 \usage{
 preText(preprocessed_documents, dataset_name = "Documents",
   distance_method = "cosine", num_comparisons = 50, parallel = FALSE,
@@ -18,15 +18,15 @@ preText(preprocessed_documents, dataset_name = "Documents",
 results. Defaults to "Documents".}
 
 \item{distance_method}{The method that should be used for calculating
-document distances. Defualts to "cosine".}
+document distances. Defaults to "cosine".}
 
 \item{num_comparisons}{If method = "distribution", the number of ranks to use
-in calculating average difference. Defautls to 50.}
+in calculating average difference. Defaults to 50.}
 
 \item{parallel}{Logical indicating whether factorial prerpocessing should be
-performed in parallel. Defualts to FALSE.}
+performed in parallel. Defaults to FALSE.}
 
-\item{cores}{Defualts to 1, can be set to any number less than or equal to
+\item{cores}{Defaults to 1, can be set to any number less than or equal to
 the number of cores on one's computer}
 
 \item{verbose}{Logical indicating whether more information should be printed
@@ -36,12 +36,20 @@ to the screen to let the user know about progress. Defaults to TRUE.}
 A result list object.
 }
 \description{
-preText: fucntions to asses the effects of text preprocessing decisions
+preText: functions to asses the effects of text preprocessing decisions
 
 Calculates preText scores for each preprocessing specification.
 }
 \section{preText functions}{
 
-To use this package, You will first want to check out the factorial_preprocessing() function which will take raw data and transform it into document-frequency matrices using a factorial desig and five different preprocessing decisions.
+To use this package, You will first want to check out the
+factorial_preprocessing() function which will take raw data and transform it
+into document-frequency matrices using a factorial design and 6-7 different
+preprocessing decisions. The next step in most applications will be to run
+the preText() function, which will generate preText scores for each preprocessing
+specification. These can then be fed to the preText_score_plot() and
+regression_coefficient_plot() functions to generate interpretable output.
+For more information on additional functions check out the GitHub READMe for
+this package (https://github.com/matthewjdenny/preText).
 }
 

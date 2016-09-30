@@ -2,7 +2,7 @@
 % Please edit documentation in R/topic_key_term_plot.R
 \name{topic_key_term_plot}
 \alias{topic_key_term_plot}
-\title{Plot Prevalence of Topiuc Key Terms}
+\title{Plot Prevalence of Topic Key Terms}
 \usage{
 topic_key_term_plot(topic_key_term_results, labs, key_term_columns = 2:6,
   custom_col_names = c("Iraq", "Terrorism", "Al Qaeda", "Insurance",
@@ -13,9 +13,12 @@ topic_key_term_plot(topic_key_term_results, labs, key_term_columns = 2:6,
   return_data = FALSE)
 }
 \arguments{
-\item{topic_key_term_results}{A data.frame.}
+\item{topic_key_term_results}{A data.frame with one column per key term and
+one row for each set of topic model results. The entries in each cell should
+be the proportion of topics in which a term appears.}
 
-\item{labs}{Labels for the preprocessing choices being used in the analysis.}
+\item{labs}{Labels for the preprocessing specifications associated with each
+set of topic model results.}
 
 \item{key_term_columns}{The columns containing key term results.}
 
@@ -23,16 +26,16 @@ topic_key_term_plot(topic_key_term_results, labs, key_term_columns = 2:6,
 
 \item{custom_labels}{Labels for the provided key. Must be of length 12.}
 
-\item{one_matrix}{Logical indicating whether results shoudl be displayed as
+\item{one_matrix}{Logical indicating whether results should be displayed as
 a one column matrix. Defaults to FALSE.}
 
 \item{thresholds}{A numeric vector of length 11 with threshold for inclusion
-in various heat map categroies.}
+in various heat map categories.}
 
 \item{heat_ramp}{Option to use heat ramp (yellow-red-purple) instead of a
-white tp blue ramp.}
+white to blue ramp.}
 
-\item{return_data}{Logical indicating whether recaled data should be
+\item{return_data}{Logical indicating whether rescaled data should be
 returned. Defaults to FALSE.}
 }
 \value{

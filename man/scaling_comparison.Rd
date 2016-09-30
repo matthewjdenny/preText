@@ -8,13 +8,14 @@ scaling_comparison(dfm_object_list, dimensions = 2,
   distance_method = "cosine", verbose = TRUE)
 }
 \arguments{
-\item{dfm_object_list}{A list of quanteda dfm() objects.}
+\item{dfm_object_list}{A list of quanteda dfm objects returned in the
+`$dfm_list$ field of the output from the `factorial_preprocessing()` function.}
 
-\item{dimensions}{THe number of dimensions to be used by the multidimensional
-scaling algorithm. Defualts to 2.}
+\item{dimensions}{The number of dimensions to be used by the multidimensional
+scaling algorithm. Defaults to 2.}
 
 \item{distance_method}{The method that should be used for calculating
-document distances. Defualts to "cosine".}
+document distances. Defaults to "cosine".}
 
 \item{verbose}{Logical indicating whether more information should be printed
 to the screen to let the user know about progress. Defaults
@@ -24,7 +25,7 @@ to TRUE.}
 A result list object.
 }
 \description{
-Scale each dfm and return a list of similarity matrices and
+Scale each dfm and return a list of distance matrices and
 scaled document positions.
 }
 
