@@ -1,19 +1,22 @@
 #' @title Ensemble Mantel Tests
 #' @description Calculates Mantel test statistics for differences between
 #' distance matrices for a list of distance matrices (one per preprocessing
-#' method) supplied by the scaling_comparison() function and a base case.
+#' method) supplied by the scaling_comparison() function to a base case --
+#' (usually the no-preprocessing specification).
 #'
-#' @param distance_matrices A list of document distance matrices.
+#' @param distance_matrices A list of document distance matrices from th3
+#' `$distance_matrices` field of the output from the `scaling_comparison()`
+#' function.
 #' @param names Optional argument giving names for each preprocessing step.
-#' @param permutations the number of permutations to be used in each Mantel
+#' @param permutations The number of permutations to be used in each Mantel
 #' test. Defaults to 1000.
 #' @param base_dfm_index Which dfm should be used as a base case for comparing
 #' r statistics with bootstrapped confidence intervals.
-#' @param text_size THe cex for the x labels, defaults to 1.
+#' @param text_size The `cex` for the x-labels, defaults to 1.
 #' @param return_values Logical indicating whether test statistics and
-#' confidencebounds should be returned as a data.frame or not. Defaults to FALSE.
+#' confidence bounds should be returned as a data.frame or not. Defaults to FALSE.
 #' @return A data.frame with mantel statistics and 95 percent confidence
-#' intervals comparing all other preprocessing choices to base case and or a
+#' intervals comparing all other preprocessing choices to base case, and/or a
 #' plot of confidence intervals.
 #' @export
 mantel_comparison_to_base <- function(distance_matrices,

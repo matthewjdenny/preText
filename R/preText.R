@@ -6,12 +6,12 @@
 #' @param dataset_name A string indicating the name to be associated with the
 #' results. Defaults to "Documents".
 #' @param distance_method The method that should be used for calculating
-#' document distances. Defualts to "cosine".
+#' document distances. Defaults to "cosine".
 #' @param num_comparisons If method = "distribution", the number of ranks to use
-#' in calculating average difference. Defautls to 50.
+#' in calculating average difference. Defaults to 50.
 #' @param parallel Logical indicating whether factorial prerpocessing should be
-#' performed in parallel. Defualts to FALSE.
-#' @param cores Defualts to 1, can be set to any number less than or equal to
+#' performed in parallel. Defaults to FALSE.
+#' @param cores Defaults to 1, can be set to any number less than or equal to
 #' the number of cores on one's computer
 #' @param verbose Logical indicating whether more information should be printed
 #' to the screen to let the user know about progress. Defaults to TRUE.
@@ -44,7 +44,6 @@ preText <- function(preprocessed_documents,
         distance_matrices,
         choices = preprocessed_documents$choices,
         labels = preprocessed_documents$labels,
-        method = "distribution",
         baseline_index = length(preprocessed_documents$labels),
         text_size = 1,
         num_comparisons = num_comparisons,

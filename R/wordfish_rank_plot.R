@@ -7,7 +7,7 @@
 #' reversed internally.
 #' @param ranking A character vector containing the correctly ranked document
 #' names.
-#' @param black_white Logical, defualts to FALSE. If FALSE then results are
+#' @param black_white Logical, defaults to FALSE. If FALSE then results are
 #' displayed on a red-blue scale. IF TRUE, then mis-ordered documents are
 #' colored black.
 #' @param one_matrix Logical indicating whether results should be plotted as a

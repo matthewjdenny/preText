@@ -1,8 +1,8 @@
-#' @title Remove sparse terms from quanteda dfm.
-#' @description Removes terms appearing in less than a specifiec percentage of
+#' @title Remove infrequently occurring terms from quanteda dfm.
+#' @description Removes terms appearing in less than a specific proportion of
 #' documents in a corpus from a dfm.
 #'
-#' @param dfm_object A quanteda dfm() object.
+#' @param dfm_object A quanteda dfm object.
 #' @param proportion_threshold proportion of documents a term must be included in
 #' to be included in the dfm.
 #' @param indices Defaults to NULL. If not NULL, then it must be a numeric

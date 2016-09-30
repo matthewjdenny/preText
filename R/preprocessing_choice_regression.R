@@ -5,11 +5,11 @@
 #' @param Y A vector of length 128 (usually) containing a numeric outcome
 #' variable. This should be the preText (or other) score for a particular
 #' preprocessing specification.
-#' @param choices A 128 x 7 data.frame produced by the factorial_preprocessing
-#' function.
+#' @param choices A 128 x 7 data.frame produced by the `factorial_preprocessing()`
+#' function and output in the `$choices` field.
 #' @param dataset The name to be given to the data we are analyzing.
-#' @param base_case_index An optional argument whic removes a base case row from
-#' the choices data before performing the regrerssion.
+#' @param base_case_index An optional argument which removes a base case row from
+#' the choices data before performing the regression.
 #' @return A data.frame
 #' @export
 preprocessing_choice_regression <- function(Y,

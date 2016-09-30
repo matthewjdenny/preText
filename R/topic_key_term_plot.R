@@ -1,18 +1,21 @@
-#' @title Plot Prevalence of Topiuc Key Terms
+#' @title Plot Prevalence of Topic Key Terms
 #' @description Plotting of key terms across preprocessing decisions.
 #'
-#' @param topic_key_term_results A data.frame.
-#' @param labs Labels for the preprocessing choices being used in the analysis.
+#' @param topic_key_term_results A data.frame with one column per key term and
+#' one row for each set of topic model results. The entries in each cell should
+#' be the proportion of topics in which a term appears.
+#' @param labs Labels for the preprocessing specifications associated with each
+#' set of topic model results.
 #' @param key_term_columns The columns containing key term results.
 #' @param custom_col_names Names for the key terms.
 #' @param custom_labels Labels for the provided key. Must be of length 12.
-#' @param one_matrix Logical indicating whether results shoudl be displayed as
+#' @param one_matrix Logical indicating whether results should be displayed as
 #' a one column matrix. Defaults to FALSE.
 #' @param thresholds A numeric vector of length 11 with threshold for inclusion
-#' in various heat map categroies.
+#' in various heat map categories.
 #' @param heat_ramp Option to use heat ramp (yellow-red-purple) instead of a
-#' white tp blue ramp.
-#' @param return_data Logical indicating whether recaled data should be
+#' white to blue ramp.
+#' @param return_data Logical indicating whether rescaled data should be
 #' returned. Defaults to FALSE.
 #' @return A plot
 #' @export
@@ -31,22 +34,6 @@ topic_key_term_plot <- function(
 
     variable <- value <- NULL
 
-    # gray - yellow - orange - red - purple
-    # custom_ramp <- c("#4E4E4E",
-    #                  "#F6F28F",
-    #                  "#FAF571",
-    #                  "#FEFA41",
-    #                  "#FFDE03",
-    #                  "#FFAF02",
-    #                  "#FB4D00",
-    #                  "#FE0524",
-    #                  "#F5067B",
-    #                  "#F306B9",
-    #                  "#D705F0",
-    #                  "#9C10E3",
-    #                  "#7018D1",
-    #                  "#471BC1",
-    #                  "#081CAF")
     custom_ramp <- c("#FFFFFF","#CDCEFA","#BEBDF6","#A7ABED","#959DE6","#7281D4",
                      "#5B70C9","#4A63C1","#3153B4","#1848A4","#053C96","#003A92")
     if (heat_ramp) {

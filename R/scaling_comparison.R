@@ -1,12 +1,13 @@
 #' @title Scaling Comparison.
-#' @description Scale each dfm and return a list of similarity matrices and
+#' @description Scale each dfm and return a list of distance matrices and
 #' scaled document positions.
 #'
-#' @param dfm_object_list A list of quanteda dfm() objects.
-#' @param dimensions THe number of dimensions to be used by the multidimensional
-#' scaling algorithm. Defualts to 2.
+#' @param dfm_object_list A list of quanteda dfm objects returned in the
+#' `$dfm_list$ field of the output from the `factorial_preprocessing()` function.
+#' @param dimensions The number of dimensions to be used by the multidimensional
+#' scaling algorithm. Defaults to 2.
 #' @param distance_method The method that should be used for calculating
-#' document distances. Defualts to "cosine".
+#' document distances. Defaults to "cosine".
 #' @param verbose Logical indicating whether more information should be printed
 #' to the screen to let the user know about progress. Defaults
 #' to TRUE.

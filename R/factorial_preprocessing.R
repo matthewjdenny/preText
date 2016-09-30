@@ -3,16 +3,16 @@
 #' @description Preprocesses a corpus of texts into a document-frequency matrix
 #' in 128 different ways.
 #'
-#' @param text A vector of strings (one per document) or Quanteda corpus object
+#' @param text A vector of strings (one per document) or quanteda corpus object
 #' from which we wish to form a document-term matrix.
 #' @param use_ngrams Option to extract 1,2, and 3-grams from the text as another
-#' potential preprocessing step. Defualts to TRUE.
+#' potential preprocessing step. Defaults to TRUE.
 #' @param infrequent_term_threshold A proportion threshold at which infrequent
 #' terms are to be filtered. Defaults to 0.01 (terms that appear in less than
 #' 1 percent of documents).
 #' @param parallel Logical indicating whether factorial prerpocessing should be
-#' performed in parallel. Defualts to FALSE.
-#' @param cores Defualts to 1, can be set to any number less than or equal to
+#' performed in parallel. Defaults to FALSE.
+#' @param cores Defaults to 1, can be set to any number less than or equal to
 #' the number of cores on one's computer.
 #' @param intermediate_directory Optional path to a directory where each dfm
 #' will be saved as an intermediate step. The file names will follow the

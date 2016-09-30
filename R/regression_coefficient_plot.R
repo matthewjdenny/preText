@@ -1,12 +1,12 @@
 #' @title Regression Coefficient Plot
 #' @description Easy plotting for multiple regression results on same axes.
 #'
-#' @param data A data.frame produced by the `preprocessing_choice_regression`
+#' @param data A data.frame produced by the `preprocessing_choice_regression()`
 #' function, or a list created by the `preText()` function.
 #' @param text_size The size of the text to be displayed. Defaults to 1.
-#' @param remove_intercept Logical indicating whwter intercept coefficiet sould
-#' be plotted. Defalts to FALSE.
-#' @param title The title the user wishes to give the lot, whic will be diplayed
+#' @param remove_intercept Logical indicating whether intercept coefficient should
+#' be plotted. Defaults to FALSE.
+#' @param title The title the user wishes to give the lot, which will be displayed
 #' instead of the axis title.
 #' @return A plot
 #' @export
