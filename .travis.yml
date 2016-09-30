@@ -4,5 +4,5 @@ language: R
 sudo: false
 cache: packages
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y --force-yes libgsl0ldbl
+  - setuid root apt-get -qq update
+  - setuid root apt-get install -y --force-yes libgsl0ldbl
