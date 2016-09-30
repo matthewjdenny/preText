@@ -6,6 +6,7 @@ cache: packages
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y --force-yes libgsl0ldbl
+  - sudo apt-get install -y --force-yes libgsl-dev
 env: 
   PKG_LIBS=-L/usr/local/opt/gettext/lib
   CFLAGS=-I/usr/local/opt/gsl/include
