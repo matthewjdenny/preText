@@ -1,8 +1,8 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
-sudo: false
+sudo: required
 cache: packages
 before_install:
-  - setuid root apt-get -qq update
-  - setuid root apt-get install -y --force-yes libgsl0ldbl
+  - sudo apt-get -qq update
+  - sudo apt-get install -y --force-yes libgsl0ldbl
