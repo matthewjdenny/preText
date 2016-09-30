@@ -9,9 +9,16 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This vignette is designed to introduce you to the **preText** R package. 
+This vignette is designed to introduce you to the **preText** R package. This 
+package is built on top of the [quanteda](https://github.com/kbenoit/quanteda)
+R package for text processing and can take as input a `quanteda::corpus` object,
+or a character vector (with one string per document). The main functions will
+preprocess the input text 64-128 different ways, and then allow the user to 
+assess the consequences of the different preprocessing steps based on how 
+unusual the resulting document--term matrix (DTM) is using the **preText**
+procedure.
 
-The paper detailing the procedure can be found at the link below:
+Our paper detailing the **preText** procedure can be found at the link below:
 
 * Matthew J. Denny, and Arthur Spirling (2016). "Assessing the Consequences of Text Preprocessing Decisions". [[Not Yet Available](www.mjdenny.com)]
 
@@ -29,7 +36,7 @@ via GitHub, since it makes use of C++ code.
 ```{r eval=FALSE} 
 install.packages("devtools")
 ```    
-Now we can install from Github using the following line:
+Now we can install from GitHub using the following line:
 ```{r eval=FALSE} 
 devtools::install_github("matthewjdenny/preText")
 ```
@@ -46,7 +53,8 @@ We begin by loading the package and some example data from the `quanteda` R
 package. In this example, we will make use of 57 U.S. presidential inaugural 
 speeches. As a general rule, you will want to limit the number of documents used
 with `preText` to several hundred in most cases, in order to avoid extremely 
-long run times and/or high memory requirements. 
+long run times and/or high memory requirements. To make this example run more 
+quickly, we are only going to use 10 documents.
 ```{r eval=TRUE, fig.width=6, fig.height=6, fig.align ='center'}     
 library(preText)
 library(quanteda)
@@ -69,10 +77,12 @@ to preprocess more than a few hundred documents, they may want to explore the
 `parallel` option. This can significantly speed up preprocessing, but will 
 require significantly more RAM on the computer being used. Here, we have 
 selected the `use_ngrams = TRUE` option, and set the document proportion 
-threshold at which to remove infrequent terms at 0.01 (the default value). In 
-order prevent spamming this vignette with output, we have elected to set the 
-`verbose` option to FALSE. In practice, it is better to keep `verbose = TRUE` to
-make it easier to evaluate the progress of preprocessing. 
+threshold at which to remove infrequent terms at 0.2. This means that terms 
+which appear in less than 20 percent (2/10) documents will be removed. The 
+default value is 0.01 (or 1/100 documents), but for this small corpus, we 
+increase the value. In order prevent spamming this vignette with output, we have 
+elected to set the  `verbose` option to FALSE. In practice, it is better to keep 
+`verbose = TRUE` to make it easier to evaluate the progress of preprocessing.
 ```{r eval=TRUE, fig.width=6, fig.height=6, fig.align ='center'}
 preprocessed_documents <- factorial_preprocessing(
     documents,
@@ -85,7 +95,7 @@ three fields. The first of these is `$choices`, a data.frame containing indicato
 for each of the preprocessing steps used. The second is `$dfm_list`, which is a 
 list with 64 or 128 entries, each of which contains a `quanteda::dfm` object 
 preprocessed according to the specification in the corresponding row in `choices`.
-Each dfm in this list will be labeled to match the row names in choices, but you
+Each DFM in this list will be labeled to match the row names in choices, but you
 can also access these labels from the `$labels` field. We can look at the first 
 few rows of `choices` below:
 ```{r eval=TRUE, fig.width=6, fig.height=6, fig.align ='center'}
@@ -115,11 +125,11 @@ preText_results <- preText(
 ```
 The `preText()` function returns a list of result with four fields:
 
-* `$preText_scores`: A data.frame containing preText scores and preprocessing step labels for each preprocessing step as columns. Note that there is no preText score for the case of no prepprocessing steps. 
-* `$ranked_preText_scores`: A data.frame that is identical to `$preText_scores` except that it is ordered by the magnitude of the preText score
-* `$choices`: A data.frame containing binary indicators of which preprocessing 
-steps were applied to factorial preprocessed dfm. 
-* `$regression_results`: A data.frame containing regression results where indicators for each preprocessing decision are regressed on the preText score for that specification.
+* `$preText_scores`: A `data.frame` containing preText scores and preprocessing step labels for each preprocessing step as columns. Note that there is no preText score for the case of no prepprocessing steps. 
+* `$ranked_preText_scores`: A `data.frame` that is identical to `$preText_scores` except that it is ordered by the magnitude of the preText score
+* `$choices`: A `data.frame` containing binary indicators of which preprocessing 
+steps were applied to factorial preprocessed DFM. 
+* `$regression_results`: A `data.frame` containing regression results where indicators for each preprocessing decision are regressed on the preText score for that specification.
 
 We can now feed these results to two functions that will help us make better 
 sense of them. `preText_score_plot()` creates a dot plot of scores for each 
@@ -134,7 +144,17 @@ included that step. Here again, a negative coefficient indicates that a step
 tends to reduce the unusualness of the results, while a positive coefficient
 indicates that applying the step is likely to produce more unusual results for 
 that corpus.
-```{r eval=TRUE, fig.width=5, fig.height=3, fig.align ='center'}
+```{r eval=TRUE, fig.width=6, fig.height=4, fig.align ='center'}
 regression_coefficient_plot(preText_results,
                             remove_intercept = TRUE)
 ```
+In this particular toy example, we see that including n-grams and removing 
+stop words tends to produce more normal results, while removing punctuation
+tends to produce more unusual results. However, we should not put too much stock
+in these results due to the small number of documents used to generate them.
+
+## More Advanced Features
+The preText package provides a number of additional functions for examining the
+effects of preprocessing decisions on resulting DFMs. Please see the README on
+the package [GitHub page](https://github.com/matthewjdenny/preText) for more
+details on these additional functions.
