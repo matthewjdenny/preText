@@ -45,8 +45,8 @@ would any other package by calling:
 ```{r eval=FALSE} 
 library(preText)
 ```
-If all went well, check out the `vignette("getting_started")` which will pull up 
-this vignette!
+If all went well, check out the `vignette("getting_started_with_preText")` which 
+will pull up this vignette!
 
 ## Basic Usage
 We begin by loading the package and some example data from the `quanteda` R 
@@ -158,3 +158,38 @@ The preText package provides a number of additional functions for examining the
 effects of preprocessing decisions on resulting DFMs. Please see the README on
 the package [GitHub page](https://github.com/matthewjdenny/preText) for more
 details on these additional functions.
+
+## Replication of Results for UK Manifestos Data
+The example provided above uses a toy dataset, mostly to reduce the runtime for 
+the analysis to under 20 minutes on most computers. For those who would like
+to explore a full example, we include the UK Manifestos dataset described in the 
+paper with our package. It can be accessed using the `data("UK_Manifestos")`
+command once the package is loaded. Below, we provide a full working example 
+which will replicated results from the paper. The code has not been run in this 
+vignette to save time, but you may give it a try on your own computer. It should 
+run in less than 24 hours on most computers.
+```{r eval=FALSE, fig.width=6, fig.height=4, fig.align ='center'}
+# load the package
+library(preText)
+# load in the data
+data("UK_Manifestos")
+# preprocess data
+preprocessed_documents <- factorial_preprocessing(
+    UK_Manifestos,
+    use_ngrams = TRUE,
+    infrequent_term_threshold = 0.02,
+    verbose = TRUE)
+# run preText
+preText_results <- preText(
+    preprocessed_documents,
+    dataset_name = "Inaugural Speeches",
+    distance_method = "cosine",
+    num_comparisons = 100,
+    verbose = TRUE)
+# generate preText score plot
+preText_score_plot(preText_results)
+# generate regression results
+regression_coefficient_plot(preText_results,
+                            remove_intercept = TRUE)
+```
+
