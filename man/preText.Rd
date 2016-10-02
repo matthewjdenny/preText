@@ -4,7 +4,7 @@
 \name{preText}
 \alias{preText}
 \alias{preText-package}
-\title{preText: functions to asses the effects of text preprocessing decisions}
+\title{preText: Diagnostics to Asses The Effects of Text Preprocessing Decisions}
 \usage{
 preText(preprocessed_documents, dataset_name = "Documents",
   distance_method = "cosine", num_comparisons = 50, parallel = FALSE,
@@ -36,7 +36,7 @@ to the screen to let the user know about progress. Defaults to TRUE.}
 A result list object.
 }
 \description{
-preText: functions to asses the effects of text preprocessing decisions
+preText: Diagnostics to Asses The Effects of Text Preprocessing Decisions
 
 Calculates preText scores for each preprocessing specification.
 }
@@ -49,7 +49,9 @@ preprocessing decisions. The next step in most applications will be to run
 the preText() function, which will generate preText scores for each preprocessing
 specification. These can then be fed to the preText_score_plot() and
 regression_coefficient_plot() functions to generate interpretable output.
-For more information on additional functions check out the GitHub READMe for
-this package (https://github.com/matthewjdenny/preText).
+For more information on additional functions check out the GitHub README for
+this package (https://github.com/matthewjdenny/preText) or the "getting
+started" vignette by typing `vignette("getting_started_with_preText")` into
+the console.
 }
 
