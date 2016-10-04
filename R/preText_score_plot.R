@@ -67,14 +67,18 @@ preText_score_plot <- function(preText_results,
             ggplot2::theme(legend.position = "none",
                            axis.text.y= ggplot2::element_blank(),
                            axis.ticks.y= ggplot2::element_blank()) +
-            ggplot2::ylab("Unnormalized preText Score") +
             ggplot2::xlab("Preprocessing Combination")
     } else {
         zp1 <- zp1  + ggplot2::theme_bw() +
             ggplot2::coord_flip() +
             ggplot2::theme(legend.position = "none") +
-            ggplot2::ylab("preText Score") +
             ggplot2::xlab("Preprocessing Combination")
+    }
+
+    if (display_raw_rankings) {
+        zp1 <- zp1  + ggplot2::ylab("Unnormalized preText Score")
+    } else {
+        zp1 <- zp1  + ggplot2::ylab("preText Score")
     }
 
 
