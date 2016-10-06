@@ -5,7 +5,7 @@ An R package to assess the consequences of text preprocessing decisions.
 
 The paper detailing the procedure can be found at the link below:
 
-* Matthew J. Denny, and Arthur Spirling (2016). "Assessing the Consequences of Text Preprocessing Decisions". [[Not Yet Available](www.mjdenny.com)]
+* Matthew J. Denny, and Arthur Spirling (2016). "Assessing the Consequences of Text Preprocessing Decisions". [[ssrn.com/abstract=2849145]](https://ssrn.com/abstract=2849145)]
 
 ## Installation
 We are currently working on getting a version of the package up on CRAN. As soon
