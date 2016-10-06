@@ -1,4 +1,4 @@
-#' preText: Diagnostics to Asses The Effects of Text Preprocessing Decisions
+#' preText: Diagnostics to Assess The Effects of Text Preprocessing Decisions
 #'
 #' @section preText functions:
 #' To use this package, You will first want to check out the

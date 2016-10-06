@@ -4,7 +4,7 @@
 \name{preText}
 \alias{preText}
 \alias{preText-package}
-\title{preText: Diagnostics to Asses The Effects of Text Preprocessing Decisions}
+\title{preText: Diagnostics to Assess The Effects of Text Preprocessing Decisions}
 \usage{
 preText(preprocessed_documents, dataset_name = "Documents",
   distance_method = "cosine", num_comparisons = 50, parallel = FALSE,
@@ -36,7 +36,7 @@ to the screen to let the user know about progress. Defaults to TRUE.}
 A result list object.
 }
 \description{
-preText: Diagnostics to Asses The Effects of Text Preprocessing Decisions
+preText: Diagnostics to Assess The Effects of Text Preprocessing Decisions
 
 Calculates preText scores for each preprocessing specification.
 }
