@@ -6,7 +6,7 @@ Date: 2016-10-6
 Author: Matthew J. Denny <mdenny@psu.edu>, Arthur Spirling
     <as9934@nyu.edu>,
 Maintainer: Matthew J. Denny <mdenny@psu.edu>
-Description: Functions to asses the effects of different text preprocessing decisions on the inferences drawn from the resulting document-term matrices they generate.
+Description: Functions to assess the effects of different text preprocessing decisions on the inferences drawn from the resulting document-term matrices they generate.
 License: GPL-3
 Imports:
     quanteda,
