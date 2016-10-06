@@ -16,6 +16,26 @@
 #' @param verbose Logical indicating whether more information should be printed
 #' to the screen to let the user know about progress. Defaults to TRUE.
 #' @return A result list object.
+#' @examples
+#' \dontrun{
+#' # load the package
+#' library(preText)
+#' # load in the data
+#' data("UK_Manifestos")
+#' # preprocess data
+#' preprocessed_documents <- factorial_preprocessing(
+#'     UK_Manifestos,
+#'     use_ngrams = TRUE,
+#'     infrequent_term_threshold = 0.02,
+#'     verbose = TRUE)
+#' # run preText
+#' preText_results <- preText(
+#'     preprocessed_documents,
+#'     dataset_name = "Inaugural Speeches",
+#'     distance_method = "cosine",
+#'     num_comparisons = 100,
+#'     verbose = TRUE)
+#' }
 #' @export
 preText <- function(preprocessed_documents,
                     dataset_name = "Documents",

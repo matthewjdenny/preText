@@ -31,6 +31,19 @@
 #' to the screen to let the user know about progress in preprocessing. Defaults
 #' to TRUE.
 #' @return A list object containing permutations of the document-term matrix.
+#' @examples
+#' \dontrun{
+#' # load the package
+#' library(preText)
+#' # load in the data
+#' data("UK_Manifestos")
+#' # preprocess data
+#' preprocessed_documents <- factorial_preprocessing(
+#'     UK_Manifestos,
+#'     use_ngrams = TRUE,
+#'     infrequent_term_threshold = 0.02,
+#'     verbose = TRUE)
+#' }
 #' @export
 factorial_preprocessing <- function(text,
                                     use_ngrams = TRUE,
