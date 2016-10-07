@@ -1,14 +1,3 @@
-#' @title Remove terms that only appear in a less than a specified proportion of
-#' years.
-#' @description Removes terms appearing in less than a specific proportion of
-#' years in the data.
-#'
-#' @param dfm_object A quanteda dfm object.
-#' @param years A numeric vector giving the year for each document
-#' @param proportion_threshold Proportion of years a term must be included in
-#' to be included in the dfm.
-#' @return A reduced dfm.
-#' @export
 temporal_filter <- function(dfm_object,
                             years,
                             proportion_threshold = 0.5){
