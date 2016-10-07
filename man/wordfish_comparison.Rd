@@ -29,4 +29,39 @@ A result list object
 Calculated Wordfish scores for a list of dfm objects with
 temporal filtering.
 }
+\examples{
+\dontrun{
+# replicates wordfish aanalysis from Denny and Spirling (2016)
+# load the package
+library(preText)
+# load in the data
+data("UK_Manifestos")
+# preprocess data
+preprocessed_documents <- factorial_preprocessing(
+    UK_Manifestos,
+    use_ngrams = TRUE,
+    infrequent_term_threshold = 0.02,
+    verbose = TRUE)
+# get the years each document was written and store them as a numeric vector
+dfm <- preprocessed_documents$dfm_list[[1]]
+rl <- function(str) {
+    stringr::str_replace_all(str,"[A-Za-z]+","")
+}
+years <- as.numeric(sapply(rownames(dfm),rl))
+
+# use the wordfish_comparison function to compare all dfms. We are using
+# conservative and labour manifestos from 1983, 1987, 1992, and 1997 for a total
+# of 8 manifestos. These are indicated by the document_inidices = c(19:22,42:45)
+# argument. You can see the document names by entering rownames(dfm) into the
+# console. We need to set the anchors to 5,1 because anchoring is applied in the
+# reduced dfm. We are also only including terms that appear atleast once in a
+# manifesto from each of the 4 years, to deal with the strong temporal effects.
+wordfish_results <- wordfish_comparison(
+    preprocessed_documents$dfm_list,
+    years,
+    anchors = c(1,5),
+    proportion_threshold = 1,
+    document_inidices = c(19:22,42:45))
+}
+}
 

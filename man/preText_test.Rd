@@ -45,4 +45,34 @@ A result list object.
 \description{
 calculates preText scores for each preprocessing specification.
 }
+\examples{
+\dontrun{
+# *** This function is used automatically inside of the preText() function.
+# load the package
+library(preText)
+# load in the data
+data("UK_Manifestos")
+# preprocess data
+preprocessed_documents <- factorial_preprocessing(
+    UK_Manifestos,
+    use_ngrams = TRUE,
+    infrequent_term_threshold = 0.02,
+    verbose = TRUE)
+# scale documents
+scaling_results <- scaling_comparison(preprocessed_documents$dfm_list,
+                                      dimensions = 2,
+                                      distance_method = "cosine",
+                                      verbose = TRUE)
+# run preText test
+preText_test_results <-preText_test(scaling_results$distance_matrices,
+                                    choices = preprocessed_documents$choices,
+                                    labels = preprocessed_documents$labels,
+                                    baseline_index = 128,
+                                    text_size = 1,
+                                    num_comparisons = 50,
+                                    parallel = FALSE,
+                                    cores = 1,
+                                    verbose = TRUE)
+}
+}
 

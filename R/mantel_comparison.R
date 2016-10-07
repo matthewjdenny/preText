@@ -13,6 +13,28 @@
 #' @return A result list object where the first entry is a matrix summarizing
 #' mantel test statistics. The second object in the list is a matrix of the
 #' values described above. The third object is a list of all raw mantel results.
+#' @examples
+#' \dontrun{
+#' # load the package
+#' library(preText)
+#' # load in the data
+#' data("UK_Manifestos")
+#' # preprocess data
+#' preprocessed_documents <- factorial_preprocessing(
+#'     UK_Manifestos,
+#'     use_ngrams = TRUE,
+#'     infrequent_term_threshold = 0.02,
+#'     verbose = TRUE)
+#' # scale documents
+#' scaling_results <- scaling_comparison(preprocessed_documents$dfm_list,
+#'                                       dimensions = 2,
+#'                                       distance_method = "cosine",
+#'                                       verbose = TRUE)
+#' # run mantel tests
+#' mantel_results <- mantel_comparison(scaling_results$distance_matrices,
+#'                                     labels = preprocessed_documents$labels,
+#'                                     permutations = 1000)
+#' }
 #' @export
 mantel_comparison <- function(distance_matrices,
                               labels = NULL,

@@ -28,4 +28,24 @@ A result list object.
 Scale each dfm and return a list of distance matrices and
 scaled document positions.
 }
+\examples{
+\dontrun{
+# *** This function is used automatically inside of the preText() function.
+# load the package
+library(preText)
+# load in the data
+data("UK_Manifestos")
+# preprocess data
+preprocessed_documents <- factorial_preprocessing(
+    UK_Manifestos,
+    use_ngrams = TRUE,
+    infrequent_term_threshold = 0.02,
+    verbose = TRUE)
+# scale documents
+scaling_results <- scaling_comparison(preprocessed_documents$dfm_list,
+                                      dimensions = 2,
+                                      distance_method = "cosine",
+                                      verbose = TRUE)
+}
+}
 

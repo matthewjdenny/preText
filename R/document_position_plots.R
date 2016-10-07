@@ -14,6 +14,30 @@
 #' TRUE class will be colors BLUE and those in the FALSE class will be colored
 #' red.
 #' @return A list of ggplot2 objects.
+#' @examples
+#' \dontrun{
+#' # *** This function is used automatically inside of the preText() function.
+#' # load the package
+#' library(preText)
+#' # load in the data
+#' data("UK_Manifestos")
+#' # preprocess data
+#' preprocessed_documents <- factorial_preprocessing(
+#'     UK_Manifestos,
+#'     use_ngrams = TRUE,
+#'     infrequent_term_threshold = 0.02,
+#'     verbose = TRUE)
+#' # scale documents
+#' scaling_results <- scaling_comparison(preprocessed_documents$dfm_list,
+#'                                       dimensions = 2,
+#'                                       distance_method = "cosine",
+#'                                       verbose = TRUE)
+#' # plot scaled positions
+#' document_position_plots(scaling_results$scaled_positions,
+#'                         num_cols = 10,
+#'                         colors = NULL,
+#'                         decision_colors = NULL)
+#' }
 #' @export
 document_position_plots <- function(positions_list,
                                     num_cols = 10,

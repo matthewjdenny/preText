@@ -12,6 +12,23 @@
 #' to the screen to let the user know about progress in preprocessing. Defaults
 #' to TRUE.
 #' @return A reduced dfm.
+#' @examples
+#' \dontrun{
+#' # load the package
+#' library(preText)
+#' # load in the data
+#' data("UK_Manifestos")
+#' # preprocess data
+#' preprocessed_documents <- factorial_preprocessing(
+#'     UK_Manifestos,
+#'     use_ngrams = TRUE,
+#'     infrequent_term_threshold = 0.02,
+#'     verbose = TRUE)
+#' updated_dfm <- remove_infrequent_terms(preprocessed_documents$dfm_list[[1]],
+#'                                        proportion_threshold = 0.5,
+#'                                        indices = NULL,
+#'                                        verbose = TRUE)
+#' }
 #' @export
 remove_infrequent_terms <- function(dfm_object,
                                     proportion_threshold = 0.01,

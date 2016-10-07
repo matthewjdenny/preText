@@ -28,4 +28,22 @@ A reduced dfm.
 Removes terms appearing in less than a specific proportion of
 documents in a corpus from a dfm.
 }
+\examples{
+\dontrun{
+# load the package
+library(preText)
+# load in the data
+data("UK_Manifestos")
+# preprocess data
+preprocessed_documents <- factorial_preprocessing(
+    UK_Manifestos,
+    use_ngrams = TRUE,
+    infrequent_term_threshold = 0.02,
+    verbose = TRUE)
+updated_dfm <- remove_infrequent_terms(preprocessed_documents$dfm_list[[1]],
+                                       proportion_threshold = 0.5,
+                                       indices = NULL,
+                                       verbose = TRUE)
+}
+}
 

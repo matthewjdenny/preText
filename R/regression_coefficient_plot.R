@@ -9,6 +9,29 @@
 #' @param title The title the user wishes to give the lot, which will be displayed
 #' instead of the axis title.
 #' @return A plot
+#' @examples
+#' \dontrun{
+#' # load the package
+#' library(preText)
+#' # load in the data
+#' data("UK_Manifestos")
+#' # preprocess data
+#' preprocessed_documents <- factorial_preprocessing(
+#'     UK_Manifestos,
+#'     use_ngrams = TRUE,
+#'     infrequent_term_threshold = 0.02,
+#'     verbose = TRUE)
+#' # run preText
+#' preText_results <- preText(
+#'     preprocessed_documents,
+#'     dataset_name = "Inaugural Speeches",
+#'     distance_method = "cosine",
+#'     num_comparisons = 100,
+#'     verbose = TRUE)
+#' # generate regression results
+#' regression_coefficient_plot(preText_results,
+#'                             remove_intercept = TRUE)
+#' }
 #' @export
 regression_coefficient_plot <- function(data,
                                         text_size = 1,
