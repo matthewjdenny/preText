@@ -48,12 +48,12 @@ preText_results <- preText(
     distance_method = "cosine",
     num_comparisons = 100,
     verbose = TRUE)
-}
 # get regression results
 reg_results <- preprocessing_choice_regression(
      preText_results$preText_scores$preText_score,
      preprocessed_documents$choices,
      dataset = "UK Manifestos",
      base_case_index = 128)
+}
 }
 
