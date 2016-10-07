@@ -18,6 +18,28 @@
 #' @return A data.frame with mantel statistics and 95 percent confidence
 #' intervals comparing all other preprocessing choices to base case, and/or a
 #' plot of confidence intervals.
+#' @examples
+#' \dontrun{
+#' # load the package
+#' library(preText)
+#' # load in the data
+#' data("UK_Manifestos")
+#' # preprocess data
+#' preprocessed_documents <- factorial_preprocessing(
+#'     UK_Manifestos,
+#'     use_ngrams = TRUE,
+#'     infrequent_term_threshold = 0.02,
+#'     verbose = TRUE)
+#' # scale documents
+#' scaling_results <- scaling_comparison(preprocessed_documents$dfm_list,
+#'                                       dimensions = 2,
+#'                                       distance_method = "cosine",
+#'                                       verbose = TRUE)
+#' # run mantel comparison to base and plot
+#' mantel_comparison_to_base(scaling_results$distance_matrices,
+#'                           names = preprocessed_documents$labels,
+#'                           permutations = 1000)
+#' }
 #' @export
 mantel_comparison_to_base <- function(distance_matrices,
                                       names = NULL,

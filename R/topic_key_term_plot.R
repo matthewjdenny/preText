@@ -18,6 +18,111 @@
 #' @param return_data Logical indicating whether rescaled data should be
 #' returned. Defaults to FALSE.
 #' @return A plot
+#' @examples
+#' \dontrun{
+#' set.seed(12345)
+#' # load the package
+#' library(preText)
+#' # load in the data
+#' data("UK_Manifestos")
+#' # preprocess data
+#' preprocessed_documents <- factorial_preprocessing(
+#'     UK_Manifestos,
+#'     use_ngrams = TRUE,
+#'     infrequent_term_threshold = 0.02,
+#'     verbose = TRUE)
+#' cross_validation_splits <- 10
+#' # create 10 test/train splits
+#' train_inds <- vector(mode = "list", length = cross_validation_splits)
+#' test_inds <- vector(mode = "list", length = cross_validation_splits)
+#' # sample CV indices
+#' for (i in 1:cross_validation_splits) {
+#'     test <- sample(1:length(UK_Manifestos),
+#'                    size = round(length(UK_Manifestos)/5),
+#'                    replace = FALSE)
+#'     train <- 1:length(UK_Manifestos)
+#'     for (j in 1:length(test)) {
+#'         train <- train[-which(train == test[j])]
+#'     }
+#'     train_inds[[i]] <- train
+#'     test_inds[[i]] <- test
+#' }
+#' # get the optimal number of topics (this will take a very long time):
+#' optimal_k <- optimal_k_comparison(
+#'      train_inds,
+#'      test_inds,
+#'      preprocessed_documents$dfm_list,
+#'      topics = c(25,50,75,100,125,150,175,200),
+#'      names  = preprocessed_documents$labels)
+#' # run a topic model with the optimal number of topics for each preproc. spec.
+#' top_terms_list <- vector(mode = "list", length = 128)
+#' for (i in 1:128) {
+#'      fit <- topicmodels::LDA(quanteda::convert(preprocessed_documents$dfm_list[[i]],
+#'                                                to = "topicmodels"),
+#'                              k = optimal_k[i])
+#'      # extract out top 20 terms for each topic
+#'      top_terms <- terms(fit,20)
+#'      top_terms_list[[i]] <- top_terms
+#' }
+#' # !!!!!! You will need to look for some key terms, and store them in a
+#' # data.frame. Your code should be based off of the following. !!!!
+#' # function to search for a term
+#' find_term <- function(vec, term) {
+#'      tc <- 0
+#'      for(i in 1:length(term)) {
+#'          tc <- tc + sum(grepl(term[i],vec, ignore.case = T))
+#'      }
+#'      if (tc > 0) {
+#'          return(TRUE)
+#'      } else {
+#'          return(FALSE)
+#'      }
+#' }
+#'
+#' # look for topics containing the terms below -- this is from our example with
+#' # press releases so it will have to be modified.
+#' # allows for multiple top terms related to the same concept
+#' num_topics <- rep(0, length = 128)
+#' search_list <- list(iraq = c("iraq"),
+#'                     terror = c("terror"),
+#'                     al_qaeda = c("qaeda"),
+#'                     insurance = c("insur"),
+#'                     stem_cell = c("stem"))
+#'
+#' # where we will store our results
+#' topics_in_results <- data.frame(
+#'     preprocessing_steps = preprocessed_documents$labels,
+#'     iraq = num_topics,
+#'     terror = num_topics,
+#'     al_qaeda = num_topics,
+#'     insurance = num_topics,
+#'     stem_cell = num_topics,
+#'     optimal_number_of_topics = optimal_k,
+#'     stringsAsFactors = FALSE)
+#' # count the number of topics in which each top term appears
+#' for (i in 1:128) {
+#'     # allows for multiple top terms related to the same concept
+#'     top_terms <- top_terms_list[[i]]
+#'     for (j in 1:length(search_list)) {
+#'         in_topic <- apply(top_terms,2,find_term, term = search_list[[j]])
+#'         which_topics <- which(in_topic)
+#'         topics_in_results[i,(j+1)] <- length(which_topics)
+#'     }
+#' }
+#' # now make a plot:
+#' topic_key_term_plot(
+#'      topics_in_results,
+#'      preprocessed_documents$labels,
+#'      key_term_columns  = 2:6,
+#'      custom_col_names = c("Iraq", "Terrorism", "Al Qaeda", "Insurance", "Stem Cell"),
+#'      custom_labels = c("0%","<1%","1-2%","2-3%","3-4%","4-5%","5-6%","6-7%","7-8%",
+#'                        "8-9%","9-10%","10%+"),
+#'      one_matrix = FALSE,
+#'      thresholds = c(-0.0001,0,0.0099,0.0199,0.0299,0.0399,0.0499,0.0599,0.0699,
+#'                     0.0799,0.0899,0.0999),
+#'      heat_ramp = FALSE,
+#'      return_data = FALSE)
+#' }
 #' @export
 topic_key_term_plot <- function(
     topic_key_term_results,

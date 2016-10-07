@@ -25,6 +25,43 @@
 #' @param intermediate_file_names Optional vector of file names for intermediate
 #' Rdata files -- one per combination.
 #' @return A vector containing the optiaml k for each dfm.
+#' @examples
+#' \dontrun{
+#' set.seed(12345)
+#' # load the package
+#' library(preText)
+#' # load in the data
+#' data("UK_Manifestos")
+#' # preprocess data
+#' preprocessed_documents <- factorial_preprocessing(
+#'     UK_Manifestos,
+#'     use_ngrams = TRUE,
+#'     infrequent_term_threshold = 0.02,
+#'     verbose = TRUE)
+#' cross_validation_splits <- 10
+#' # create 10 test/train splits
+#' train_inds <- vector(mode = "list", length = cross_validation_splits)
+#' test_inds <- vector(mode = "list", length = cross_validation_splits)
+#' # sample CV indices
+#' for (i in 1:cross_validation_splits) {
+#'     test <- sample(1:length(UK_Manifestos),
+#'                    size = round(length(UK_Manifestos)/5),
+#'                    replace = FALSE)
+#'     train <- 1:length(UK_Manifestos)
+#'     for (j in 1:length(test)) {
+#'         train <- train[-which(train == test[j])]
+#'     }
+#'     train_inds[[i]] <- train
+#'     test_inds[[i]] <- test
+#' }
+#' # get the optimal number of topics (this will take a very long time):
+#' optimal_k <- optimal_k_comparison(
+#'      train_inds,
+#'      test_inds,
+#'      preprocessed_documents$dfm_list,
+#'      topics = c(25,50,75,100,125,150,175,200),
+#'      names  = preprocessed_documents$labels)
+#' }
 #' @export
 optimal_k_comparison <- function(
     cross_validation_train_document_indicies,

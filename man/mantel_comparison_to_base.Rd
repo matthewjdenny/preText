@@ -37,4 +37,27 @@ distance matrices for a list of distance matrices (one per preprocessing
 method) supplied by the scaling_comparison() function to a base case --
 (usually the no-preprocessing specification).
 }
+\examples{
+\dontrun{
+# load the package
+library(preText)
+# load in the data
+data("UK_Manifestos")
+# preprocess data
+preprocessed_documents <- factorial_preprocessing(
+    UK_Manifestos,
+    use_ngrams = TRUE,
+    infrequent_term_threshold = 0.02,
+    verbose = TRUE)
+# scale documents
+scaling_results <- scaling_comparison(preprocessed_documents$dfm_list,
+                                      dimensions = 2,
+                                      distance_method = "cosine",
+                                      verbose = TRUE)
+# run mantel comparison to base and plot
+mantel_comparison_to_base(scaling_results$distance_matrices,
+                          names = preprocessed_documents$labels,
+                          permutations = 1000)
+}
+}
 

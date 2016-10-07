@@ -27,4 +27,33 @@ A data.frame
 Assessing the effects of preprocessing decisions on an outcome
 variable.
 }
+\examples{
+\dontrun{
+# *** note that this function is already called in the preText() function and
+# its output is returned in the results.
+# load the package
+library(preText)
+# load in the data
+data("UK_Manifestos")
+# preprocess data
+preprocessed_documents <- factorial_preprocessing(
+    UK_Manifestos,
+    use_ngrams = TRUE,
+    infrequent_term_threshold = 0.02,
+    verbose = TRUE)
+# run preText
+preText_results <- preText(
+    preprocessed_documents,
+    dataset_name = "Inaugural Speeches",
+    distance_method = "cosine",
+    num_comparisons = 100,
+    verbose = TRUE)
+}
+# get regression results
+reg_results <- preprocessing_choice_regression(
+     preText_results$preText_scores$preText_score,
+     preprocessed_documents$choices,
+     dataset = "UK Manifestos",
+     base_case_index = 128)
+}
 
