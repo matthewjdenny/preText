@@ -1,9 +1,7 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* Corrected the spelling error in the Title and Description
-
-* Added several examples for key functions.
+* Added examples to every documented function.
   
 ## Test environments
 * local OS X install, R 3.3.1
