@@ -1,7 +1,7 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* Added examples to every documented function.
+* Removed dependency on gridExtra, which was not used in this version of the package.
   
 ## Test environments
 * local OS X install, R 3.3.1
