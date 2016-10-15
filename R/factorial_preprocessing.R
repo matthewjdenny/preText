@@ -66,12 +66,12 @@ factorial_preprocessing <- function(text,
     }
 
     # check to see if input is a corpus object. If it is, extract the texts
-    if (class(text)[1] == "corpus") {
+    if (if.corpus(text)) {
         text <- quanteda::texts(text)
     }
 
     # now make sure we have a character vector
-    if (class(text)[1] != "character") {
+    if (!is.character(text) {
         stop("You must provide either a character vector of strings (one per document, or a quanteda corpus object.")
     }
 
