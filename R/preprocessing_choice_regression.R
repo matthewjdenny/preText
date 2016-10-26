@@ -59,6 +59,7 @@ preprocessing_choice_regression <- function(Y,
                    "Remove Infrequent Terms",  "Use NGrams" )
 
     fit <- lm(formula = form, data = DATA)
+    cat("The R^2 for this model is:",summary(fit)$r.squared,"\n")
     sds <- summary(fit)$coefficients[,2]
     results1 <- cbind( coef(fit),  sds)
     results1 <- as.data.frame(results1,
