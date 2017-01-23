@@ -93,6 +93,7 @@ wordfish_comparison <- function(dfm_list,
         # create a summary data frame
         tp <- data.frame(document = dfm@Dimnames$docs[order(result@theta)],
                          score = result@theta[order(result@theta)],
+                         std_error = result@se.theta[order(result@theta)],
                          stringsAsFactors = FALSE)
 
         # store everything
