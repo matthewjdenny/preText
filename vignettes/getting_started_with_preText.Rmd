@@ -14,13 +14,12 @@ package is built on top of the [quanteda](https://github.com/kbenoit/quanteda)
 R package for text processing and can take as input a `quanteda::corpus` object,
 or a character vector (with one string per document). The main functions will
 preprocess the input text 64-128 different ways, and then allow the user to 
-assess the consequences of the different preprocessing steps based on how 
-unusual the resulting document--term matrix (DTM) is using the **preText**
+assess how robust findings based on their theoretically preferred preprocessing specification are likely to be, using the **preText**
 procedure.
 
 Our paper detailing the **preText** procedure can be found at the link below:
 
-* Matthew J. Denny, and Arthur Spirling (2016). "Assessing the Consequences of Text Preprocessing Decisions". [[ssrn.com/abstract=2849145]](https://ssrn.com/abstract=2849145)
+* Matthew J. Denny, and Arthur Spirling (2017). "Text Preprocessing For Unsupervised Learning: Why It Matters, When It Misleads, And What To Do About It". [[ssrn.com/abstract=2849145]](https://ssrn.com/abstract=2849145)
 
 ## Installation
 The release version of the package can be installed from CRAN as follows:
@@ -62,7 +61,7 @@ library(preText)
 library(quanteda)
 
 # load in U.S. presidential inaugural speeches from Quanteda example data.
-corp <- corpus(inaugTexts)
+corp <- corpus(data_char_inaugural)
 # use first 10 documents for example
 documents <- texts(corp)[1:10]
 # take a look at the document names
@@ -139,12 +138,12 @@ preprocessing specification:
 ```{r eval=TRUE, fig.width=6, fig.height=16, fig.align ='center'}
 preText_score_plot(preText_results)
 ```
-Here, the least risky specifications have the lowest preText score and are 
+Here, the least "risky" specifications have the lowest preText score and are 
 displayed at the top of the plot. We can also see the conditional effects of 
 each preprocessing step on the mean preText score for each specification that 
 included that step. Here again, a negative coefficient indicates that a step 
 tends to reduce the unusualness of the results, while a positive coefficient
-indicates that applying the step is likely to produce more unusual results for 
+indicates that applying the step is likely to produce more "unusual" results for 
 that corpus.
 ```{r eval=TRUE, fig.width=6, fig.height=4, fig.align ='center'}
 regression_coefficient_plot(preText_results,
@@ -152,8 +151,7 @@ regression_coefficient_plot(preText_results,
 ```
 In this particular toy example, we see that including n-grams and removing 
 stop words tends to produce more normal results, while removing punctuation
-tends to produce more unusual results. However, we should not put too much stock
-in these results due to the small number of documents used to generate them.
+tends to produce more unusual results. Our general advice for how to proceed is detailed in the paper, but the most conservative approach is to replicate ones analysis across all combinations of steps which have a parameter estimate that is different from zero. In other words, begin by selecting a preprocessing specification motivated by theory, then for those steps with significant parameter estimates, replicate one's analysis across a combination of those steps holding the other steps constant. 
 
 ## More Advanced Features
 The preText package provides a number of additional functions for examining the
@@ -184,7 +182,7 @@ preprocessed_documents <- factorial_preprocessing(
 # run preText
 preText_results <- preText(
     preprocessed_documents,
-    dataset_name = "Inaugural Speeches",
+    dataset_name = "UK Manifestos",
     distance_method = "cosine",
     num_comparisons = 100,
     verbose = TRUE)
