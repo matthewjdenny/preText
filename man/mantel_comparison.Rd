@@ -50,4 +50,3 @@ mantel_results <- mantel_comparison(scaling_results$distance_matrices,
                                     permutations = 1000)
 }
 }
-

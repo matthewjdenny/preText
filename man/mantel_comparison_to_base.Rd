@@ -60,4 +60,3 @@ mantel_comparison_to_base(scaling_results$distance_matrices,
                           permutations = 1000)
 }
 }
-

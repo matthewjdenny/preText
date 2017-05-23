@@ -48,4 +48,3 @@ scaling_results <- scaling_comparison(preprocessed_documents$dfm_list,
                                       verbose = TRUE)
 }
 }
-

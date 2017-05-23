@@ -59,4 +59,3 @@ dfm_scaling_test(scaling_results,
                  labels = preprocessed_documents$labels)
 }
 }
-

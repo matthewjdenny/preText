@@ -55,4 +55,3 @@ document_position_plots(scaling_results$scaled_positions,
                         decision_colors = NULL)
 }
 }
-

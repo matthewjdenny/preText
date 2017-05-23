@@ -45,4 +45,3 @@ pred_errors <- calculate_prediction_errors(
      preprocessed_documents$choices)
 }
 }
-

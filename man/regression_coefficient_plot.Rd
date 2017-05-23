@@ -49,4 +49,3 @@ regression_coefficient_plot(preText_results,
                             remove_intercept = TRUE)
 }
 }
-

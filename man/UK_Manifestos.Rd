@@ -17,4 +17,3 @@ A dataset of party manifestos for Liberal, Labour, and Conservative parties
 for every general election in the UK between 1918 and 2001 (23 elections).
 }
 \keyword{datasets}
-

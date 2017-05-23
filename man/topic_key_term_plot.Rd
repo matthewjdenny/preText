@@ -150,4 +150,3 @@ topic_key_term_plot(
      return_data = FALSE)
 }
 }
-

@@ -56,4 +56,3 @@ reg_results <- preprocessing_choice_regression(
      base_case_index = 128)
 }
 }
-

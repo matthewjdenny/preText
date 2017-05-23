@@ -79,4 +79,3 @@ deviations <- wordfish_rank_plot(wordfish_results,
                   return_deviations = FALSE)
 }
 }
-

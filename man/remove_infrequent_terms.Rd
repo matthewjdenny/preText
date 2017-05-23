@@ -46,4 +46,3 @@ updated_dfm <- remove_infrequent_terms(preprocessed_documents$dfm_list[[1]],
                                        verbose = TRUE)
 }
 }
-

@@ -4,6 +4,7 @@
 \name{preText}
 \alias{preText}
 \alias{preText-package}
+\alias{preText}
 \title{preText: Diagnostics to Assess The Effects of Text Preprocessing Decisions}
 \usage{
 preText(preprocessed_documents, dataset_name = "Documents",
@@ -54,6 +55,7 @@ this package (https://github.com/matthewjdenny/preText) or the "getting
 started" vignette by typing `vignette("getting_started_with_preText")` into
 the console.
 }
+
 \examples{
 \dontrun{
 # load the package
@@ -75,4 +77,3 @@ preText_results <- preText(
     verbose = TRUE)
 }
 }
-

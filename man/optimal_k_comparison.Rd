@@ -87,4 +87,3 @@ optimal_k <- optimal_k_comparison(
      names  = preprocessed_documents$labels)
 }
 }
-

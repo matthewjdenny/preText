@@ -64,4 +64,3 @@ wordfish_results <- wordfish_comparison(
     document_inidices = c(19:22,42:45))
 }
 }
-

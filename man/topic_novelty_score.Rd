@@ -71,4 +71,3 @@ for (i in 1:128) {
 topic_novelty_score(top_terms_list[[1]])
 }
 }
-
