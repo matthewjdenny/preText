@@ -55,15 +55,15 @@ package. In this example, we will make use of 57 U.S. presidential inaugural
 speeches. As a general rule, you will want to limit the number of documents used
 with `preText` to several hundred in most cases, in order to avoid extremely 
 long run times and/or high memory requirements. To make this example run more 
-quickly, we are only going to use 10 documents.
+quickly, we are only going to use 4 documents.
 ```{r eval=TRUE, fig.width=6, fig.height=6, fig.align ='center'}     
 library(preText)
 library(quanteda)
 
 # load in U.S. presidential inaugural speeches from Quanteda example data.
-corp <- corpus(data_char_inaugural)
+documents <- data_corpus_inaugural
 # use first 10 documents for example
-documents <- texts(corp)[1:10]
+documents <- documents[1:4,]
 # take a look at the document names
 print(names(documents))
 ```
@@ -78,8 +78,8 @@ to preprocess more than a few hundred documents, they may want to explore the
 `parallel` option. This can significantly speed up preprocessing, but will 
 require significantly more RAM on the computer being used. Here, we have 
 selected the `use_ngrams = TRUE` option, and set the document proportion 
-threshold at which to remove infrequent terms at 0.2. This means that terms 
-which appear in less than 20 percent (2/10) documents will be removed. The 
+threshold at which to remove infrequent terms at 0.5. This means that terms 
+which appear in less than 50 percent (2/4) documents will be removed. The 
 default value is 0.01 (or 1/100 documents), but for this small corpus, we 
 increase the value. In order prevent spamming this vignette with output, we have 
 elected to set the  `verbose` option to FALSE. In practice, it is better to keep 
