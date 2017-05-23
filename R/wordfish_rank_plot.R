@@ -166,7 +166,8 @@ wordfish_rank_plot <- function(
                            axis.text.x = ggplot2::element_text(angle=45, vjust = 1.2,
                                                                hjust = 1.2),
                            plot.margin = ggplot2::unit(c(1,.6,0.1,0),"cm")) +
-            ggplot2::ylab("") + ggplot2::xlab("")
+            ggplot2::ylab("") + ggplot2::xlab("") +
+            ggplot2::scale_x_discrete(position = "top")
         if (black_white) {
             p <- p + ggplot2::scale_fill_gradient2(low = "white", high = "black")
         } else {
@@ -178,15 +179,16 @@ wordfish_rank_plot <- function(
                            axis.text.x = ggplot2::element_text(angle=45, vjust =1.2,
                                                                hjust = 1.2),
                            plot.margin = ggplot2::unit(c(1,1.2,0.1,-.6),"cm")) +
-            ggplot2::ylab("") + ggplot2::xlab("")
+            ggplot2::ylab("") + ggplot2::xlab("") +
+            ggplot2::scale_x_discrete(position = "top")
         if (black_white) {
             p2 <- p2 + ggplot2::scale_fill_gradient2(low = "white", high = "black")
         } else {
             p2 <- p2+ ggplot2::scale_fill_gradient2(low = UMASS_RED, high = UMASS_BLUE)
         }
 
-        p <- cowplot::ggdraw(cowplot::switch_axis_position(p , axis = 'x'))
-        p2 <- cowplot::ggdraw(cowplot::switch_axis_position(p2 , axis = 'x'))
+        p <- cowplot::ggdraw(p)
+        p2 <- cowplot::ggdraw(p2)
 
         multiplot(p, p2, cols = 2)
     } else {
@@ -198,13 +200,14 @@ wordfish_rank_plot <- function(
                            axis.text.y = ggplot2::element_blank(),
                            axis.ticks.y = ggplot2::element_blank(),
                            plot.margin = ggplot2::unit(c(1,1,0.1,0),"cm")) +
-            ggplot2::ylab("") + ggplot2::xlab("")
+            ggplot2::ylab("") + ggplot2::xlab("") +
+            ggplot2::scale_x_discrete(position = "top")
         if (black_white) {
             p <- p + ggplot2::scale_fill_gradient2(low = "white", high = "black")
         } else {
             p <- p + ggplot2::scale_fill_gradient2(low = UMASS_RED, high = UMASS_BLUE)
         }
-        p <- cowplot::ggdraw(cowplot::switch_axis_position(p , axis = 'x'))
+        p <- cowplot::ggdraw(p)
         print(p)
     }
 
