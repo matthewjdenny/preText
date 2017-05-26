@@ -151,9 +151,9 @@ wordfish_rank_plot <- function(
     data2 <- reshape2::melt(data2)
     data4 <- reshape2::melt(data4)
 
-    data1$labels <- factor(data1$labels, levels = rev(data1$labels))
-    data2$labels <- factor(data2$labels, levels = rev(data2$labels))
-    data4$labels <- factor(data4$labels, levels = rev(data4$labels))
+    # data1$labels <- factor(data1$labels, levels = rev(data1$labels))
+    # data2$labels <- factor(data2$labels, levels = rev(data2$labels))
+    # data4$labels <- factor(data4$labels, levels = rev(data4$labels))
 
     #make the plot
     UMASS_BLUE <- rgb(51,51,153,255,maxColorValue = 255)
@@ -164,7 +164,7 @@ wordfish_rank_plot <- function(
             ggplot2::geom_tile(ggplot2::aes(fill = value), colour = "gray50") +
             ggplot2::theme(legend.position = "none",
                            axis.text.x = ggplot2::element_text(angle=45, vjust = 1.2,
-                                                               hjust = 1.2),
+                                                               hjust = 0),
                            plot.margin = ggplot2::unit(c(1,.6,0.1,0),"cm")) +
             ggplot2::ylab("") + ggplot2::xlab("") +
             ggplot2::scale_x_discrete(position = "top")
@@ -177,7 +177,7 @@ wordfish_rank_plot <- function(
             ggplot2::geom_tile(ggplot2::aes(fill = value), colour = "gray50") +
             ggplot2::theme(legend.position = "none",
                            axis.text.x = ggplot2::element_text(angle=45, vjust =1.2,
-                                                               hjust = 1.2),
+                                                               hjust = 0),
                            plot.margin = ggplot2::unit(c(1,1.2,0.1,-.6),"cm")) +
             ggplot2::ylab("") + ggplot2::xlab("") +
             ggplot2::scale_x_discrete(position = "top")
@@ -196,7 +196,7 @@ wordfish_rank_plot <- function(
             ggplot2::geom_tile(ggplot2::aes(fill = value), colour = "gray50") +
             ggplot2::theme(legend.position = "none",
                            axis.text.x = ggplot2::element_text(angle=45, vjust = 1.2,
-                                                               hjust = 1.2),
+                                                               hjust = 0),
                            axis.text.y = ggplot2::element_blank(),
                            axis.ticks.y = ggplot2::element_blank(),
                            plot.margin = ggplot2::unit(c(1,1,0.1,0),"cm")) +
