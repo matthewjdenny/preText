@@ -55,7 +55,7 @@ package. In this example, we will make use of 57 U.S. presidential inaugural
 speeches. As a general rule, you will want to limit the number of documents used
 with `preText` to several hundred in most cases, in order to avoid extremely 
 long run times and/or high memory requirements. To make this example run more 
-quickly, we are only going to use 4 documents.
+quickly, we are only going to use 10 documents.
 ```{r eval=TRUE, fig.width=6, fig.height=6, fig.align ='center'}     
 library(preText)
 library(quanteda)
@@ -63,14 +63,15 @@ library(quanteda)
 # load in U.S. presidential inaugural speeches from Quanteda example data.
 documents <- data_corpus_inaugural
 # use first 10 documents for example
-documents <- documents[1:4,]
+documents <- documents[1:10,]
 # take a look at the document names
 print(names(documents))
 ```
 Having loaded in some data, we can now make use of the `factorial_preprocessing()` 
 function, which will preprocess the data 64 or 128 different ways (depending on
 whether n-grams are included). In this example, we are going to preprocess the 
-documents all 128 different ways. This should take between 5 and 10 minutes on 
+documents 64 different ways in order to make the example run in a very short 
+amount of time. This should take less than 30 seconds on 
 most modern laptops. Longer documents and larger numbers of documents will 
 significantly increase run time and memory usage. It is highly inadvisable to use 
 more than 500-1,000 under any circumstances and in the case where the user wishes 
@@ -79,7 +80,7 @@ to preprocess more than a few hundred documents, they may want to explore the
 require significantly more RAM on the computer being used. Here, we have 
 selected the `use_ngrams = TRUE` option, and set the document proportion 
 threshold at which to remove infrequent terms at 0.5. This means that terms 
-which appear in less than 50 percent (2/4) documents will be removed. The 
+which appear in less than 10 percent (2/10) documents will be removed. The 
 default value is 0.01 (or 1/100 documents), but for this small corpus, we 
 increase the value. In order prevent spamming this vignette with output, we have 
 elected to set the  `verbose` option to FALSE. In practice, it is better to keep 
@@ -87,7 +88,7 @@ elected to set the  `verbose` option to FALSE. In practice, it is better to keep
 ```{r eval=TRUE, fig.width=6, fig.height=6, fig.align ='center'}
 preprocessed_documents <- factorial_preprocessing(
     documents,
-    use_ngrams = TRUE,
+    use_ngrams = FALSE,
     infrequent_term_threshold = 0.2,
     verbose = FALSE)
 ```
