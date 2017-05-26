@@ -24,7 +24,7 @@ NULL
 #' @importFrom grDevices rgb gray
 NULL
 
-#' @importFrom stats quantile coef lm qnorm sd
+#' @importFrom stats quantile lm qnorm sd
 NULL
 
 #' @importFrom graphics lines plot text
