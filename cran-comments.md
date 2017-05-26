@@ -1,12 +1,7 @@
-## Resubmission
-This is a resubmission. In this version I have:
-
-* Removed dependency on gridExtra, which was not used in this version of the package.
-  
 ## Test environments
-* local OS X install, R 3.3.1
+* local OS X install, R 3.4.0
 * win-builder (devel and release)
-* travis CI, R 3.3.1
+* travis CI, R 3.4.0
 
 ## R CMD check results
 There were no ERRORs or WARNINGs on Windows, OS X, or Linux. The only NOTE was related to the spelling of "Preprocessing", which we believe is correctly spelled.
