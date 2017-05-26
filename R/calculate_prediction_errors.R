@@ -5,7 +5,7 @@
 #' `scaling_comparison()` functions and returned from that function in the
 #' `$scaled_positions` slot in the list object.
 #' @param preprocessing_choices A data frame containing binary indicators of
-#' wether each preprocessing decision was applied for each dfm. This is returned
+#' whether each preprocessing decision was applied for each dfm. This is returned
 #' by the `factorial_preprocessing()` function as part of its output.
 #' @return A vector of mean prediction errors.
 #' @examples

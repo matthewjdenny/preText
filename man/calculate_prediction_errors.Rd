@@ -12,7 +12,7 @@ calculate_prediction_errors(positions_list, preprocessing_choices)
 `$scaled_positions` slot in the list object.}
 
 \item{preprocessing_choices}{A data frame containing binary indicators of
-wether each preprocessing decision was applied for each dfm. This is returned
+whether each preprocessing decision was applied for each dfm. This is returned
 by the `factorial_preprocessing()` function as part of its output.}
 }
 \value{

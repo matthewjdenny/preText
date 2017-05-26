@@ -5,7 +5,7 @@
 #' @param cross_validation_train_document_indicies A list of numeric vectors
 #' where the length of the list is equal to the number of splits to be used
 #' for cross validation, and each vector contains the numeric indices of
-#' documents to be used for taining.
+#' documents to be used for training.
 #' @param cross_validation_test_document_indicies A list of numeric vectors
 #' where the length of the list is equal to the number of splits to be used
 #' for cross validation, and each vector contains the numeric indices of
@@ -14,17 +14,17 @@
 #' are provided, then intermediate files will be used.
 #' @param topics A numeric vector containing the numbers of topics to search
 #' over. Defaults to `c(2,5,10,20,30,40,50,60,70,80,90,100)`.
-#' @param names optinal names for each dfm to make downstream interpretation
+#' @param names optional names for each dfm to make downstream interpretation
 #' easier. Defaults to NULL.
 #' @param parallel Logical indicating whether model fitting should be
-#' performed in parallel. Defualts to FALSE.
-#' @param cores Defualts to 1, can be set to any number less than or equal to
+#' performed in parallel. Defaults to FALSE.
+#' @param cores Defaults to 1, can be set to any number less than or equal to
 #' the number of cores on one's computer.
 #' @param intermediate_file_directory Optional directory containing Rdata files
 #' for each of the factorial preprocessing combinations.
 #' @param intermediate_file_names Optional vector of file names for intermediate
 #' Rdata files -- one per combination.
-#' @return A vector containing the optiaml k for each dfm.
+#' @return A vector containing the optimal k for each dfm.
 #' @examples
 #' \dontrun{
 #' set.seed(12345)

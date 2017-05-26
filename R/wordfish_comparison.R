@@ -9,7 +9,7 @@
 #' estimates. Defaults to c(1,24) which should work for the UK parlament docs.
 #' @param proportion_threshold proportion of years a term must be included in
 #' to be included in the Wordfish analysis.
-#' @param document_inidices An option vector of row indicies to be used. Useful
+#' @param document_inidices An option vector of row indices to be used. Useful
 #' for using a subset of the data for analysis.
 #' @return A result list object
 #' @examples

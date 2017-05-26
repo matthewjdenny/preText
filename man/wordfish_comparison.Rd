@@ -19,7 +19,7 @@ estimates. Defaults to c(1,24) which should work for the UK parlament docs.}
 \item{proportion_threshold}{proportion of years a term must be included in
 to be included in the Wordfish analysis.}
 
-\item{document_inidices}{An option vector of row indicies to be used. Useful
+\item{document_inidices}{An option vector of row indices to be used. Useful
 for using a subset of the data for analysis.}
 }
 \value{
