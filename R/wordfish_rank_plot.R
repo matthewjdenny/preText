@@ -3,7 +3,7 @@
 #'
 #' @param wordfish_results The output from the `wordfish_comparison()` function.
 #' @param labels A character vector giving the names for each preprocessing step.
-#' @param invert Logical indicating whether wordfish score rankings should be
+#' @param invert Logical indicating whether Wordfish score rankings should be
 #' reversed internally.
 #' @param ranking A character vector containing the correctly ranked document
 #' names.
@@ -17,7 +17,7 @@
 #' @return A plot.
 #' @examples
 #' \dontrun{
-#' # replicates wordfish aanalysis from Denny and Spirling (2016)
+#' # replicates Wordfish analysis from Denny and Spirling (2016)
 #' # load the package
 #' library(preText)
 #' # load in the data

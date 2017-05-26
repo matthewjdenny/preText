@@ -10,7 +10,7 @@
 #' @param infrequent_term_threshold A proportion threshold at which infrequent
 #' terms are to be filtered. Defaults to 0.01 (terms that appear in less than
 #' 1 percent of documents).
-#' @param parallel Logical indicating whether factorial prerpocessing should be
+#' @param parallel Logical indicating whether factorial preprocessing should be
 #' performed in parallel. Defaults to FALSE.
 #' @param cores Defaults to 1, can be set to any number less than or equal to
 #' the number of cores on one's computer.

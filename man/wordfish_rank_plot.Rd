@@ -14,7 +14,7 @@ wordfish_rank_plot(wordfish_results, labels, invert = TRUE,
 
 \item{labels}{A character vector giving the names for each preprocessing step.}
 
-\item{invert}{Logical indicating whether wordfish score rankings should be
+\item{invert}{Logical indicating whether Wordfish score rankings should be
 reversed internally.}
 
 \item{ranking}{A character vector containing the correctly ranked document
@@ -38,7 +38,7 @@ Coloration by ground-truth ranking.
 }
 \examples{
 \dontrun{
-# replicates wordfish aanalysis from Denny and Spirling (2016)
+# replicates Wordfish analysis from Denny and Spirling (2016)
 # load the package
 library(preText)
 # load in the data

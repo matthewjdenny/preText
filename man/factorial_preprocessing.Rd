@@ -21,7 +21,7 @@ potential preprocessing step. Defaults to TRUE.}
 terms are to be filtered. Defaults to 0.01 (terms that appear in less than
 1 percent of documents).}
 
-\item{parallel}{Logical indicating whether factorial prerpocessing should be
+\item{parallel}{Logical indicating whether factorial preprocessing should be
 performed in parallel. Defaults to FALSE.}
 
 \item{cores}{Defaults to 1, can be set to any number less than or equal to
