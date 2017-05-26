@@ -198,9 +198,9 @@ topic_key_term_plot <- function(
     data2$value <- as.factor(data2$value)
 
 
-    data$labs <- factor(data$labs, levels = rev(data$labs))
-    data1$labs <- factor(data1$labs, levels = rev(data1$labs))
-    data2$labs <- factor(data2$labs, levels = rev(data2$labs))
+    # data$labs <- factor(data$labs, levels = rev(data$labs))
+    # data1$labs <- factor(data1$labs, levels = rev(data1$labs))
+    # data2$labs <- factor(data2$labs, levels = rev(data2$labs))
 
     # legend.position = "none",
     #make the plot
