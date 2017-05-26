@@ -52,23 +52,36 @@ preprocessing_choice_regression <- function(Y,
     }
     DATA <- cbind(Y,choices)
 
-    form <- "Y ~ removePunctuation + removeNumbers + lowercase + stem + removeStopwords + infrequent_terms + use_ngrams"
+    if (nrow(choices) < 127) {
+        form <- "Y ~ removePunctuation + removeNumbers + lowercase + stem + removeStopwords + infrequent_terms"
 
-    var_names <- c("Intercept", "Remove Punctuation", "Remove Numbers",
-                   "Lowercase","Stemming", "Remove Stopwords",
-                   "Remove Infrequent Terms",  "Use NGrams" )
+        var_names <- c("Intercept", "Remove Punctuation", "Remove Numbers",
+                       "Lowercase","Stemming", "Remove Stopwords",
+                       "Remove Infrequent Terms")
+    } else {
+        form <- "Y ~ removePunctuation + removeNumbers + lowercase + stem + removeStopwords + infrequent_terms + use_ngrams"
+
+        var_names <- c("Intercept", "Remove Punctuation", "Remove Numbers",
+                       "Lowercase","Stemming", "Remove Stopwords",
+                       "Remove Infrequent Terms",  "Use NGrams" )
+    }
 
     fit <- lm(formula = form, data = DATA)
     cat("The R^2 for this model is:",summary(fit)$r.squared,"\n")
     sds <- summary(fit)$coefficients[,2]
-    results1 <- cbind( stats::coef(fit),  sds)
+    results1 <- cbind( quanteda::coef(fit),  sds)
     results1 <- as.data.frame(results1,
                               stringsAsFactors = FALSE)
     results <- cbind(results1,var_names)
     colnames(results) <- c("estimate", "sd", "variable")
     rownames(results) <- NULL
 
-    results <- cbind(results, rep(dataset,8))
+    if (nrow(choices) < 127) {
+        results <- cbind(results, rep(dataset,7))
+    } else {
+        results <- cbind(results, rep(dataset,8))
+    }
+
     colnames(results) <- c("Coefficient","SE","Variable","Model")
 
     return(results)
