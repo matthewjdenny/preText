@@ -1,6 +1,6 @@
 .onAttach <- function(libname, pkgname) {
     packageStartupMessage("preText: Diagnostics to Assess the Effects of Text Preprocessing Decisions
-Version 0.5.0 created on 2017-5-25.
+Version 0.6.0 created on 2017-5-29.
 copyright (c) 2016, Matthew J. Denny, Penn State University
                     Arthur Spirling, NYU
 Type vignette('getting_started_with_preText') to get started.

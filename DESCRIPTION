@@ -1,8 +1,8 @@
 Package: preText
 Type: Package
 Title: Diagnostics to Assess the Effects of Text Preprocessing Decisions
-Version: 0.5.0
-Date: 2017-5-25
+Version: 0.6.0
+Date: 2017-5-29
 Author: Matthew J. Denny <mdenny@psu.edu>, Arthur Spirling
     <as9934@nyu.edu>,
 Maintainer: Matthew J. Denny <mdenny@psu.edu>
