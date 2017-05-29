@@ -1,4 +1,4 @@
-# preText -- Master: [![Travis-CI Build Status](https://travis-ci.org/matthewjdenny/preText.svg?branch=master)](https://travis-ci.org/matthewjdenny/preText)  [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/preText)](https://CRAN.R-project.org/package=preText) ![](http://cranlogs.r-pkg.org/badges/preText) ![](http://cranlogs.r-pkg.org/badges/grand-total/preText)
+# preText [![Travis-CI Build Status](https://travis-ci.org/matthewjdenny/preText.svg?branch=master)](https://travis-ci.org/matthewjdenny/preText)  [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/preText)](https://CRAN.R-project.org/package=preText) ![](http://cranlogs.r-pkg.org/badges/preText) ![](http://cranlogs.r-pkg.org/badges/grand-total/preText)
 An R package to assess the consequences of text preprocessing decisions.
 
  **[[getting started with preText vignette]](http://www.mjdenny.com/getting_started_with_preText.html)**.
