@@ -6,9 +6,9 @@
 into quanteda document-frequency matrices.}
 \usage{
 factorial_preprocessing(text, use_ngrams = TRUE,
-  infrequent_term_threshold = 0.01, parallel = FALSE, cores = 1,
+  infrequent_term_threshold = 0.01, cores = 1,
   intermediate_directory = NULL, parameterization_range = NULL,
-  return_results = TRUE, verbose = TRUE)
+  return_results = TRUE, choices = NULL, verbose = TRUE)
 }
 \arguments{
 \item{text}{A vector of strings (one per document) or quanteda corpus object
@@ -21,11 +21,9 @@ potential preprocessing step. Defaults to TRUE.}
 terms are to be filtered. Defaults to 0.01 (terms that appear in less than
 1 percent of documents).}
 
-\item{parallel}{Logical indicating whether factorial preprocessing should be
-performed in parallel. Defaults to FALSE.}
-
-\item{cores}{Defaults to 1, can be set to any number less than or equal to
-the number of cores on one's computer.}
+\item{cores}{Defaults to 1. When cores > 1, preText will use parallel
+computation. can be set to any number less than or equal to the number of
+cores on one's computer.}
 
 \item{intermediate_directory}{Optional path to a directory where each dfm
 will be saved as an intermediate step. The file names will follow the
@@ -42,6 +40,13 @@ restart large analyses after power failure.}
 
 \item{return_results}{Defaults to TRUE, can be set to FALSE to prevent an
 overly large dfm list from being created.}
+
+\item{choices}{an ordered and named list of logical vectors which indicator
+which pre-processing parameters to include in the factorial combination of
+choices. Leave NULL to use preText's default combinations. User-submitted
+lists must include the following entries (in order): removePunctuation,
+removeNumbers, lowercase, stem, removeStopwords, infrequent_terms,
+use_ngrams.}
 
 \item{verbose}{Logical indicating whether more information should be printed
 to the screen to let the user know about progress in preprocessing. Defaults
