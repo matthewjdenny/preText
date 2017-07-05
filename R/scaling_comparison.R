@@ -1,3 +1,21 @@
+#' @title Compute distance matrices and scaling positions from a single DFM
+#' @description Internal function (not user-facing)
+build_distance_objects <- function(cur_dfm, distance_method, dimensions) {
+    if (distance_method == "cosine") {
+        simil <- quanteda::textstat_simil(cur_dfm, method = distance_method)
+    } else {
+        simil <- proxy::simil(as.matrix(cur_dfm), method = distance_method)
+    }
+    simil <- as.matrix(simil)
+    distances2 <- proxy::pr_simil2dist(simil)
+    distances <- as.matrix(distances2)
+    pos <- stats::cmdscale(distances, k = dimensions)
+    out <- list('matrices' = distances,
+                'objects' = proxy::as.dist(distances2),
+                'positions' = pos)
+    return(out)
+}
+
 #' @title Scaling Comparison.
 #' @description Scale each dfm and return a list of distance matrices and
 #' scaled document positions.
@@ -35,45 +53,50 @@
 scaling_comparison <- function(dfm_object_list,
                                dimensions = 2,
                                distance_method = "cosine",
-                               verbose = TRUE){
+                               verbose = TRUE,
+                               cores = 1){
 
-    # get the number of dfms
-    num_dfms <- length(dfm_object_list)
-
-    # ceate data structures to store information
-    distance_matrices <- vector(mode = "list", length = num_dfms)
-    distance_objects <- vector(mode = "list", length = num_dfms)
-    scaled_positions <- vector(mode = "list", length = num_dfms)
-
-    for (i in 1:num_dfms) {
+    if (cores > 1) { # multi-core
         if (verbose) {
-            cat("Currently working on dfm",i,"of",num_dfms,"\n")
+            warning('verbose = TRUE only works with single-core computation.')
         }
-        ptm <- proc.time()
-        # apply temporal filter
-        cur_dfm <- dfm_object_list[[i]]
+        cl <- parallel::makeCluster(getOption("cl.cores", cores)) # start cluster
+        tmp <- parallel::parLapplyLB(cl = cl,
+                                     fun = build_distance_objects,
+                                     X = dfm_object_list,
+                                     distance_method = distance_method,
+                                     dimensions = dimensions)
+        distance_matrices <- lapply(tmp, function(x) x[['matrices']])
+        distance_objects <- lapply(tmp, function(x) x[['objects']])
+        scaled_positions <- lapply(tmp, function(x) x[['positions']])
+        parallel::stopCluster(cl) # stop cluster
+    } else { # single-core
+        # get the number of dfms
+        num_dfms <- length(dfm_object_list)
 
-        # calculate the document similarity matrix
-        if (distance_method == "cosine") {
-            simil <- quanteda::textstat_simil(cur_dfm, method = distance_method)
-        } else {
-            simil <- proxy::simil(as.matrix(cur_dfm), method = distance_method)
-        }
-        simil <- as.matrix(simil)
-        distances2 <- proxy::pr_simil2dist(simil)
-        distances <- as.matrix(distances2)
+        # ceate data structures to store information
+        distance_matrices <- vector(mode = "list", length = num_dfms)
+        distance_objects <- vector(mode = "list", length = num_dfms)
+        scaled_positions <- vector(mode = "list", length = num_dfms)
 
-        # get positions for each document in 2d space
-        pos <- stats::cmdscale(distances, k = dimensions)
+        for (i in 1:num_dfms) {
+            if (verbose) {
+                ptm <- proc.time()
+                cat("Currently working on dfm",i,"of",num_dfms,"\n")
+            }
 
-        # store everything
-        distance_matrices[[i]] <- distances
-        distance_objects[[i]] <- proxy::as.dist(distances2)
-        scaled_positions[[i]] <- pos
+            # compute
+            tmp <- build_distance_objects(dfm_object_list[[i]], distance_method, dimensions)
 
-        t2 <- proc.time() - ptm
-        if (verbose) {
-            cat("Complete in:",t2[[3]],"seconds...\n")
+            # store 
+            distance_matrices[[i]] <- tmp[['matrices']]
+            distance_objects[[i]] <- tmp[['objects']]
+            scaled_positions[[i]] <- tmp[['positions']]
+
+            if (verbose) {
+                t2 <- proc.time() - ptm
+                cat("Complete in:",t2[[3]],"seconds...\n")
+            }
         }
     }
 
@@ -82,4 +105,3 @@ scaling_comparison <- function(dfm_object_list,
                 dist_objects = distance_objects))
 
 }
-
