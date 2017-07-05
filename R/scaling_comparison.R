@@ -1,5 +1,3 @@
-#' @title Compute distance matrices and scaling positions from a single DFM
-#' @description Internal function (not user-facing)
 build_distance_objects <- function(cur_dfm, distance_method, dimensions) {
     if (distance_method == "cosine") {
         simil <- quanteda::textstat_simil(cur_dfm, method = distance_method)
@@ -29,6 +27,7 @@ build_distance_objects <- function(cur_dfm, distance_method, dimensions) {
 #' @param verbose Logical indicating whether more information should be printed
 #' to the screen to let the user know about progress. Defaults
 #' to TRUE.
+#' @param cores The number of cores to be used for parallelization (optional).
 #' @return A result list object.
 #' @examples
 #' \dontrun{
@@ -88,7 +87,7 @@ scaling_comparison <- function(dfm_object_list,
             # compute
             tmp <- build_distance_objects(dfm_object_list[[i]], distance_method, dimensions)
 
-            # store 
+            # store
             distance_matrices[[i]] <- tmp[['matrices']]
             distance_objects[[i]] <- tmp[['objects']]
             scaled_positions[[i]] <- tmp[['positions']]

@@ -5,7 +5,7 @@
 \title{Scaling Comparison.}
 \usage{
 scaling_comparison(dfm_object_list, dimensions = 2,
-  distance_method = "cosine", verbose = TRUE)
+  distance_method = "cosine", verbose = TRUE, cores = 1)
 }
 \arguments{
 \item{dfm_object_list}{A list of quanteda dfm objects returned in the
@@ -20,6 +20,8 @@ document distances. Defaults to "cosine".}
 \item{verbose}{Logical indicating whether more information should be printed
 to the screen to let the user know about progress. Defaults
 to TRUE.}
+
+\item{cores}{The number of cores to be used for parallelization (optional).}
 }
 \value{
 A result list object.
