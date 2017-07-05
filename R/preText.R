@@ -54,7 +54,8 @@ preText <- function(preprocessed_documents,
     scaling_results <- scaling_comparison(dfm_object_list,
                                           dimensions = 2,
                                           distance_method = distance_method,
-                                          verbose = verbose)
+                                          verbose = verbose,
+                                          cores = cores)
 
     # extract distance matrices
     distance_matrices <- scaling_results$distance_matrices
