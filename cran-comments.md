@@ -1,5 +1,5 @@
 ## Test environments
-* local OS X install, R 3.4.0
+* local OS X install, R 3.4.1
 * win-builder (devel and release)
 * travis CI, R 3.4.0
 
