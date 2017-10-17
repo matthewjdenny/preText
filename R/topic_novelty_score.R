@@ -64,7 +64,7 @@ topic_novelty_score <- function(top_terms_matrix,
         top_terms_matrix <- top_terms_matrix[,row_range]
     }
     top_terms_matrix_vec <- c(top_terms_matrix)
-    top_terms_matrix_vec <- toLower(top_terms_matrix_vec)
+    top_terms_matrix_vec <- char_tolower(top_terms_matrix_vec)
     scores <- rep(0, nrow(top_terms_matrix)*ncol(top_terms_matrix))
     for(i in 1:length(top_terms_matrix_vec)) {
         scores[i] <- 1/sum(grepl(top_terms_matrix_vec[i],
