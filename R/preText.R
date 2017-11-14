@@ -9,7 +9,7 @@
 #' document distances. Defaults to "cosine".
 #' @param num_comparisons If method = "distribution", the number of ranks to use
 #' in calculating average difference. Defaults to 50.
-#' @param parallel Logical indicating whether factorial prerpocessing should be
+#' @param parallel Logical indicating whether factorial preprocessing should be
 #' performed in parallel. Defaults to FALSE.
 #' @param cores Defaults to 1, can be set to any number less than or equal to
 #' the number of cores on one's computer
