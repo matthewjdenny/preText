@@ -69,7 +69,7 @@ preprocessing_choice_regression <- function(Y,
     fit <- lm(formula = form, data = DATA)
     cat("The R^2 for this model is:",summary(fit)$r.squared,"\n")
     sds <- summary(fit)$coefficients[,2]
-    results1 <- cbind( quanteda::coef(fit),  sds)
+    results1 <- cbind( stats::coef(fit),  sds)
     results1 <- as.data.frame(results1,
                               stringsAsFactors = FALSE)
     results <- cbind(results1,var_names)
