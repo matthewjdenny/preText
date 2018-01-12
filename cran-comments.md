@@ -6,7 +6,7 @@ Fixes a bug that clashes with the newest version of the **quanteda** package.
 
 * local OS X install, R 3.4.3
 * win-builder (devel and release)
-* travis CI, R 3.4.2
+* travis CI, R 3.4.3
 
 ## R CMD check results
 
