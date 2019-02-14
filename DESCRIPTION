@@ -1,7 +1,7 @@
 Package: preText
 Type: Package
 Title: Diagnostics to Assess the Effects of Text Preprocessing Decisions
-Version: 0.6.2
+Version: 0.6.3
 Date: 2018-01-12
 Author: Matthew J. Denny <mdenny@psu.edu>, Arthur Spirling
     <as9934@nyu.edu>,
@@ -21,7 +21,8 @@ Imports:
 	reshape2
 Depends:
     R (>= 3.3.0)
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
+Encoding: UTF-8
 LazyData: TRUE
 Suggests: testthat,
     knitr,

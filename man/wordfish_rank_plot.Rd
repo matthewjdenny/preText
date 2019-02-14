@@ -6,8 +6,8 @@
 \usage{
 wordfish_rank_plot(wordfish_results, labels, invert = TRUE,
   ranking = c("Lab1983", "Lab1987", "Lab1992", "Lab1997", "Con1997",
-  "Con1992", "Con1987", "Con1983"), black_white = FALSE, one_matrix = FALSE,
-  return_deviations = FALSE)
+  "Con1992", "Con1987", "Con1983"), black_white = FALSE,
+  one_matrix = FALSE, return_deviations = FALSE)
 }
 \arguments{
 \item{wordfish_results}{The output from the `wordfish_comparison()` function.}

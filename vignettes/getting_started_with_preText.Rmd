@@ -57,13 +57,13 @@ with `preText` to several hundred in most cases, in order to avoid extremely
 long run times and/or high memory requirements. To make this example run more 
 quickly, we are only going to use 10 documents.
 ```{r eval=TRUE, fig.width=6, fig.height=6, fig.align ='center'}     
-library(preText)
-library(quanteda)
+library("preText")
+library("quanteda", warn.conflicts = FALSE)
 
-# load in U.S. presidential inaugural speeches from Quanteda example data.
-documents <- data_corpus_inaugural
+# load in U.S. presidential inaugural speeches from quanteda example data.
+documents <- texts(data_corpus_inaugural)
 # use first 10 documents for example
-documents <- documents[1:10,]
+documents <- documents[1:10]
 # take a look at the document names
 print(names(documents))
 ```
