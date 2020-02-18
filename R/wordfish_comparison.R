@@ -88,7 +88,7 @@ wordfish_comparison <- function(dfm_list,
         print(dfm)
 
         # run wordfish
-        result <- quanteda::textmodel_wordfish(dfm,dir = anchors)
+        result <- quanteda.textmodels::textmodel_wordfish(dfm,dir = anchors)
 
         # create a summary data frame
         tp <- data.frame(document = dfm@Dimnames$docs[order(result@theta)],

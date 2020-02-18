@@ -4,8 +4,13 @@
 \alias{scaling_comparison}
 \title{Scaling Comparison.}
 \usage{
-scaling_comparison(dfm_object_list, dimensions = 2,
-  distance_method = "cosine", verbose = TRUE, cores = 1)
+scaling_comparison(
+  dfm_object_list,
+  dimensions = 2,
+  distance_method = "cosine",
+  verbose = TRUE,
+  cores = 1
+)
 }
 \arguments{
 \item{dfm_object_list}{A list of quanteda dfm objects returned in the

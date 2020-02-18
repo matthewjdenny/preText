@@ -4,8 +4,12 @@
 \alias{preprocessing_choice_regression}
 \title{Preprocessing Choice Regressions}
 \usage{
-preprocessing_choice_regression(Y, choices, dataset = "UK",
-  base_case_index = 128)
+preprocessing_choice_regression(
+  Y,
+  choices,
+  dataset = "UK",
+  base_case_index = 128
+)
 }
 \arguments{
 \item{Y}{A vector of length 128 (usually) containing a numeric outcome
