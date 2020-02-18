@@ -4,8 +4,12 @@
 \alias{remove_infrequent_terms}
 \title{Remove infrequently occurring terms from quanteda dfm.}
 \usage{
-remove_infrequent_terms(dfm_object, proportion_threshold = 0.01,
-  indices = NULL, verbose = TRUE)
+remove_infrequent_terms(
+  dfm_object,
+  proportion_threshold = 0.01,
+  indices = NULL,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{dfm_object}{A quanteda dfm object.}

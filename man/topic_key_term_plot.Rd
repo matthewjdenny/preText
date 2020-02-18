@@ -4,13 +4,19 @@
 \alias{topic_key_term_plot}
 \title{Plot Prevalence of Topic Key Terms}
 \usage{
-topic_key_term_plot(topic_key_term_results, labs, key_term_columns = 2:6,
-  custom_col_names = c("Iraq", "Terrorism", "Al Qaeda", "Insurance",
-  "Stem Cell"), custom_labels = c("0\%", "<1\%", "1-2\%", "2-3\%",
-  "3-4\%", "4-5\%", "5-6\%", "6-7\%", "7-8\%", "8-9\%", "9-10\%", "10\%+"),
-  one_matrix = FALSE, thresholds = c(-1e-04, 0, 0.0099, 0.0199, 0.0299,
-  0.0399, 0.0499, 0.0599, 0.0699, 0.0799, 0.0899, 0.0999),
-  heat_ramp = FALSE, return_data = FALSE)
+topic_key_term_plot(
+  topic_key_term_results,
+  labs,
+  key_term_columns = 2:6,
+  custom_col_names = c("Iraq", "Terrorism", "Al Qaeda", "Insurance", "Stem Cell"),
+  custom_labels = c("0\%", "<1\%", "1-2\%", "2-3\%", "3-4\%", "4-5\%", "5-6\%", "6-7\%",
+    "7-8\%", "8-9\%", "9-10\%", "10\%+"),
+  one_matrix = FALSE,
+  thresholds = c(-1e-04, 0, 0.0099, 0.0199, 0.0299, 0.0399, 0.0499, 0.0599, 0.0699,
+    0.0799, 0.0899, 0.0999),
+  heat_ramp = FALSE,
+  return_data = FALSE
+)
 }
 \arguments{
 \item{topic_key_term_results}{A data.frame with one column per key term and

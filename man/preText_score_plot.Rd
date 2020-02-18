@@ -4,8 +4,13 @@
 \alias{preText_score_plot}
 \title{preText specification plot}
 \usage{
-preText_score_plot(preText_results, display_raw_rankings = FALSE,
-  remove_labels = FALSE, num_docs = NULL, text_size = 1)
+preText_score_plot(
+  preText_results,
+  display_raw_rankings = FALSE,
+  remove_labels = FALSE,
+  num_docs = NULL,
+  text_size = 1
+)
 }
 \arguments{
 \item{preText_results}{The output from the `preText_test()` or
