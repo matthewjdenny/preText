@@ -1,6 +1,7 @@
 build_distance_objects <- function(cur_dfm, distance_method, dimensions) {
     if (distance_method == "cosine") {
         simil <- quanteda::textstat_simil(cur_dfm, method = distance_method)
+        simil[is.na(simil)] <- 0
     } else {
         simil <- proxy::simil(as.matrix(cur_dfm), method = distance_method)
     }
