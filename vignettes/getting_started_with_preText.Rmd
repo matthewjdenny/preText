@@ -56,14 +56,17 @@ speeches. As a general rule, you will want to limit the number of documents used
 with `preText` to several hundred in most cases, in order to avoid extremely 
 long run times and/or high memory requirements. To make this example run more 
 quickly, we are only going to use 10 documents.
-```{r eval=TRUE, fig.width=6, fig.height=6, fig.align ='center'}     
+```{r eval=TRUE, fig.width=6, fig.height=6, fig.align ='center'}   
+
 library(preText)
 library(quanteda)
 
 # load in U.S. presidential inaugural speeches from Quanteda example data.
 documents <- data_corpus_inaugural
-# use first 10 documents for example
-documents <- documents[1:10,]
+# use last 10 documents for example
+documents <- corpus_subset(documents,Year > 1980)
+# pull out the text
+documents <- quanteda::texts(documents)
 # take a look at the document names
 print(names(documents))
 ```

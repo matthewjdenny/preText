@@ -2,11 +2,13 @@ context("Factorial Preprocessing")
 test_that("Small example works", {
     # load data
     documents <- quanteda::data_corpus_inaugural
-    # use first 3 documents for example
-    corp <- documents[1:10,]
+    # use last 10 documents for example
+    documents <- corpus_subset(documents,Year > 1980)
+    # pull out the text
+    documents <- quanteda::texts(documents)
 
     # run preprocessor
-    factorial_prep <- factorial_preprocessing(corp,
+    factorial_prep <- factorial_preprocessing(documents,
                                               use_ngrams = FALSE)
 
 
