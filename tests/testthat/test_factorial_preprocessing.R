@@ -11,5 +11,4 @@ test_that("Small example works", {
     factorial_prep <- factorial_preprocessing(documents,
                                               use_ngrams = FALSE)
 
-
 })

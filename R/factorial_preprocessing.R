@@ -66,18 +66,15 @@ factorial_preprocessing <- function(text,
     }
 
     # check to see if input is a corpus object. If it is, extract the texts
-    if (!quanteda::is.corpus(text)) {
-        text <- quanteda::corpus(text)
-    }
-
-    # now make sure we have a character vector
-    if (!quanteda::is.corpus(text)) {
-        stop("You must provide either a character vector of strings (one per document, or a quanteda corpus object.")
+    if (quanteda::is.corpus(text)) {
+      text <- quanteda::texts(text)
+    } else if (!is.character(text)) {
+      stop("You must provide either a character vector of strings (one per document, or a quanteda corpus object.")
     }
 
     # create a data.frame with factorial combinations of all choices.
     if (use_ngrams) {
-        cat("Preprocessing",length(text$documents$texts),"documents 128 different ways...\n")
+        cat("Preprocessing", length(text), "documents 128 different ways...\n")
         choices <- data.frame(expand.grid(list(removePunctuation = c(TRUE,FALSE),
                                                removeNumbers = c(TRUE,FALSE),
                                                lowercase = c(TRUE,FALSE),
@@ -103,7 +100,7 @@ factorial_preprocessing <- function(text,
             labels[i] <- str
         }
     } else {
-        cat("Preprocessing",length(text$documents$texts),"documents 64 different ways...\n")
+        cat("Preprocessing", length(texts), "documents 64 different ways...\n")
         choices <- data.frame(expand.grid(list(removePunctuation = c(TRUE,FALSE),
                                                removeNumbers = c(TRUE,FALSE),
                                                lowercase = c(TRUE,FALSE),
