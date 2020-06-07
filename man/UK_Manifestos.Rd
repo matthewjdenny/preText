@@ -4,7 +4,9 @@
 \name{UK_Manifestos}
 \alias{UK_Manifestos}
 \title{Full text of 69 UK party manifestos from 1918-2001.}
-\format{A character vector of length 69, with one document per entry.}
+\format{
+A character vector of length 69, with one document per entry.
+}
 \source{
 Aggregated from several online resources but see, for example:
 \url{http://www.politicsresources.net/area/uk/man.htm}

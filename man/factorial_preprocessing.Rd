@@ -5,10 +5,17 @@
 \title{A function to perform factorial preprocessing of a corpus of texts
 into quanteda document-frequency matrices.}
 \usage{
-factorial_preprocessing(text, use_ngrams = TRUE,
-  infrequent_term_threshold = 0.01, parallel = FALSE, cores = 1,
-  intermediate_directory = NULL, parameterization_range = NULL,
-  return_results = TRUE, verbose = TRUE)
+factorial_preprocessing(
+  text,
+  use_ngrams = TRUE,
+  infrequent_term_threshold = 0.01,
+  parallel = FALSE,
+  cores = 1,
+  intermediate_directory = NULL,
+  parameterization_range = NULL,
+  return_results = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{text}{A vector of strings (one per document) or quanteda corpus object

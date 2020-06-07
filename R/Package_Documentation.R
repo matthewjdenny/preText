@@ -30,3 +30,6 @@ NULL
 #' @importFrom graphics lines plot text
 NULL
 
+#' @import quanteda.textmodels
+NULL
+

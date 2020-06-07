@@ -5,9 +5,14 @@
 \title{Comparison of dfms using N-dimensional scaling, with a test
 for difference from the mean dfm scaled position.}
 \usage{
-dfm_scaling_test(scaling_results, labels, dimensions = 2,
-  distance_method = "cosine", method = c("distances", "positions"),
-  return_positions = FALSE)
+dfm_scaling_test(
+  scaling_results,
+  labels,
+  dimensions = 2,
+  distance_method = "cosine",
+  method = c("distances", "positions"),
+  return_positions = FALSE
+)
 }
 \arguments{
 \item{scaling_results}{A list object produced by the `scaling_comparison()`

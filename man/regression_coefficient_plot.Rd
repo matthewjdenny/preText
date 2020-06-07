@@ -4,8 +4,12 @@
 \alias{regression_coefficient_plot}
 \title{Regression Coefficient Plot}
 \usage{
-regression_coefficient_plot(data, text_size = 1, remove_intercept = FALSE,
-  title = "")
+regression_coefficient_plot(
+  data,
+  text_size = 1,
+  remove_intercept = FALSE,
+  title = ""
+)
 }
 \arguments{
 \item{data}{A data.frame produced by the `preprocessing_choice_regression()`

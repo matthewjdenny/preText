@@ -4,11 +4,17 @@
 \alias{optimal_k_comparison}
 \title{Optimal Topic Model k Comparison}
 \usage{
-optimal_k_comparison(cross_validation_train_document_indicies,
-  cross_validation_test_document_indicies, dfm_object_list = NULL,
-  topics = c(2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100), names = NULL,
-  parallel = FALSE, cores = 1, intermediate_file_directory = NULL,
-  intermediate_file_names = NULL)
+optimal_k_comparison(
+  cross_validation_train_document_indicies,
+  cross_validation_test_document_indicies,
+  dfm_object_list = NULL,
+  topics = c(2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
+  names = NULL,
+  parallel = FALSE,
+  cores = 1,
+  intermediate_file_directory = NULL,
+  intermediate_file_names = NULL
+)
 }
 \arguments{
 \item{cross_validation_train_document_indicies}{A list of numeric vectors

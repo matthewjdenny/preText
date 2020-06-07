@@ -4,9 +4,14 @@
 \alias{mantel_comparison_to_base}
 \title{Ensemble Mantel Tests}
 \usage{
-mantel_comparison_to_base(distance_matrices, names = NULL,
-  permutations = 1000, base_dfm_index = 128, text_size = 1,
-  return_values = FALSE)
+mantel_comparison_to_base(
+  distance_matrices,
+  names = NULL,
+  permutations = 1000,
+  base_dfm_index = 128,
+  text_size = 1,
+  return_values = FALSE
+)
 }
 \arguments{
 \item{distance_matrices}{A list of document distance matrices from th3
