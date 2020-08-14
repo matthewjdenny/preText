@@ -110,6 +110,8 @@ preText_test <- function(distance_matrices,
     scores <- rep(0,(num_dms - 1))
     score_SE <- rep(0,(num_dms - 1))
     score_counter <- 1
+    ordering_list  <- list()
+
     if (method == "top") {
         # populate the scores vector
         for(i in 1:num_dms) {
