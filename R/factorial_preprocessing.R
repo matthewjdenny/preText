@@ -100,7 +100,7 @@ factorial_preprocessing <- function(text,
             labels[i] <- str
         }
     } else {
-        cat("Preprocessing", length(texts), "documents 64 different ways...\n")
+        cat("Preprocessing", length(text), "documents 64 different ways...\n")
         choices <- data.frame(expand.grid(list(removePunctuation = c(TRUE,FALSE),
                                                removeNumbers = c(TRUE,FALSE),
                                                lowercase = c(TRUE,FALSE),
