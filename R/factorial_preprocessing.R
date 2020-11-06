@@ -146,7 +146,7 @@ factorial_preprocessing <- function(text,
         
         cl <- parallel::makeCluster(getOption("cl.cores", cores)) #makes cluster
 
-        dfm_list <- <- parallel::clusterApplyLB(cl,
+        dfm_list <- parallel::clusterApplyLB(cl,
                           x = split(choices, seq(nrow(choices))), # convert the choices df as list to iterate over
                           fun = preprocessing_pipeline,
                           text = text,
