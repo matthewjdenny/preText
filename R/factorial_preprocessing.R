@@ -14,7 +14,7 @@
 #' performed in parallel. Defaults to FALSE.
 #' @param cores Defaults to 1, can be set to any number less than or equal to
 #' the number of cores on one's computer.
-#' @param save_intermediate_dfm Logical indication if each preprocessed dataframe
+#' @param save_dfm Logical indication if each preprocessed dataframe
 #' should be saved as it's own Rdata object
 #' @param intermediate_directory Optional path to a directory where each dfm
 #' will be saved as an intermediate step. The file names will follow the
@@ -52,7 +52,7 @@ factorial_preprocessing <- function(text,
                                     infrequent_term_threshold = 0.01,
                                     parallel = FALSE,
                                     cores = 1,
-                                    save_intermediate_dfm = FALSE,
+                                    save_dfm = FALSE,
                                     intermediate_directory = NULL,
                                     parameterization_range = NULL,
                                     return_results = TRUE,
@@ -149,7 +149,7 @@ factorial_preprocessing <- function(text,
         dfm_list <- <- parallel::clusterApplyLB(cl,
                           x = split(choices, seq(nrow(choices))), # convert the choices df as list to iterate over
                           fun = preprocessing_pipeline,
-                          text = tt,
+                          text = text,
                           infrequent_term_threshold = infrequent_term_threshold ,
                           verbose = verbose ,
                           intermediate_directory = intermediate_directory) ## TODO tmp directory
