@@ -140,8 +140,9 @@ factorial_preprocessing <- function(text,
         choices <- choices[parameterization_range, ] # If I understand correctly parameterization_range is to restart the process, but I'm not sure where the number come from.
     }
 
+    rows_to_preprocess <- 1:nrow(choices)
     if (parallel) {
-        cat("Preprocessing documents",length(rows_to_preprocess),
+        cat("Preprocessing documents",nrow(rows_to_preprocess),
             "different ways on", cores,"cores. This may take a while...\n")
         
         cl <- parallel::makeCluster(getOption("cl.cores", cores)) #makes cluster
@@ -157,7 +158,6 @@ factorial_preprocessing <- function(text,
         parallel::stopCluster(cl) # stop the cluster when we are done
   }  
     else { # loop over different preprocessing decisions
-      rows_to_preprocess <- 1:nrow(choices)
         for (i in rows_to_preprocess) {
             if (verbose) {
                 cat("Currently working on combination",i,"of",nrow(choices),"\n")
