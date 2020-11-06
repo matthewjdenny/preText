@@ -172,7 +172,7 @@ factorial_preprocessing <- function(text,
 
     # if we are returning results and using parallel, then read in the
     # intermediate dfm's
-    if (return_results & parallel & ) {
+    if (return_results & save_dfm) {
         cat("Preprocessing complete, loading in intermediate DFMs...\n")
         dfm_list <- vector(mode = "list", length = nrow(choices))
         for (i in 1:length(dfm_list)) {
