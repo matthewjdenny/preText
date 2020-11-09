@@ -80,8 +80,8 @@ factorial_preprocessing <- function(text,
         intermediate_directory <- cur_directory
     }
 
-    ## check to see if input is a vector of text or corpus object.
-    if(is.character(text)){
+    ## check to see if input is a vector of text or corpus object. and add language field
+    if(is.character(text & !quanteda::is.corpus(text))){
         text <- quanteda::corpus(text,
                                  meta = list("language" = language))
     }

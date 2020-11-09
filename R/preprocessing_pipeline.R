@@ -22,7 +22,7 @@ preprocessing_pipeline <- function(choices  ,
                                    custom_stopwords = NULL){
     
     quanteda_options(language_stemmer = meta(text)$language)
-    choices$removeStopwords <- stopwordprocess(choices$removeStopwords, custom_stopwords, meta(text)$language)
+    stopwords <- stopwordprocess(choices$removeStopwords, custom_stopwords, meta(text)$language)
     if(choices$use_ngrams){ #need to tokenize before ngram before preprocessing
         text <- quanteda::tokens(text)
         text <- quanteda::tokens_ngrams(text, n = 1:3)
