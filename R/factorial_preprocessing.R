@@ -3,36 +3,47 @@
 #' @description Preprocesses a corpus of texts into a document-frequency matrix
 #' in 128 different ways.
 #'
-#' @param text A vector of strings (one per document) or quanteda corpus object
-#' from which we wish to form a document-term matrix.
-#' @param use_ngrams Option to extract 1,2, and 3-grams from the text as another
-#' potential preprocessing step. Defaults to TRUE.
-#' @param infrequent_term_threshold A proportion threshold at which infrequent
-#' terms are to be filtered. Defaults to 0.01 (terms that appear in less than
-#' 1 percent of documents).
-#' @param parallel Logical indicating whether factorial preprocessing should be
-#' performed in parallel. Defaults to FALSE.
-#' @param cores Defaults to 1, can be set to any number less than or equal to
-#' the number of cores on one's computer.
+#' @param text A vector of strings (one per document) or quanteda
+#'     corpus object from which we wish to form a document-term
+#'     matrix.
+#' @param use_ngrams Option to extract 1,2, and 3-grams from the text
+#'     as another potential preprocessing step. Defaults to TRUE.
+#' @param infrequent_term_threshold A proportion threshold at which
+#'     infrequent terms are to be filtered. Defaults to 0.01 (terms
+#'     that appear in less than 1 percent of documents).
+#' @param parallel Logical indicating whether factorial preprocessing
+#'     should be performed in parallel. Defaults to FALSE.
+#' @param cores Defaults to 1, can be set to any number less than or
+#'     equal to the number of cores on one's computer.
+#' @param language string corresponding to text langage as some
+#'     preprocessing step are language dependant. To see supported
+#'     languages by the stemmer do SnowballC::getStemLanguages(). Will
+#'     honor language set as meta from a quanteda corpora. The default
+#'     language is English ("en")
+#' @param custom_stopwords User defined stopword. Input is a character
+#'     vector. Default FALSE
 #' @param save_dfm Logical indication if each preprocessed dataframe
-#' should be saved as it's own Rdata object
-#' @param intermediate_directory Optional path to a directory where each dfm
-#' will be saved as an intermediate step. The file names will follow the
-#' convention intermediate_dfm_i.Rdata, where i is the index of the combination
-#' of preprocessing choices. The function will then attempt to read all of the
-#' dfm's back into a list if return_results = TRUE (by default), or simply end
-#' the function call if return_results = FALSE. This can be a useful option if
-#' the user is preprocessing a corpus that would make a dfm list that was
-#' impractical to work with due to its size.
-#' @param parameterization_range Defaults to NULL, but can be set to a numeric
-#' vector of indexes relating to preprocessing decisions. This can be used to
-#' restart large analyses after power failure.
-#' @param return_results Defaults to TRUE, can be set to FALSE to prevent an
-#' overly large dfm list from being created.
-#' @param verbose Logical indicating whether more information should be printed
-#' to the screen to let the user know about progress in preprocessing. Defaults
-#' to TRUE.
-#' @return A list object containing permutations of the document-term matrix.
+#'     should be saved as it's own Rdata object
+#' @param intermediate_directory Optional path to a directory where
+#'     each dfm will be saved as an intermediate step. The file names
+#'     will follow the convention intermediate_dfm_i.Rdata, where i is
+#'     the index of the combination of preprocessing choices. The
+#'     function will then attempt to read all of the dfm's back into a
+#'     list if return_results = TRUE (by default), or simply end the
+#'     function call if return_results = FALSE. This can be a useful
+#'     option if the user is preprocessing a corpus that would make a
+#'     dfm list that was impractical to work with due to its size.
+#' @param parameterization_range Defaults to NULL, but can be set to a
+#'     numeric vector of indexes relating to preprocessing
+#'     decisions. This can be used to restart large analyses after
+#'     power failure.
+#' @param return_results Defaults to TRUE, can be set to FALSE to
+#'     prevent an overly large dfm list from being created.
+#' @param verbose Logical indicating whether more information should
+#'     be printed to the screen to let the user know about progress in
+#'     preprocessing. Defaults to TRUE.
+#' @return A list object containing permutations of the document-term
+#'     matrix.
 #' @examples
 #' \dontrun{
 #' # load the package
@@ -53,6 +64,8 @@ factorial_preprocessing <- function(text,
                                     parallel = FALSE,
                                     cores = 1,
                                     save_dfm = FALSE,
+                                    language = "en",
+                                    custom_stopwords = NULL,
                                     intermediate_directory = NULL,
                                     parameterization_range = NULL,
                                     return_results = TRUE,
@@ -60,7 +73,6 @@ factorial_preprocessing <- function(text,
 
     # set some intermediate variables
     cur_directory <- getwd()
-
     # set working directory if given
     if (!is.null(intermediate_directory)) {
         setwd(intermediate_directory)
@@ -68,11 +80,16 @@ factorial_preprocessing <- function(text,
         intermediate_directory <- cur_directory
     }
 
-    # check to see if input is a corpus object. If it is, extract the texts
-    if (quanteda::is.corpus(text)) {
-      text <- quanteda::texts(text)
-    } else if (!is.character(text)) {
-      stop("You must provide either a character vector of strings (one per document, or a quanteda corpus object.")
+    ## check to see if input is a vector of text or corpus object.
+    if(is.character(text)){
+        text <- quanteda::corpus(text,
+                                 meta = list("language" = language))
+    }
+    if(quanteda::is.corpus(text) & is.null(meta(text)$language) ){
+        meta(text)$language <- language
+    }
+    if (!is.character(text) | !quanteda::is.corpus(text)){
+        stop("You must provide either a character vector of strings (one per document, or a quanteda corpus object.")
     }
 
     # create a data.frame with factorial combinations of all choices.
