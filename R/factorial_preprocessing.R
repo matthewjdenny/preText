@@ -3,34 +3,47 @@
 #' @description Preprocesses a corpus of texts into a document-frequency matrix
 #' in 128 different ways.
 #'
-#' @param text A vector of strings (one per document) or quanteda corpus object
-#' from which we wish to form a document-term matrix.
-#' @param use_ngrams Option to extract 1,2, and 3-grams from the text as another
-#' potential preprocessing step. Defaults to TRUE.
-#' @param infrequent_term_threshold A proportion threshold at which infrequent
-#' terms are to be filtered. Defaults to 0.01 (terms that appear in less than
-#' 1 percent of documents).
-#' @param parallel Logical indicating whether factorial preprocessing should be
-#' performed in parallel. Defaults to FALSE.
-#' @param cores Defaults to 1, can be set to any number less than or equal to
-#' the number of cores on one's computer.
-#' @param intermediate_directory Optional path to a directory where each dfm
-#' will be saved as an intermediate step. The file names will follow the
-#' convention intermediate_dfm_i.Rdata, where i is the index of the combination
-#' of preprocessing choices. The function will then attempt to read all of the
-#' dfm's back into a list if return_results = TRUE (by default), or simply end
-#' the function call if return_results = FALSE. This can be a useful option if
-#' the user is preprocessing a corpus that would make a dfm list that was
-#' impractical to work with due to its size.
-#' @param parameterization_range Defaults to NULL, but can be set to a numeric
-#' vector of indexes relating to preprocessing decisions. This can be used to
-#' restart large analyses after power failure.
-#' @param return_results Defaults to TRUE, can be set to FALSE to prevent an
-#' overly large dfm list from being created.
-#' @param verbose Logical indicating whether more information should be printed
-#' to the screen to let the user know about progress in preprocessing. Defaults
-#' to TRUE.
-#' @return A list object containing permutations of the document-term matrix.
+#' @param text A vector of strings (one per document) or quanteda
+#'     corpus object from which we wish to form a document-term
+#'     matrix.
+#' @param use_ngrams Option to extract 1,2, and 3-grams from the text
+#'     as another potential preprocessing step. Defaults to TRUE.
+#' @param infrequent_term_threshold A proportion threshold at which
+#'     infrequent terms are to be filtered. Defaults to 0.01 (terms
+#'     that appear in less than 1 percent of documents).
+#' @param parallel Logical indicating whether factorial preprocessing
+#'     should be performed in parallel. Defaults to FALSE.
+#' @param cores Defaults to 1, can be set to any number less than or
+#'     equal to the number of cores on one's computer.
+#' @param language string corresponding to text langage as some
+#'     preprocessing step are language dependant. To see supported
+#'     languages by the stemmer do SnowballC::getStemLanguages(). Will
+#'     honor language set as meta from a quanteda corpora. The default
+#'     language is English ("en")
+#' @param custom_stopwords User defined stopword. Input is a character
+#'     vector. Default FALSE
+#' @param save_dfm Logical indication if each preprocessed dataframe
+#'     should be saved as it's own Rdata object
+#' @param intermediate_directory Optional path to a directory where
+#'     each dfm will be saved as an intermediate step. The file names
+#'     will follow the convention intermediate_dfm_i.Rdata, where i is
+#'     the index of the combination of preprocessing choices. The
+#'     function will then attempt to read all of the dfm's back into a
+#'     list if return_results = TRUE (by default), or simply end the
+#'     function call if return_results = FALSE. This can be a useful
+#'     option if the user is preprocessing a corpus that would make a
+#'     dfm list that was impractical to work with due to its size.
+#' @param parameterization_range Defaults to NULL, but can be set to a
+#'     numeric vector of indexes relating to preprocessing
+#'     decisions. This can be used to restart large analyses after
+#'     power failure.
+#' @param return_results Defaults to TRUE, can be set to FALSE to
+#'     prevent an overly large dfm list from being created.
+#' @param verbose Logical indicating whether more information should
+#'     be printed to the screen to let the user know about progress in
+#'     preprocessing. Defaults to TRUE.
+#' @return A list object containing permutations of the document-term
+#'     matrix.
 #' @examples
 #' \dontrun{
 #' # load the package
@@ -50,6 +63,9 @@ factorial_preprocessing <- function(text,
                                     infrequent_term_threshold = 0.01,
                                     parallel = FALSE,
                                     cores = 1,
+                                    save_dfm = FALSE,
+                                    language = "en",
+                                    custom_stopwords = NULL,
                                     intermediate_directory = NULL,
                                     parameterization_range = NULL,
                                     return_results = TRUE,
@@ -57,7 +73,6 @@ factorial_preprocessing <- function(text,
 
     # set some intermediate variables
     cur_directory <- getwd()
-
     # set working directory if given
     if (!is.null(intermediate_directory)) {
         setwd(intermediate_directory)
@@ -65,11 +80,16 @@ factorial_preprocessing <- function(text,
         intermediate_directory <- cur_directory
     }
 
-    # check to see if input is a corpus object. If it is, extract the texts
-    if (quanteda::is.corpus(text)) {
-      text <- quanteda::texts(text)
-    } else if (!is.character(text)) {
-      stop("You must provide either a character vector of strings (one per document, or a quanteda corpus object.")
+    ## check to see if input is a vector of text or corpus object. and add language field
+    if(is.character(text & !quanteda::is.corpus(text))){
+        text <- quanteda::corpus(text,
+                                 meta = list("language" = language))
+    }
+    if(quanteda::is.corpus(text) & is.null(meta(text)$language) ){
+        meta(text)$language <- language
+    }
+    if (!is.character(text) | !quanteda::is.corpus(text)){
+        stop("You must provide either a character vector of strings (one per document, or a quanteda corpus object.")
     }
 
     # create a data.frame with factorial combinations of all choices.
@@ -100,7 +120,7 @@ factorial_preprocessing <- function(text,
             labels[i] <- str
         }
     } else {
-        cat("Preprocessing", length(texts), "documents 64 different ways...\n")
+        cat("Preprocessing", length(text), "documents 64 different ways...\n")
         choices <- data.frame(expand.grid(list(removePunctuation = c(TRUE,FALSE),
                                                removeNumbers = c(TRUE,FALSE),
                                                lowercase = c(TRUE,FALSE),
@@ -127,230 +147,49 @@ factorial_preprocessing <- function(text,
         }
     }
 
+    
     # create a list object in which to store the different dfm's
     dfm_list <- vector(mode = "list", length = nrow(choices))
 
     # row range to work on.
-    rows_to_preprocess <- 1:nrow(choices)
+    
     if(!is.null(parameterization_range)){
-        rows_to_preprocess <- parameterization_range
+        choices <- choices[parameterization_range, ] # If I understand correctly parameterization_range is to restart the process, but I'm not sure where the number come from.
     }
 
+    rows_to_preprocess <- 1:nrow(choices)
     if (parallel) {
-        cat("Preprocessing documents",length(rows_to_preprocess),
-            "different ways on",
-            cores,"cores. This may take a while...\n")
-        cl <- parallel::makeCluster(getOption("cl.cores", cores))
+        cat("Preprocessing documents",nrow(rows_to_preprocess),
+            "different ways on", cores,"cores. This may take a while...\n")
+        
+        cl <- parallel::makeCluster(getOption("cl.cores", cores)) #makes cluster
 
-        dfm_list <- parallel::clusterApplyLB(
-            cl = cl,
-            x = rows_to_preprocess,
-            fun = parallel_preprocess,
-            choices = choices,
-            text = text,
-            infrequent_term_threshold = infrequent_term_threshold,
-            intermediate_directory = intermediate_directory)
-        # stop the cluster when we are done
-        parallel::stopCluster(cl)
-    } else {
-        # loop over different preprocessing decisions
+        dfm_list <- parallel::clusterApplyLB(cl,
+                          x = split(choices, seq(nrow(choices))), # convert the choices df as list to iterate over
+                          fun = preprocessing_pipeline,
+                          text = text,
+                          infrequent_term_threshold = infrequent_term_threshold ,
+                          verbose = verbose ,
+                          intermediate_directory = intermediate_directory) ## TODO tmp directory
+        
+        parallel::stopCluster(cl) # stop the cluster when we are done
+  }  
+    else { # loop over different preprocessing decisions
         for (i in rows_to_preprocess) {
             if (verbose) {
                 cat("Currently working on combination",i,"of",nrow(choices),"\n")
             }
-            # need a conditional for removing stopwords
-            if (choices$removeStopwords[i]) {
-                # generate dfm
-                if (choices$use_ngrams[i]) {
-                    if (choices$removePunctuation[i]) {
-                        if (choices$removeNumbers[i]) {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove = quanteda::stopwords(),
-                                remove_punct = TRUE,
-                                remove_numbers = TRUE,
-                                ngrams = 1:3,
-                                verbose = verbose)
-                        } else {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove = quanteda::stopwords(),
-                                remove_punct = TRUE,
-                                remove_numbers = FALSE,
-                                ngrams = 1:3,
-                                verbose = verbose)
-                        }
-                    } else {
-                        if (choices$removeNumbers[i]) {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove = quanteda::stopwords(),
-                                remove_punct = FALSE,
-                                remove_numbers = TRUE,
-                                ngrams = 1:3,
-                                verbose = verbose)
-                        } else {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove = quanteda::stopwords(),
-                                remove_punct = FALSE,
-                                remove_numbers = FALSE,
-                                ngrams = 1:3,
-                                verbose = verbose)
-                        }
-                    }
-                } else {
-                    if (choices$removePunctuation[i]) {
-                        if (choices$removeNumbers[i]) {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove = quanteda::stopwords(),
-                                remove_punct = TRUE,
-                                remove_numbers = TRUE,
-                                verbose = verbose)
-                        } else {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove = quanteda::stopwords(),
-                                remove_punct = TRUE,
-                                remove_numbers = FALSE,
-                                verbose = verbose)
-                        }
-                    } else {
-                        if (choices$removeNumbers[i]) {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove = quanteda::stopwords(),
-                                remove_punct = FALSE,
-                                remove_numbers = TRUE,
-                                verbose = verbose)
-                        } else {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove = quanteda::stopwords(),
-                                remove_punct = FALSE,
-                                remove_numbers = FALSE,
-                                verbose = verbose)
-                        }
-                    }
-                }
-            } else {
-                # generate dfm
-                if (choices$use_ngrams[i]) {
-                    if (choices$removePunctuation[i]) {
-                        if (choices$removeNumbers[i]) {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove_punct = TRUE,
-                                remove_numbers = TRUE,
-                                ngrams = 1:3,
-                                verbose = verbose)
-                        } else {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove_punct = TRUE,
-                                remove_numbers = FALSE,
-                                ngrams = 1:3,
-                                verbose = verbose)
-                        }
-                    } else {
-                        if (choices$removeNumbers[i]) {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove_punct = FALSE,
-                                remove_numbers = TRUE,
-                                ngrams = 1:3,
-                                verbose = verbose)
-                        } else {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove_punct = FALSE,
-                                remove_numbers = FALSE,
-                                ngrams = 1:3,
-                                verbose = verbose)
-                        }
-                    }
-                } else {
-                    if (choices$removePunctuation[i]) {
-                        if (choices$removeNumbers[i]) {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove_punct = TRUE,
-                                remove_numbers = TRUE,
-                                verbose = verbose)
-                        } else {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove_punct = TRUE,
-                                remove_numbers = FALSE,
-                                verbose = verbose)
-                        }
-                    } else {
-                        if (choices$removeNumbers[i]) {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove_punct = FALSE,
-                                remove_numbers = TRUE,
-                                verbose = verbose)
-                        } else {
-                            current_dfm <- quanteda::dfm(
-                                x = text,
-                                tolower = choices$lowercase[i],
-                                stem = choices$stem[i],
-                                remove_punct = FALSE,
-                                remove_numbers = FALSE,
-                                verbose = verbose)
-                        }
-                    }
-                }
-            }
-
-            # remove infrequent terms
-            if (choices$infrequent_terms[i]) {
-                current_dfm <- remove_infrequent_terms(
-                    dfm_object = current_dfm,
-                    proportion_threshold = infrequent_term_threshold,
-                    verbose = verbose)
-            }
-
-            # store the current dfm
-            dfm_list[[i]] <- current_dfm
+            current_dfm <- preprocessing_pipeline(text = text,
+                                                  choices = choices[i,],
+                                                  infrequent_term_threshold= infrequent_term_threshold,
+                                                  verbose = verbose)           
+            dfm_list[[i]] <- current_dfm  # store the current dfm
         }
     }
 
     # if we are returning results and using parallel, then read in the
     # intermediate dfm's
-    if (return_results & parallel) {
+    if (return_results & save_dfm) {
         cat("Preprocessing complete, loading in intermediate DFMs...\n")
         dfm_list <- vector(mode = "list", length = nrow(choices))
         for (i in 1:length(dfm_list)) {
