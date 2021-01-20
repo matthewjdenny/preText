@@ -42,7 +42,7 @@ preprocessing_pipeline <- function(choices  ,
     text_dfm <- quanteda::dfm(text, verbose = verbose)
     
     if (choices$infrequent_terms) {
-        text <- remove_infrequent_terms(
+        text_dfm <- remove_infrequent_terms(
             dfm_object = text_dfm,
             proportion_threshold = infrequent_term_threshold,
             verbose = verbose)
