@@ -11,181 +11,26 @@ parallel_preprocess <- function(i,
     cat("Currently working on combination",i,"of",nrow(choices),"\n")
     ptm <- proc.time()
 
-    # need a conditional for removing stopwords
+    # create initial tokens object:
+    current_tokens <- quanteda::tokens(
+        x = text,
+        remove_punct = choices$removePunctuation[i],
+        remove_numbers = choices$removeNumbers[i]
+    )
+
+    # add ngrams
+    if (choices$use_ngrams[i]) {
+        current_tokens <- quanteda::tokens_ngrams(current_tokens,
+                                                  n = 1:3)
+    }
+
+    # create DFM
+    current_dfm <- quanteda::dfm(current_tokens,
+                                 tolower = choices$lowercase[i])
+
+    # remove stopwords
     if (choices$removeStopwords[i]) {
-        # generate dfm
-        if (choices$use_ngrams[i]) {
-            if (choices$removePunctuation[i]) {
-                if (choices$removeNumbers[i]) {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove = quanteda::stopwords(),
-                        remove_punct = TRUE,
-                        remove_numbers = TRUE,
-                        ngrams = 1:3,
-                        verbose = verbose)
-                } else {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove = quanteda::stopwords(),
-                        remove_punct = TRUE,
-                        remove_numbers = FALSE,
-                        ngrams = 1:3,
-                        verbose = verbose)
-                }
-            } else {
-                if (choices$removeNumbers[i]) {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove = quanteda::stopwords(),
-                        remove_punct = FALSE,
-                        remove_numbers = TRUE,
-                        ngrams = 1:3,
-                        verbose = verbose)
-                } else {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove = quanteda::stopwords(),
-                        remove_punct = FALSE,
-                        remove_numbers = FALSE,
-                        ngrams = 1:3,
-                        verbose = verbose)
-                }
-            }
-        } else {
-            if (choices$removePunctuation[i]) {
-                if (choices$removeNumbers[i]) {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove = quanteda::stopwords(),
-                        remove_punct = TRUE,
-                        remove_numbers = TRUE,
-                        verbose = verbose)
-                } else {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove = quanteda::stopwords(),
-                        remove_punct = TRUE,
-                        remove_numbers = FALSE,
-                        verbose = verbose)
-                }
-            } else {
-                if (choices$removeNumbers[i]) {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove = quanteda::stopwords(),
-                        remove_punct = FALSE,
-                        remove_numbers = TRUE,
-                        verbose = verbose)
-                } else {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove = quanteda::stopwords(),
-                        remove_punct = FALSE,
-                        remove_numbers = FALSE,
-                        verbose = verbose)
-                }
-            }
-        }
-    } else {
-        # generate dfm
-        if (choices$use_ngrams[i]) {
-            if (choices$removePunctuation[i]) {
-                if (choices$removeNumbers[i]) {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove_punct = TRUE,
-                        remove_numbers = TRUE,
-                        ngrams = 1:3,
-                        verbose = verbose)
-                } else {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove_punct = TRUE,
-                        remove_numbers = FALSE,
-                        ngrams = 1:3,
-                        verbose = verbose)
-                }
-            } else {
-                if (choices$removeNumbers[i]) {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove_punct = FALSE,
-                        remove_numbers = TRUE,
-                        ngrams = 1:3,
-                        verbose = verbose)
-                } else {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove_punct = FALSE,
-                        remove_numbers = FALSE,
-                        ngrams = 1:3,
-                        verbose = verbose)
-                }
-            }
-        } else {
-            if (choices$removePunctuation[i]) {
-                if (choices$removeNumbers[i]) {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove_punct = TRUE,
-                        remove_numbers = TRUE,
-                        verbose = verbose)
-                } else {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove_punct = TRUE,
-                        remove_numbers = FALSE,
-                        verbose = verbose)
-                }
-            } else {
-                if (choices$removeNumbers[i]) {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove_punct = FALSE,
-                        remove_numbers = TRUE,
-                        verbose = verbose)
-                } else {
-                    current_dfm <- quanteda::dfm(
-                        x = text,
-                        tolower = choices$lowercase[i],
-                        stem = choices$stem[i],
-                        remove_punct = FALSE,
-                        remove_numbers = FALSE,
-                        verbose = verbose)
-                }
-            }
-        }
+        current_dfm <- quanteda::dfm_remove(current_dfm, quanteda::stopwords())
     }
 
     # remove infrequent terms
@@ -194,6 +39,11 @@ parallel_preprocess <- function(i,
             dfm_object = current_dfm,
             proportion_threshold = infrequent_term_threshold,
             verbose = verbose)
+    }
+
+    # stem:
+    if (choices$stem[i]) {
+        current_dfm <- quanteda::dfm_wordstem(current_dfm)
     }
 
     t2 <- proc.time() - ptm
