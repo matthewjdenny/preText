@@ -33,3 +33,7 @@ NULL
 #' @import quanteda.textmodels
 NULL
 
+#' @import quanteda.textstats
+NULL
+
+

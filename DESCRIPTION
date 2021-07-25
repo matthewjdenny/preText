@@ -1,8 +1,8 @@
 Package: preText
 Type: Package
 Title: Diagnostics to Assess the Effects of Text Preprocessing Decisions
-Version: 0.7.1
-Date: 2020-06-06
+Version: 0.7.2
+Date: 2021-07-25
 Author: Matthew J. Denny <matthewjdenny@gmail.com>, Arthur Spirling
     <as9934@nyu.edu>,
 Maintainer: Matthew J. Denny <matthewjdenny@gmail.com>
@@ -12,6 +12,7 @@ Encoding: UTF-8
 Imports:
     quanteda,
     quanteda.textmodels,
+    quanteda.textstats,
 	ggplot2,
 	vegan,
 	grid,
@@ -23,7 +24,7 @@ Imports:
 	reshape2
 Depends:
     R (>= 3.3.0)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 LazyData: TRUE
 Suggests: testthat,
     knitr,
